@@ -1,4 +1,6 @@
-/*
-Contient les fichiers CSS statiques qui ne nécessitent pas de traitement par un outil de build.
-Peut inclure des fichiers comme reset.css ou normalize.css pour réinitialiser les styles par défaut des navigateurs.
-*/
+.bandeau {
+    background-color: blue;
+    color: white;
+    text-align: center;
+    padding: 10px 0;
+}
