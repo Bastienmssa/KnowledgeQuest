@@ -1,2 +1,0 @@
-Contient les images statiques utilisées dans l'application, comme les logos, les icônes, et les images de fond.
-Les images placées ici peuvent être référencées directement dans le code HTML ou CSS.
