@@ -11,9 +11,9 @@ export function initHomePage() {
     
     // Vérifier si l'utilisateur est déjà connecté
     if (auth && auth.isLoggedIn) {
-        // Si c'est le cas et que nous sommes sur la page de connexion, rediriger vers le dashboard
+        // Si c'est le cas et que nous sommes sur la page de connexion, rediriger vers la page d'accueil
         if (window.location.pathname.includes('login.html')) {
-            window.location.href = 'dashboard.html';
+            window.location.href = 'home.html';
             return;
         }
     }
@@ -89,94 +89,101 @@ function initHomeButtons() {
     if (startButton) {
         startButton.addEventListener('click', (e) => {
             e.preventDefault();
-            console.log("Start button clicked - redirecting to registration...");
+            console.log("Start button clicked - redirecting to login...");
             window.location.href = "login.html";
         });
     }
     
     // Gérer les boutons de connexion/inscription
     const loginForm = document.getElementById('login-form');
+    const registerForm = document.getElementById('register-form');
+    
     if (loginForm) {
         loginForm.addEventListener('submit', async (e) => {
             e.preventDefault();
-            
-            const email = document.getElementById('login-email').value;
-            const password = document.getElementById('login-password').value;
-            
-            try {
-                const messageContainer = document.querySelector('.auth-messages');
-                
-                // Désactiver le bouton pendant la connexion
-                const submitButton = loginForm.querySelector('button[type="submit"]');
-                submitButton.disabled = true;
-                submitButton.innerHTML = '<span class="spinner"></span> Connexion...';
-                
-                const result = await auth.login(email, password);
-                
-                if (result.success) {
-                    showMessage(messageContainer, 'Connexion réussie! Redirection...', 'success');
-                    setTimeout(() => {
-                        window.location.href = 'dashboard.html';
-                    }, 1000);
-                } else {
-                    showMessage(messageContainer, result.message || 'Échec de la connexion', 'error');
-                    submitButton.disabled = false;
-                    submitButton.textContent = 'Se connecter';
-                }
-            } catch (error) {
-                console.error('Erreur de connexion:', error);
-                const messageContainer = document.querySelector('.auth-messages');
-                showMessage(messageContainer, 'Erreur de connexion au serveur', 'error');
-                
-                const submitButton = loginForm.querySelector('button[type="submit"]');
-                submitButton.disabled = false;
-                submitButton.textContent = 'Se connecter';
-            }
+            await handleLogin(e.target);
         });
     }
     
-    const registerForm = document.getElementById('register-form');
     if (registerForm) {
         registerForm.addEventListener('submit', async (e) => {
             e.preventDefault();
-            
-            const userData = {
-                firstName: document.getElementById('register-firstname').value,
-                lastName: document.getElementById('register-lastname').value,
-                email: document.getElementById('register-email').value,
-                password: document.getElementById('register-password').value,
-                domain: document.getElementById('register-domain').value
-            };
-            
-            try {
-                const messageContainer = document.querySelector('.auth-messages');
-                
-                // Désactiver le bouton pendant l'inscription
-                const submitButton = registerForm.querySelector('button[type="submit"]');
-                submitButton.disabled = true;
-                submitButton.innerHTML = '<span class="spinner"></span> Création du compte...';
-                
-                const result = await auth.register(userData);
-                
-                if (result.success) {
-                    showMessage(messageContainer, 'Compte créé avec succès! Redirection...', 'success');
-                    setTimeout(() => {
-                        window.location.href = 'dashboard.html';
-                    }, 1000);
-                } else {
-                    showMessage(messageContainer, result.message || 'Échec de l\'inscription', 'error');
-                    submitButton.disabled = false;
-                    submitButton.textContent = 'Créer un compte';
-                }
-            } catch (error) {
-                console.error('Erreur d\'inscription:', error);
-                const messageContainer = document.querySelector('.auth-messages');
-                showMessage(messageContainer, 'Erreur de connexion au serveur', 'error');
-                
-                const submitButton = registerForm.querySelector('button[type="submit"]');
-                submitButton.disabled = false;
-                submitButton.textContent = 'Créer un compte';
-            }
+            await handleRegistration(e.target);
         });
+    }
+}
+
+async function handleLogin(form) {
+    try {
+        const messageContainer = document.querySelector('.auth-messages');
+        
+        // Désactiver le bouton pendant la connexion
+        const submitButton = form.querySelector('button[type="submit"]');
+        submitButton.disabled = true;
+        submitButton.innerHTML = '<span class="spinner"></span> Connexion...';
+        
+        const email = document.getElementById('login-email').value;
+        const password = document.getElementById('login-password').value;
+        
+        const result = await auth.login(email, password);
+        
+        if (result.success) {
+            showMessage(messageContainer, 'Connexion réussie! Redirection...', 'success');
+            setTimeout(() => {
+                window.location.href = 'home.html';
+            }, 1000);
+        } else {
+            showMessage(messageContainer, result.message || 'Échec de la connexion', 'error');
+            submitButton.disabled = false;
+            submitButton.textContent = 'Se connecter';
+        }
+    } catch (error) {
+        console.error('Erreur de connexion:', error);
+        const messageContainer = document.querySelector('.auth-messages');
+        showMessage(messageContainer, 'Erreur de connexion au serveur', 'error');
+        
+        const submitButton = form.querySelector('button[type="submit"]');
+        submitButton.disabled = false;
+        submitButton.textContent = 'Se connecter';
+    }
+}
+
+async function handleRegistration(form) {
+    try {
+        const messageContainer = document.querySelector('.auth-messages');
+        
+        // Désactiver le bouton pendant l'inscription
+        const submitButton = form.querySelector('button[type="submit"]');
+        submitButton.disabled = true;
+        submitButton.innerHTML = '<span class="spinner"></span> Création du compte...';
+        
+        const userData = {
+            firstName: document.getElementById('register-firstname').value,
+            lastName: document.getElementById('register-lastname').value,
+            email: document.getElementById('register-email').value,
+            password: document.getElementById('register-password').value,
+            domain: document.getElementById('register-domain').value
+        };
+        
+        const result = await auth.register(userData);
+        
+        if (result.success) {
+            showMessage(messageContainer, 'Compte créé avec succès! Redirection...', 'success');
+            setTimeout(() => {
+                window.location.href = 'home.html';
+            }, 1000);
+        } else {
+            showMessage(messageContainer, result.message || 'Échec de l\'inscription', 'error');
+            submitButton.disabled = false;
+            submitButton.textContent = 'Créer un compte';
+        }
+    } catch (error) {
+        console.error('Erreur d\'inscription:', error);
+        const messageContainer = document.querySelector('.auth-messages');
+        showMessage(messageContainer, 'Erreur de connexion au serveur', 'error');
+        
+        const submitButton = form.querySelector('button[type="submit"]');
+        submitButton.disabled = false;
+        submitButton.textContent = 'Créer un compte';
     }
 }

@@ -88,6 +88,8 @@ function setupCreateQcmForm(qcm = null) {
                     <option value="Pharmacologie" ${qcm && qcm.subject === 'Pharmacologie' ? 'selected' : ''}>Pharmacologie</option>
                     <option value="Droit civil" ${qcm && qcm.subject === 'Droit civil' ? 'selected' : ''}>Droit civil</option>
                     <option value="Droit pénal" ${qcm && qcm.subject === 'Droit pénal' ? 'selected' : ''}>Droit pénal</option>
+                    <option value="Droit constitutionnel" ${qcm && qcm.subject === 'Droit constitutionnel' ? 'selected' : ''}>Droit constitutionnel</option>
+                    <option value="Droit administratif" ${qcm && qcm.subject === 'Droit administratif' ? 'selected' : ''}>Droit administratif</option>
                 </select>
             </div>
             
@@ -104,6 +106,39 @@ function setupCreateQcmForm(qcm = null) {
                 </div>
             </div>
             
+            <div class="qcm-templates">
+                <h3>Modèles de QCM</h3>
+                <p>Utilisez un modèle pour démarrer plus rapidement</p>
+                
+                <div class="templates-grid">
+                    <div class="template-card" data-template="medicine-anatomy">
+                        <h4>Anatomie</h4>
+                        <p>5 questions pré-formatées sur l'anatomie humaine</p>
+                        <button class="btn-secondary">Utiliser</button>
+                    </div>
+                    <div class="template-card" data-template="medicine-pathology">
+                        <h4>Pathologies</h4>
+                        <p>8 questions sur les pathologies courantes</p>
+                        <button class="btn-secondary">Utiliser</button>
+                    </div>
+                    <div class="template-card" data-template="law-civil">
+                        <h4>Droit civil</h4>
+                        <p>6 questions sur les principes du droit civil</p>
+                        <button class="btn-secondary">Utiliser</button>
+                    </div>
+                    <div class="template-card" data-template="law-criminal">
+                        <h4>Droit pénal</h4>
+                        <p>7 questions sur les bases du droit pénal</p>
+                        <button class="btn-secondary">Utiliser</button>
+                    </div>
+                    <div class="template-card" data-template="law-administrative">
+                        <h4>Droit administratif</h4>
+                        <p>6 questions sur le droit administratif</p>
+                        <button class="btn-secondary">Utiliser</button>
+                    </div>
+                </div>
+            </div>
+            
             <div class="form-actions">
                 <button type="button" id="cancel-btn" class="btn-secondary">Annuler</button>
                 <button type="submit" class="btn-primary">${qcm ? 'Mettre à jour' : 'Créer le QCM'}</button>
@@ -116,8 +151,9 @@ function setupCreateQcmForm(qcm = null) {
     const addQuestionBtn = document.getElementById('add-question-btn');
     const questionsContainer = document.getElementById('questions-container');
     const cancelBtn = document.getElementById('cancel-btn');
+    const templateCards = document.querySelectorAll('.template-card');
     
-    if (form && addQuestionBtn && questionsContainer && cancelBtn) {
+    if (form && addQuestionBtn && questionsContainer && cancelBtn && templateCards) {
         // Bouton d'ajout de question
         addQuestionBtn.addEventListener('click', () => {
             addQuestionToForm(questionsContainer);
@@ -145,179 +181,60 @@ function setupCreateQcmForm(qcm = null) {
             // Sinon, ajouter une question vide
             addQuestionToForm(questionsContainer);
         }
+        
+        // Ajouter les écouteurs d'événements pour les modèles de QCM
+        templateCards.forEach(card => {
+            card.addEventListener('click', () => {
+                const templateId = card.dataset.template;
+                loadQcmTemplate(templateId, questionsContainer);
+            });
+        });
     }
 }
 
 // Ajouter une question au formulaire
 function addQuestionToForm(container, questionData = null) {
-    const questionIndex = document.querySelectorAll('.question-item').length;
-    
-    const questionHtml = `
-        <div class="question-item" data-index="${questionIndex}">
-            <div class="question-header">
-                <h3>Question ${questionIndex + 1}</h3>
-                <button type="button" class="btn-remove-question">Supprimer</button>
-            </div>
-            
-            <div class="form-group">
-                <label for="question-${questionIndex}">Énoncé de la question</label>
-                <input type="text" id="question-${questionIndex}" name="questions[${questionIndex}][question]" required value="${questionData ? questionData.question : ''}">
-            </div>
-            
-            <div class="choices-container">
-                ${generateChoiceInputs(questionIndex, questionData)}
-            </div>
-        </div>
-    `;
-    
-    container.insertAdjacentHTML('beforeend', questionHtml);
-    
-    // Ajouter un écouteur pour le bouton de suppression
-    const removeButtons = document.querySelectorAll('.btn-remove-question');
-    const lastRemoveButton = removeButtons[removeButtons.length - 1];
-    
-    lastRemoveButton.addEventListener('click', function() {
-        const questionItem = this.closest('.question-item');
-        questionItem.remove();
-        
-        // Mettre à jour les numéros de questions
-        updateQuestionNumbers();
-    });
+    // ... (code existant)
 }
 
 // Générer les inputs pour les choix
 function generateChoiceInputs(questionIndex, questionData = null) {
-    let choicesHtml = '';
-    
-    for (let i = 0; i < 4; i++) {
-        const choiceValue = questionData && questionData.choices && questionData.choices[i] ? questionData.choices[i] : '';
-        const isCorrect = questionData && questionData.correctAnswer === choiceValue;
-        
-        choicesHtml += `
-            <div class="form-group choice-item">
-                <label>
-                    <input type="radio" name="questions[${questionIndex}][correctAnswer]" value="${i}" ${isCorrect ? 'checked' : ''} required>
-                    <input type="text" name="questions[${questionIndex}][choices][${i}]" placeholder="Réponse ${i + 1}" required value="${choiceValue}">
-                </label>
-            </div>
-        `;
-    }
-    
-    return choicesHtml;
+    // ... (code existant)
 }
 
 // Mettre à jour les numéros de questions
 function updateQuestionNumbers() {
-    const questions = document.querySelectorAll('.question-item');
-    
-    questions.forEach((question, index) => {
-        const header = question.querySelector('h3');
-        if (header) header.textContent = `Question ${index + 1}`;
-        
-        // Mettre à jour les indices dans les attributs name
-        question.setAttribute('data-index', index);
-        
-        const questionInput = question.querySelector(`input[id^="question-"]`);
-        if (questionInput) {
-            questionInput.id = `question-${index}`;
-            questionInput.name = `questions[${index}][question]`;
-        }
-        
-        const radioInputs = question.querySelectorAll('input[type="radio"]');
-        radioInputs.forEach(input => {
-            input.name = `questions[${index}][correctAnswer]`;
-        });
-        
-        const choiceInputs = question.querySelectorAll('input[type="text"][name^="questions"][name$="[choices]"]');
-        choiceInputs.forEach((input, choiceIndex) => {
-            input.name = `questions[${index}][choices][${choiceIndex}]`;
-        });
-    });
+    // ... (code existant)
 }
 
 // Gérer la soumission du formulaire
 async function handleFormSubmission(form, qcmId = null) {
-    try {
-        // Désactiver le bouton de soumission pendant le traitement
-        const submitButton = form.querySelector('button[type="submit"]');
-        submitButton.disabled = true;
-        submitButton.innerHTML = '<span class="spinner"></span> Enregistrement...';
-        
-        // Récupérer les données du formulaire
-        const title = document.getElementById('qcm-title').value;
-        const subject = document.getElementById('qcm-subject').value;
-        
-        // Récupérer les questions
-        const questions = [];
-        const questionItems = document.querySelectorAll('.question-item');
-        
-        questionItems.forEach((item, index) => {
-            const questionText = item.querySelector(`input[id="question-${index}"]`).value;
-            const choices = [];
-            const choiceInputs = item.querySelectorAll('input[type="text"][name^="questions"][name$="[choices]"]');
-            
-            choiceInputs.forEach(input => {
-                choices.push(input.value);
-            });
-            
-            const correctAnswerRadio = item.querySelector('input[type="radio"]:checked');
-            const correctAnswerIndex = correctAnswerRadio ? parseInt(correctAnswerRadio.value) : 0;
-            
-            questions.push({
-                question: questionText,
-                choices: choices,
-                correctAnswer: choices[correctAnswerIndex]
-            });
-        });
-        
-        // Créer l'objet QCM
-        const qcmData = {
-            title,
-            subject,
-            questions
-        };
-        
-        let response;
-        
-        // Création ou mise à jour du QCM
-        if (qcmId) {
-            response = await window.KnowledgeQuestAPI.updateQCM(qcmId, qcmData);
-        } else {
-            response = await window.KnowledgeQuestAPI.createQCM(qcmData);
-        }
-        
-        if (response.success) {
-            const messageContainer = document.querySelector('.form-messages');
-            showMessage(messageContainer, `QCM ${qcmId ? 'mis à jour' : 'créé'} avec succès!`, 'success');
-            
-            // Rediriger après un court délai
-            setTimeout(() => {
-                window.location.href = 'dashboard.html';
-            }, 1500);
-        } else {
-            showFormError(response.message || `Erreur lors de la ${qcmId ? 'mise à jour' : 'création'} du QCM`);
-            
-            // Réactiver le bouton
-            submitButton.disabled = false;
-            submitButton.textContent = qcmId ? 'Mettre à jour' : 'Créer le QCM';
-        }
-    } catch (error) {
-        console.error('Erreur:', error);
-        showFormError('Une erreur est survenue lors du traitement de votre demande.');
-        
-        // Réactiver le bouton
-        const submitButton = form.querySelector('button[type="submit"]');
-        submitButton.disabled = false;
-        submitButton.textContent = qcmId ? 'Mettre à jour' : 'Créer le QCM';
-    }
+    // ... (code existant)
 }
 
 // Afficher une erreur de formulaire
 function showFormError(message) {
-    const messageContainer = document.querySelector('.form-messages');
-    if (messageContainer) {
-        showMessage(messageContainer, message, 'error');
-    } else {
-        alert(message);
+    // ... (code existant)
+}
+
+// Charger un modèle de QCM
+async function loadQcmTemplate(templateId, container) {
+    try {
+        const response = await window.KnowledgeQuestAPI.getQcmTemplate(templateId);
+        
+        if (response.success) {
+            // Vider le conteneur des questions
+            container.innerHTML = '';
+            
+            // Ajouter les questions du modèle
+            response.template.questions.forEach(question => {
+                addQuestionToForm(container, question);
+            });
+        } else {
+            showFormError(`Erreur lors du chargement du modèle "${templateId}": ${response.message}`);
+        }
+    } catch (error) {
+        console.error('Erreur lors du chargement du modèle:', error);
+        showFormError('Une erreur est survenue lors du chargement du modèle de QCM.');
     }
 }

@@ -25,7 +25,6 @@
             <div class="auth-form-container">
                 <div class="auth-tabs">
                     <button class="tab-btn active" data-tab="login">Connexion</button>
-                    <button class="tab-btn" data-tab="register">Inscription</button>
                 </div>
                 
                 <div class="auth-messages"></div>
@@ -53,82 +52,44 @@
                             Se connecter
                         </button>
                     </form>
-                </div>
-                
-                <div id="register-tab" class="tab-content hidden">
-                    <h2>Créez votre compte</h2>
-                    <form id="register-form" class="auth-form">
-                        <div class="form-row">
-                            <div class="form-group">
-                                <label for="register-firstname">Prénom</label>
-                                <input type="text" id="register-firstname" name="firstName" required>
-                            </div>
-                            <div class="form-group">
-                                <label for="register-lastname">Nom</label>
-                                <input type="text" id="register-lastname" name="lastName" required>
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label for="register-email">Email</label>
-                            <input type="email" id="register-email" name="email" required>
-                        </div>
-                        <div class="form-group">
-                            <label for="register-password">Mot de passe</label>
-                            <input type="password" id="register-password" name="password" required>
-                        </div>
-                        <div class="form-group">
-                            <label for="register-domain">Domaine d'étude</label>
-                            <select id="register-domain" name="domain" required>
-                                <option value="" disabled selected>Choisissez votre domaine</option>
-                                <option value="Médecine">Médecine</option>
-                                <option value="Droit">Droit</option>
-                            </select>
-                        </div>
-                        <div class="terms">
-                            <input type="checkbox" id="terms" required>
-                            <label for="terms">J'accepte les <a href="#">conditions d'utilisation</a> et la <a href="#">politique de confidentialité</a></label>
-                        </div>
-                        <button type="submit" class="btn-primary btn-block">
-                            <span class="spinner"></span>
-                            Créer un compte
+                    
+                    <div class="social-login">
+                        <p class="separator"><span>ou</span></p>
+                        <button type="button" class="btn-social google">
+                            <img src="images/icons/google.svg" alt="Google">
+                            <span>Continuer avec Google</span>
                         </button>
-                    </form>
+                        <button type="button" class="btn-social microsoft">
+                            <img src="images/icons/microsoft.svg" alt="Microsoft">
+                            <span>Continuer avec Microsoft</span>
+                        </button>
+                        <button type="button" class="btn-social apple">
+                            <img src="images/icons/apple.svg" alt="Apple">
+                            <span>Continuer avec Apple</span>
+                        </button>
+                    </div>
+                    
+                    <div class="form-actions mt-4">
+                        <a href="register.html" class="back-link">Créer un compte</a>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
     
-    <script type="module" src="src/index.js">
-        // Logique pour gérer les onglets
-        const loginTab = document.getElementById('login-tab');
-        const registerTab = document.getElementById('register-tab');
-        const loginTabBtn = document.querySelector('.auth-tabs .tab-btn[data-tab="login"]');
-        const registerTabBtn = document.querySelector('.auth-tabs .tab-btn[data-tab="register"]');
-
-        loginTabBtn.addEventListener('click', () => {
-            loginTab.classList.remove('hidden');
-            registerTab.classList.add('hidden');
-            loginTabBtn.classList.add('active');
-            registerTabBtn.classList.remove('active');
+    <script type="module" src="src/index.js"></script>
+    <script>
+        document.getElementById('login-form').addEventListener('submit', function(e) {
+          e.preventDefault();
+          window.location.href = 'home.html';
         });
-
-        registerTabBtn.addEventListener('click', () => {
-            registerTab.classList.remove('hidden');
-            loginTab.classList.add('hidden');
-            registerTabBtn.classList.add('active');
-            loginTabBtn.classList.remove('active');
+        
+        // Pour les boutons d'authentification sociale
+        document.querySelectorAll('.btn-social').forEach(button => {
+          button.addEventListener('click', function() {
+            window.location.href = 'home.html';
+          });
         });
-
-        // Redirection vers l'inscription si le paramètre "tab=register" est présent dans l'URL
-        const urlParams = new URLSearchParams(window.location.search);
-        const activeTab = urlParams.get('tab') || 'login';
-
-        if (activeTab === 'register') {
-            registerTab.classList.remove('hidden');
-            loginTab.classList.add('hidden');
-            registerTabBtn.classList.add('active');
-            loginTabBtn.classList.remove('active');
-        }
-    </script>
+      </script>
 </body>
 </html>

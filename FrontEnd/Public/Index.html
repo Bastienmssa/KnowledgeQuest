@@ -18,7 +18,7 @@
                 <li><a href="#fonctionnalites">Fonctionnalités</a></li>
                 <li><a href="#comment-ca-marche">Comment ça marche</a></li>
                 <li><a href="login.html">Se connecter</a></li>
-                <li><a href="login.html?tab=register" class="btn-primary">Créer un compte</a></li>
+                <li><a href="register.html" class="btn-primary">Créer un compte</a></li>
             </ul>
         </nav>
     </header>
@@ -28,7 +28,7 @@
             <div class="hero-content">
                 <h2>Transformez vos cours en QCM et améliorez vos révisions !</h2>
                 <p>Générez automatiquement des questionnaires à partir de vos documents pour réviser efficacement et suivre votre progression.</p>
-                <a href="login.html?tab=register" class="btn-primary btn-large">Commencer</a>
+                <a href="register.html" class="btn-primary btn-large">Commencer</a>
             </div>
             <div class="hero-image">
                 <img src="./images/student.jpg" alt="Étudiant en révision" width="400">
@@ -98,14 +98,46 @@
             <div class="footer-links">
                 <h4>Liens utiles</h4>
                 <ul>
-                    <li><a href="#a-propos">À propos</a></li>
-                    <li><a href="#contact">Contact</a></li>
-                    <li><a href="#confidentialite">Confidentialité</a></li>
+                    <li><a href="#" class="modal-trigger" data-modal-target="about-modal">À propos</a></li>
+                    <li><a href="#" class="modal-trigger" data-modal-target="contact-modal">Contact</a></li>
+                    <li><a href="#" class="modal-trigger" data-modal-target="privacy-modal">Confidentialité</a></li>
                 </ul>
             </div>
         </div>
     </footer>
-
+    
+    <!-- Modales -->
+    <div id="about-modal" class="modal">
+        <div class="modal-content">
+            <h2>À propos de Knowledge Quest</h2>
+            <p>Knowledge Quest est une application web innovante conçue pour aider les étudiants en médecine et en droit à optimiser leur apprentissage et leurs révisions.</p>
+            <button class="modal-close">&times;</button>
+        </div>
+    </div>
+    
+    <div id="contact-modal" class="modal">
+        <div class="modal-content">
+            <h2>Nous contacter</h2>
+            <p>Pour toute question ou demande d'information, n'hésitez pas à nous contacter :</p>
+            <ul>
+                <li>Email : contact@knowledgequest.com</li>
+                <li>Téléphone : 01 23 45 67 89</li>
+                <li>Adresse : 42 Rue de la Connaissance, 75000 Paris</li>
+            </ul>
+            <button class="modal-close">&times;</button>
+        </div>
+    </div>
+    
+    <div id="privacy-modal" class="modal">
+        <div class="modal-content">
+            <h2>Politique de confidentialité</h2>
+            <p>Chez Knowledge Quest, nous nous engageons à protéger la vie privée de nos utilisateurs. Nous nous conformons aux réglementations en vigueur en matière de protection des données personnelles.</p>
+            <a href="pdf/politique-confidentialite.pdf" class="btn-primary">Consulter la politique</a>
+            <button class="modal-close">&times;</button>
+        </div>
+    </div>
+    
+    <script src="src/component/modal.js" type="module"></script>
     <script src="../src/index.js" type="module"></script>
 </body>
 </html>

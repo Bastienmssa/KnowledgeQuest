@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Charger un document | Knowledge Quest</title>
     <link rel="stylesheet" href="style/main.css">
-    <link rel="stylesheet" href="style/document-uploader.css">
+    <link rel="stylesheet" href="style/upload-document.css">
 </head>
 <body>
     <div class="app-container">
@@ -16,6 +16,7 @@
             </div>
             <ul class="nav-links">
                 <li class="nav-item"><a href="dashboard.html"><span class="icon">📊</span> Tableau de bord</a></li>
+                <li class="nav-item"><a href="home.html"><span class="icon">🏠</span> Accueil</a></li>
                 <li class="nav-item"><a href="create-qcm.html"><span class="icon">✍️</span> Créer un QCM</a></li>
                 <li class="nav-item active"><a href="upload-document.html"><span class="icon">📄</span> Charger un document</a></li>
                 <li class="nav-item"><a href="take-test.html"><span class="icon">🎯</span> Passer un test</a></li>
@@ -34,7 +35,7 @@
                 </a>
             </div>
         </nav>
-
+        
         <!-- Contenu principal -->
         <main class="main-content">
             <div class="upload-container">
@@ -70,6 +71,31 @@
                     <div class="upload-actions">
                         <button type="button" id="generate-qcm-btn" class="btn-primary" disabled>Générer des QCM</button>
                     </div>
+                    
+                    <div id="generated-qcm-preview" class="generated-qcm-preview hidden">
+                        <div class="preview-header">
+                            <h3>Aperçu des questions générées</h3>
+                            <div class="preview-actions">
+                                <button id="edit-generated-qcm" class="btn-secondary">Modifier</button>
+                                <button id="save-generated-qcm" class="btn-primary">Enregistrer</button>
+                            </div>
+                        </div>
+                        <div class="qcm-generation-status">
+                            <div class="ai-processing">
+                                <div class="ai-icon">🤖</div>
+                                <div class="processing-text">
+                                    <h4>Analyse du document en cours...</h4>
+                                    <p>Notre IA extrait les concepts clés pour créer des questions pertinentes</p>
+                                    <div class="processing-progress">
+                                        <div class="processing-bar"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="generated-questions-container">
+                            <!-- Questions générées dynamiquement par l'IA -->
+                        </div>
+                    </div>
                 </div>
                 
                 <div class="upload-tips">
@@ -83,7 +109,6 @@
             </div>
         </main>
     </div>
-
     <script type="module" src="src/index.js"></script>
 </body>
 </html>

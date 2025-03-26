@@ -1,24 +1,24 @@
 /* main.css - Styles globaux */
-@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;600;700&family=Playfair+Display:wght@500;700&display=swap');
 
 :root {
-    /* Couleurs principales */
-    --primary-color: #3498db;
-    --secondary-color: #2c3e50;
-    --accent-color: #e74c3c;
-    --success-color: #2ecc71;
-    --warning-color: #f39c12;
-    --error-color: #e74c3c;
+    /* Couleurs principales - version plus raffinée */
+    --primary-color: #2c7be5;
+    --secondary-color: #1e3a5f;
+    --accent-color: #e63757;
+    --success-color: #00d97e;
+    --warning-color: #f6c343;
+    --error-color: #e63757;
     
-    /* Couleurs des domaines */
+    /* Couleurs des domaines - plus professionnelles */
     --medicine-color: #3498db;
     --law-color: #8e44ad;
     
-    /* Couleurs neutres */
-    --text-color: #2c3e50;
-    --bg-color: #f5f7fa;
+    /* Couleurs neutres - plus douces */
+    --text-color: #12263f;
+    --bg-color: #f9fbfd;
     --card-bg: #ffffff;
-    --border-color: #e0e6ed;
+    --border-color: #edf2f9;
     
     /* Dimensions */
     --sidebar-width: 260px;
@@ -32,18 +32,18 @@
     --spacing-lg: 24px;
     --spacing-xl: 32px;
     
-    /* Ombres */
-    --shadow-sm: 0 2px 4px rgba(0, 0, 0, 0.05);
-    --shadow-md: 0 4px 6px rgba(0, 0, 0, 0.1);
-    --shadow-lg: 0 10px 15px rgba(0, 0, 0, 0.1);
+    /* Ombres - plus subtiles */
+    --shadow-sm: 0 0.5px 2px rgba(0, 0, 0, 0.05);
+    --shadow-md: 0 2px 4px rgba(0, 0, 0, 0.08);
+    --shadow-lg: 0 5px 15px rgba(0, 0, 0, 0.05);
 }
 
-/* Thème sombre */
+/* Thème sombre amélioré */
 body.dark-mode {
-    --text-color: #f5f7fa;
-    --bg-color: #2c3e50;
-    --card-bg: #34495e;
-    --border-color: #4a6175;
+    --text-color: #edf2f9;
+    --bg-color: #12263f;
+    --card-bg: #1e3a5f;
+    --border-color: #2c3e50;
 }
 
 /* Styles de base */
@@ -58,18 +58,24 @@ body {
     line-height: 1.6;
     color: var(--text-color);
     background-color: var(--bg-color);
+    font-size: 15px;
 }
 
 a {
     text-decoration: none;
     color: var(--primary-color);
+    transition: color 0.2s ease;
+}
+
+a:hover {
+    color: #1a68d1; /* Couleur plus foncée au survol */
 }
 
 ul {
     list-style: none;
 }
 
-/* Structure de l'application */
+/* Structure de l'application - améliorée */
 .app-container {
     display: flex;
     min-height: 100vh;
@@ -77,29 +83,38 @@ ul {
 
 .sidebar {
     width: var(--sidebar-width);
-    background-color: var(--secondary-color);
+    background: linear-gradient(to bottom, var(--secondary-color), #142d4c);
     color: white;
     display: flex;
     flex-direction: column;
     position: fixed;
     height: 100vh;
+    box-shadow: 1px 0 5px rgba(0, 0, 0, 0.1);
+    z-index: 999;
 }
 
 .main-content {
     flex: 1;
     margin-left: var(--sidebar-width);
-    padding: var(--spacing-lg);
+    padding: var(--spacing-lg) var(--spacing-xl);
+    min-height: 100vh;
 }
 
-/* Barre latérale */
+/* Barre latérale - style plus professionnel */
 .sidebar-header {
     padding: var(--spacing-md);
     text-align: center;
     border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    margin-bottom: var(--spacing-md);
 }
 
 .logo {
     max-width: 120px;
+    transition: transform 0.3s ease;
+}
+
+.logo:hover {
+    transform: scale(1.05);
 }
 
 .nav-links {
@@ -108,24 +123,35 @@ ul {
 }
 
 .nav-item {
-    margin-bottom: var(--spacing-xs);
+    margin-bottom: 2px;
 }
 
 .nav-item a {
     display: flex;
     align-items: center;
     padding: var(--spacing-md) var(--spacing-lg);
-    color: rgba(255, 255, 255, 0.7);
+    color: rgba(255, 255, 255, 0.8);
+    font-weight: 500;
     transition: all 0.3s ease;
+    border-left: 3px solid transparent;
 }
 
-.nav-item.active a, .nav-item a:hover {
+.nav-item.active a {
     color: white;
     background-color: rgba(255, 255, 255, 0.1);
+    border-left: 3px solid var(--primary-color);
+}
+
+.nav-item a:hover {
+    color: white;
+    background-color: rgba(255, 255, 255, 0.07);
+    border-left: 3px solid rgba(52, 152, 219, 0.5);
 }
 
 .icon {
     margin-right: var(--spacing-md);
+    font-size: 18px;
+    opacity: 0.9;
 }
 
 .sidebar-footer {
@@ -133,69 +159,79 @@ ul {
     border-top: 1px solid rgba(255, 255, 255, 0.1);
 }
 
-/* Buttons */
+/* Boutons - style plus moderne */
 .btn-primary, .btn-secondary, .btn-danger {
-    display: inline-block;
-    padding: var(--spacing-sm) var(--spacing-md);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 8px 16px;
     border-radius: var(--border-radius);
     font-weight: 600;
     cursor: pointer;
-    transition: all 0.3s ease;
+    transition: all 0.2s ease;
+    font-size: 14px;
 }
 
 .btn-primary {
     background-color: var(--primary-color);
     color: white;
     border: none;
+    box-shadow: 0 2px 4px rgba(44, 123, 229, 0.2);
 }
 
 .btn-secondary {
-    background-color: transparent;
+    background-color: white;
     color: var(--primary-color);
-    border: 1px solid var(--primary-color);
+    border: 1px solid var(--border-color);
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
 }
 
 .btn-danger {
     background-color: var(--error-color);
     color: white;
     border: none;
+    box-shadow: 0 2px 4px rgba(230, 55, 87, 0.2);
 }
 
 .btn-primary:hover {
-    background-color: #2980b9;
+    background-color: #1a68d1;
+    box-shadow: 0 4px 6px rgba(44, 123, 229, 0.3);
 }
 
 .btn-secondary:hover {
-    background-color: rgba(52, 152, 219, 0.1);
+    background-color: #f9fbfd;
+    border-color: #d2ddec;
 }
 
 .btn-danger:hover {
-    background-color: #c0392b;
+    background-color: #d92b49;
+    box-shadow: 0 4px 6px rgba(230, 55, 87, 0.3);
 }
 
-/* Cards */
+/* Cards - aspect plus raffiné */
 .card {
     background-color: var(--card-bg);
     border-radius: var(--border-radius);
     box-shadow: var(--shadow-sm);
     margin-bottom: var(--spacing-md);
     padding: var(--spacing-lg);
+    border: 1px solid var(--border-color);
+    transition: box-shadow 0.3s ease, transform 0.2s ease;
 }
 
-/* Utilitaires */
-.loading-spinner {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    padding: var(--spacing-xl);
+.card:hover {
+    box-shadow: var(--shadow-md);
+    transform: translateY(-2px);
 }
 
+/* Utilitaires - améliorés */
 .domain-badge {
     display: inline-block;
-    padding: 2px 8px;
+    padding: 4px 10px;
     border-radius: 12px;
     font-size: 12px;
     font-weight: 600;
+    letter-spacing: 0.3px;
 }
 
 .domain-badge.medicine {
@@ -208,7 +244,7 @@ ul {
     color: white;
 }
 
-/* Animation de chargement */
+/* Animation de chargement - plus fluide */
 .spinner {
     display: inline-block;
     width: 20px;
@@ -216,9 +252,33 @@ ul {
     border: 3px solid rgba(255, 255, 255, 0.3);
     border-radius: 50%;
     border-top-color: white;
-    animation: spin 1s ease-in-out infinite;
+    animation: spin 0.8s ease-in-out infinite;
 }
 
 @keyframes spin {
     to { transform: rotate(360deg); }
+}
+
+/* Responsive improvements */
+@media (max-width: 992px) {
+    .sidebar {
+        width: 60px;
+    }
+    
+    .sidebar .nav-item a span, 
+    .sidebar .sidebar-footer .user-details {
+        display: none;
+    }
+    
+    .main-content {
+        margin-left: 60px;
+    }
+    
+    .sidebar .logo {
+        width: 40px;
+    }
+    
+    .icon {
+        margin-right: 0;
+    }
 }

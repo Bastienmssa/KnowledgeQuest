@@ -16,6 +16,7 @@
             </div>
             <ul class="nav-links">
                 <li class="nav-item"><a href="dashboard.html"><span class="icon">📊</span> Tableau de bord</a></li>
+                <li class="nav-item"><a href="home.html"><span class="icon">🏠</span> Accueil</a></li>
                 <li class="nav-item active"><a href="create-qcm.html"><span class="icon">✍️</span> Créer un QCM</a></li>
                 <li class="nav-item"><a href="upload-document.html"><span class="icon">📄</span> Charger un document</a></li>
                 <li class="nav-item"><a href="take-test.html"><span class="icon">🎯</span> Passer un test</a></li>
@@ -34,7 +35,7 @@
                 </a>
             </div>
         </nav>
-
+        
         <!-- Contenu principal -->
         <main class="main-content">
             <div class="create-qcm-container">
@@ -125,10 +126,32 @@
                         <button type="submit" class="btn-primary">Créer le QCM</button>
                     </div>
                 </form>
+                
+                <div class="qcm-templates">
+                    <h3>Modèles de QCM</h3>
+                    <p>Utilisez un modèle pour démarrer plus rapidement</p>
+                    
+                    <div class="templates-grid">
+                        <div class="template-card" data-template="medicine-anatomy">
+                            <h4>Anatomie</h4>
+                            <p>5 questions pré-formatées sur l'anatomie humaine</p>
+                            <button class="btn-secondary">Utiliser</button>
+                        </div>
+                        <div class="template-card" data-template="medicine-pathology">
+                            <h4>Pathologies</h4>
+                            <p>8 questions sur les pathologies courantes</p>
+                            <button class="btn-secondary">Utiliser</button>
+                        </div>
+                        <div class="template-card" data-template="law-civil">
+                            <h4>Droit civil</h4>
+                            <p>6 questions sur les principes du droit civil</p>
+                            <button class="btn-secondary">Utiliser</button>
+                        </div>
+                    </div>
+                </div>
             </div>
         </main>
     </div>
-
     <script type="module" src="src/index.js"></script>
 </body>
 </html>
