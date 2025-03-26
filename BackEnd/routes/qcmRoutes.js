@@ -3,11 +3,19 @@ const router = express.Router();
 const multer = require('multer');
 const { protect } = require('../middleware/auth');
 const Qcm = require('../models/Qcm');
+const path = require('path');
+const fs = require('fs');
+
+// Création du dossier uploads s'il n'existe pas
+const uploadDirectory = './uploads';
+if (!fs.existsSync(uploadDirectory)) {
+  fs.mkdirSync(uploadDirectory, { recursive: true });
+}
 
 // Configuration de Multer pour l'upload de fichiers
 const storage = multer.diskStorage({
   destination: function(req, file, cb) {
-    cb(null, './uploads/');
+    cb(null, uploadDirectory);
   },
   filename: function(req, file, cb) {
     cb(null, new Date().toISOString().replace(/:/g, '-') + '-' + file.originalname);
@@ -188,7 +196,8 @@ router.delete('/:id', protect, async (req, res) => {
       return res.status(403).json({ success: false, error: 'Non autorisé à supprimer ce QCM' });
     }
     
-    await qcm.remove();
+    // Correction ici: utiliser findByIdAndDelete au lieu de remove
+    await Qcm.findByIdAndDelete(req.params.id);
     
     res.status(200).json({
       success: true,
