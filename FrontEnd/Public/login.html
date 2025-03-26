@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Connexion | Knowledge Quest</title>
+    <link rel="stylesheet" href="style/main.css">
+    <link rel="stylesheet" href="style/auth.css">
+</head>
+<body>
+    <div class="auth-container">
+        <div class="auth-sidebar">
+            <div class="auth-sidebar-content">
+                <img src="images/logo.png" alt="Knowledge Quest" class="logo">
+                <h2>Transformez vos révisions avec Knowledge Quest</h2>
+                <p>Rejoignez des milliers d'étudiants qui optimisent leur apprentissage dans les domaines de la médecine et du droit.</p>
+            </div>
+        </div>
+        
+        <div class="auth-content">
+            <div class="auth-header">
+                <a href="index.html" class="back-link"><span class="icon">←</span> Retour à l'accueil</a>
+            </div>
+            
+            <div class="auth-form-container">
+                <div class="auth-tabs">
+                    <button class="tab-btn active" data-tab="login">Connexion</button>
+                    <button class="tab-btn" data-tab="register">Inscription</button>
+                </div>
+                
+                <div class="auth-messages"></div>
+                
+                <div id="login-tab" class="tab-content">
+                    <h2>Connectez-vous à votre compte</h2>
+                    <form id="login-form" class="auth-form">
+                        <div class="form-group">
+                            <label for="login-email">Email</label>
+                            <input type="email" id="login-email" name="email" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="login-password">Mot de passe</label>
+                            <input type="password" id="login-password" name="password" required>
+                        </div>
+                        <div class="form-actions">
+                            <div class="remember-me">
+                                <input type="checkbox" id="remember-me">
+                                <label for="remember-me">Se souvenir de moi</label>
+                            </div>
+                            <a href="#" class="forgot-password">Mot de passe oublié?</a>
+                        </div>
+                        <button type="submit" class="btn-primary btn-block">
+                            <span class="spinner"></span>
+                            Se connecter
+                        </button>
+                    </form>
+                </div>
+                
+                <div id="register-tab" class="tab-content hidden">
+                    <h2>Créez votre compte</h2>
+                    <form id="register-form" class="auth-form">
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="register-firstname">Prénom</label>
+                                <input type="text" id="register-firstname" name="firstName" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="register-lastname">Nom</label>
+                                <input type="text" id="register-lastname" name="lastName" required>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="register-email">Email</label>
+                            <input type="email" id="register-email" name="email" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="register-password">Mot de passe</label>
+                            <input type="password" id="register-password" name="password" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="register-domain">Domaine d'étude</label>
+                            <select id="register-domain" name="domain" required>
+                                <option value="" disabled selected>Choisissez votre domaine</option>
+                                <option value="Médecine">Médecine</option>
+                                <option value="Droit">Droit</option>
+                            </select>
+                        </div>
+                        <div class="terms">
+                            <input type="checkbox" id="terms" required>
+                            <label for="terms">J'accepte les <a href="#">conditions d'utilisation</a> et la <a href="#">politique de confidentialité</a></label>
+                        </div>
+                        <button type="submit" class="btn-primary btn-block">
+                            <span class="spinner"></span>
+                            Créer un compte
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <script type="module" src="src/index.js">
+        // Logique pour gérer les onglets
+        const loginTab = document.getElementById('login-tab');
+        const registerTab = document.getElementById('register-tab');
+        const loginTabBtn = document.querySelector('.auth-tabs .tab-btn[data-tab="login"]');
+        const registerTabBtn = document.querySelector('.auth-tabs .tab-btn[data-tab="register"]');
+
+        loginTabBtn.addEventListener('click', () => {
+            loginTab.classList.remove('hidden');
+            registerTab.classList.add('hidden');
+            loginTabBtn.classList.add('active');
+            registerTabBtn.classList.remove('active');
+        });
+
+        registerTabBtn.addEventListener('click', () => {
+            registerTab.classList.remove('hidden');
+            loginTab.classList.add('hidden');
+            registerTabBtn.classList.add('active');
+            loginTabBtn.classList.remove('active');
+        });
+
+        // Redirection vers l'inscription si le paramètre "tab=register" est présent dans l'URL
+        const urlParams = new URLSearchParams(window.location.search);
+        const activeTab = urlParams.get('tab') || 'login';
+
+        if (activeTab === 'register') {
+            registerTab.classList.remove('hidden');
+            loginTab.classList.add('hidden');
+            registerTabBtn.classList.add('active');
+            loginTabBtn.classList.remove('active');
+        }
+    </script>
+</body>
+</html>

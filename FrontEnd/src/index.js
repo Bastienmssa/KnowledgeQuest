@@ -3,15 +3,18 @@
  * Responsable du rendu de l'application dans le DOM
  */
 
-// Importation des modules nécessaires
 import { initializeApp } from './app.js';
 import { setupComponents } from './component/component.js';
 import { setupPages } from './pages/pages.js';
 import { setupAPI } from './api.js';
+import { auth } from './auth.js';
+import { router } from './router.js';
 
-// Fonction d'initialisation principale
 function init() {
     console.log("Knowledge Quest app initializing...");
+    
+    // Vérifier l'authentification
+    auth.checkAuth();
     
     // Initialiser les composants
     setupComponents();
@@ -22,14 +25,13 @@ function init() {
     // Initialiser les services API
     setupAPI();
     
+    // Initialiser le routeur
+    router.init();
+    
     // Initialiser l'application principale
     initializeApp();
     
     console.log("Knowledge Quest app initialized successfully!");
 }
 
-// Exécuter l'initialisation quand le DOM est chargé
 document.addEventListener('DOMContentLoaded', init);
-
-// Exporter pour être utilisé par d'autres modules
-export default init;

@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Paramètres | Knowledge Quest</title>
+    <link rel="stylesheet" href="style/main.css">
+    <link rel="stylesheet" href="style/forms.css">
+</head>
+<body>
+    <div class="app-container">
+        <!-- Navigation latérale -->
+        <nav class="sidebar">
+            <div class="sidebar-header">
+                <img src="images/logo.png" alt="Knowledge Quest" class="logo">
+            </div>
+            <ul class="nav-links">
+                <li class="nav-item"><a href="dashboard.html"><span class="icon">📊</span> Tableau de bord</a></li>
+                <li class="nav-item"><a href="create-qcm.html"><span class="icon">✍️</span> Créer un QCM</a></li>
+                <li class="nav-item"><a href="upload-document.html"><span class="icon">📄</span> Charger un document</a></li>
+                <li class="nav-item"><a href="take-test.html"><span class="icon">🎯</span> Passer un test</a></li>
+                <li class="nav-item"><a href="stats.html"><span class="icon">📈</span> Statistiques</a></li>
+                <li class="nav-item active"><a href="settings.html"><span class="icon">⚙️</span> Paramètres</a></li>
+            </ul>
+            <div class="sidebar-footer">
+                <a href="profile.html" class="user-info">
+                    <div class="user-avatar">
+                        <div class="initials-avatar">JS</div>
+                    </div>
+                    <div class="user-details">
+                        <p id="user-name">John Smith</p>
+                        <span class="domain-badge medicine">Médecine</span>
+                    </div>
+                </a>
+            </div>
+        </nav>
+
+        <!-- Contenu principal -->
+        <main class="main-content">
+            <div class="settings-container">
+                <h1 class="page-title">Paramètres</h1>
+                
+                <div class="settings-messages"></div>
+                
+                <div class="settings-section">
+                    <h2>Affichage</h2>
+                    <div class="setting-item">
+                        <div class="setting-info">
+                            <h3>Mode sombre</h3>
+                            <p>Activer le mode sombre pour une meilleure lisibilité en faible luminosité</p>
+                        </div>
+                        <div class="setting-control">
+                            <label class="toggle-switch">
+                                <input type="checkbox" id="theme-toggle">
+                                <span class="toggle-slider"></span>
+                            </label>
+                        </div>
+                    </div>
+                    
+                    <div class="setting-item">
+                        <div class="setting-info">
+                            <h3>Taille de police</h3>
+                            <p>Ajuster la taille du texte pour améliorer la lisibilité</p>
+                        </div>
+                        <div class="setting-control">
+                            <select id="font-size">
+                                <option value="small">Petite</option>
+                                <option value="medium" selected>Moyenne</option>
+                                <option value="large">Grande</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="settings-section">
+                    <h2>Notifications</h2>
+                    <div class="setting-item">
+                        <div class="setting-info">
+                            <h3>Notifications par email</h3>
+                            <p>Recevoir des notifications par email pour les nouvelles fonctionnalités</p>
+                        </div>
+                        <div class="setting-control">
+                            <label class="toggle-switch">
+                                <input type="checkbox" id="email-notifications" checked>
+                                <span class="toggle-slider"></span>
+                            </label>
+                        </div>
+                    </div>
+                    
+                    <div class="setting-item">
+                        <div class="setting-info">
+                            <h3>Rappels de révision</h3>
+                            <p>Recevoir des rappels pour réviser régulièrement</p>
+                        </div>
+                        <div class="setting-control">
+                            <label class="toggle-switch">
+                                <input type="checkbox" id="quiz-reminders" checked>
+                                <span class="toggle-slider"></span>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="settings-section">
+                    <h2>Confidentialité</h2>
+                    <div class="setting-item">
+                        <div class="setting-info">
+                            <h3>Partage de données anonymisées</h3>
+                            <p>Contribuer à l'amélioration de l'application en partageant des données anonymisées</p>
+                        </div>
+                        <div class="setting-control">
+                            <label class="toggle-switch">
+                                <input type="checkbox" id="data-sharing" checked>
+                                <span class="toggle-slider"></span>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="settings-section danger-zone">
+                    <h2>Options du compte</h2>
+                    <div class="setting-item">
+                        <div class="setting-info">
+                            <h3>Exporter mes données</h3>
+                            <p>Télécharger toutes vos données personnelles et vos QCM</p>
+                        </div>
+                        <div class="setting-control">
+                            <button id="export-data-btn" class="btn-secondary">Exporter</button>
+                        </div>
+                    </div>
+                    
+                    <div class="setting-item">
+                        <div class="setting-info">
+                            <h3>Supprimer mon compte</h3>
+                            <p>Cette action est irréversible et supprimera toutes vos données</p>
+                        </div>
+                        <div class="setting-control">
+                            <button id="delete-account-btn" class="btn-danger">Supprimer</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script type="module" src="src/index.js"></script>
+</body>
+</html>
