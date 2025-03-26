@@ -5,6 +5,7 @@
 import { auth } from '../auth.js';
 import { showMessage } from '../component/component.js';
 import { appendQcmCard } from '../component/qcm-card.js';
+import { initMiniChart } from '../component/charts.js';
 
 // Initialiser le tableau de bord
 export function initDashboardPage() {
@@ -81,6 +82,12 @@ async function loadStatistics() {
                 scoreElement.textContent = `${Math.round(stats.averageScore)}%`;
             }
             
+            // Mettre à jour le mini-graphique de progression
+            const miniChartContainer = document.getElementById('mini-progress-chart');
+            if (miniChartContainer) {
+                initMiniChart(miniChartContainer, stats.scoresHistory);
+            }
+            
             // Autres statistiques à mettre à jour...
             
         } else {
@@ -114,12 +121,16 @@ async function loadRecentActivity() {
                     activityItem.className = 'activity-item';
                     
                     activityItem.innerHTML = `
-                        <div class="activity-icon test">🎯</div>
-                        <div class="activity-details">
-                            <h3>Test complété: ${session.qcmTitle || 'QCM'}</h3>
-                            <p>Score: ${session.score}% - ${formattedDate}</p>
+                        <div class="activity-icon ${session.type}">
+                            ${session.type === 'test' ? '🎯' : session.type === 'upload' ? '📄' : '✍️'}
                         </div>
-                        <a href="take-test.html?qcmId=${session.qcmId}" class="btn-secondary">Revoir</a>
+                        <div class="activity-details">
+                            <h3>${session.type === 'test' ? 'Test complété' : session.type === 'upload' ? 'Document téléchargé' : 'QCM créé'}: ${session.title}</h3>
+                            <p>${session.type === 'test' ? `Score: ${session.score}%` : session.type === 'upload' ? `${session.questionCount} questions générées` : `${session.questionCount} questions`} - ${formattedDate}</p>
+                        </div>
+                        <a href="${session.type === 'test' ? `results.html?sessionId=${session.id}` : session.type === 'upload' ? `take-test.html?qcmId=${session.id}` : `create-qcm.html?edit=${session.id}`}" class="btn-secondary">
+                            ${session.type === 'test' ? 'Revoir' : session.type === 'upload' ? 'Passer le test' : 'Modifier'}
+                        </a>
                     `;
                     
                     activityList.appendChild(activityItem);
@@ -148,6 +159,14 @@ async function loadQuickActions() {
             const qcmCountElement = document.querySelector('.stat-card:nth-child(2) .stat-value');
             if (qcmCountElement) {
                 qcmCountElement.textContent = qcms.length.toString();
+            }
+            
+            // Ajouter les cartes de QCM récents
+            const qcmCardsContainer = document.querySelector('.qcm-cards-container');
+            if (qcmCardsContainer) {
+                qcms.forEach(qcm => {
+                    appendQcmCard(qcmCardsContainer, qcm);
+                });
             }
         } else {
             console.error('Erreur lors du chargement des QCM:', qcmResponse.message);

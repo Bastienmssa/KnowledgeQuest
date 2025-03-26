@@ -1,4 +1,4 @@
-/* forms.css - Styles pour les formulaires */
+/* forms.css - Styles améliorés pour les formulaires */
 
 .form-group {
     margin-bottom: var(--spacing-md);
@@ -17,6 +17,8 @@ label {
     display: block;
     margin-bottom: var(--spacing-xs);
     font-weight: 500;
+    color: var(--text-color);
+    font-size: 14px;
 }
 
 input[type="text"],
@@ -26,13 +28,13 @@ input[type="number"],
 select,
 textarea {
     width: 100%;
-    padding: 10px 12px;
+    padding: 12px 14px;
     border: 1px solid var(--border-color);
     border-radius: var(--border-radius);
-    font-size: 16px;
+    font-size: 15px;
     background-color: var(--card-bg);
     color: var(--text-color);
-    transition: border-color 0.3s ease;
+    transition: all 0.3s ease;
 }
 
 input:focus,
@@ -40,20 +42,30 @@ select:focus,
 textarea:focus {
     outline: none;
     border-color: var(--primary-color);
-    box-shadow: 0 0 0 2px rgba(52, 152, 219, 0.2);
+    box-shadow: 0 0 0 3px rgba(44, 123, 229, 0.15);
 }
 
 input.input-error {
     border-color: var(--error-color);
 }
 
+input.input-error:focus {
+    box-shadow: 0 0 0 3px rgba(230, 55, 87, 0.15);
+}
+
 .error-message {
     color: var(--error-color);
-    font-size: 14px;
+    font-size: 13px;
     margin-top: 4px;
 }
 
-/* QCM creation form */
+/* Styles pour cases à cocher et boutons radio */
+input[type="checkbox"],
+input[type="radio"] {
+    margin-right: var(--spacing-xs);
+}
+
+/* QCM creation form - Design spécifique pour étudiants */
 .create-qcm-form {
     max-width: 900px;
     margin: 0 auto;
@@ -61,10 +73,24 @@ input.input-error {
     border-radius: var(--border-radius);
     box-shadow: var(--shadow-sm);
     padding: var(--spacing-lg);
+    border: 1px solid var(--border-color);
 }
 
 .form-header {
     margin-bottom: var(--spacing-lg);
+    padding-bottom: var(--spacing-md);
+    border-bottom: 1px solid var(--border-color);
+}
+
+.form-header h2 {
+    font-size: 22px;
+    color: var(--secondary-color);
+    margin-bottom: var(--spacing-xs);
+}
+
+.form-header p {
+    color: var(--text-color);
+    opacity: 0.7;
 }
 
 .questions-section {
@@ -79,37 +105,60 @@ input.input-error {
 }
 
 .question-item {
-    background-color: rgba(52, 152, 219, 0.05);
+    background-color: rgba(44, 123, 229, 0.03);
     border-radius: var(--border-radius);
-    padding: var(--spacing-md);
+    padding: var(--spacing-lg);
     margin-bottom: var(--spacing-md);
+    border: 1px solid rgba(44, 123, 229, 0.1);
+    transition: box-shadow 0.3s ease;
+}
+
+.question-item:hover {
+    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.04);
 }
 
 .question-header {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: var(--spacing-sm);
+    margin-bottom: var(--spacing-md);
+    padding-bottom: var(--spacing-sm);
+    border-bottom: 1px solid rgba(44, 123, 229, 0.1);
+}
+
+.question-header h3 {
+    font-size: 18px;
+    color: var(--secondary-color);
 }
 
 .btn-remove-question {
     background-color: rgba(231, 76, 60, 0.1);
     color: var(--error-color);
     border: none;
-    padding: 4px 10px;
+    padding: 6px 12px;
     border-radius: var(--border-radius);
     cursor: pointer;
     font-size: 14px;
+    font-weight: 500;
+    transition: all 0.2s ease;
+}
+
+.btn-remove-question:hover {
+    background-color: rgba(231, 76, 60, 0.2);
 }
 
 .choices-container {
-    margin-top: var(--spacing-sm);
+    margin-top: var(--spacing-md);
 }
 
 .choice-item {
     display: flex;
     align-items: center;
-    margin-bottom: var(--spacing-xs);
+    margin-bottom: var(--spacing-sm);
+    background-color: white;
+    padding: 10px;
+    border-radius: var(--border-radius);
+    border: 1px solid var(--border-color);
 }
 
 .choice-item label {
@@ -127,6 +176,14 @@ input.input-error {
 .choice-item input[type="text"] {
     margin-left: var(--spacing-sm);
     flex: 1;
+    border: 1px solid transparent;
+    background-color: transparent;
+    padding: 8px;
+}
+
+.choice-item input[type="text"]:focus {
+    border-color: var(--border-color);
+    background-color: white;
 }
 
 .form-actions {
@@ -136,15 +193,11 @@ input.input-error {
     margin-top: var(--spacing-xl);
 }
 
-/* Styles spécifiques à la page d'authentification */
-.auth-form-container {
-    background-color: var(--card-bg);
-    border-radius: var(--border-radius);
-    box-shadow: var(--shadow-sm);
-    padding: var(--spacing-lg);
+/* Spécificités pour la médecine et le droit */
+.medicine-form .question-item {
+    border-left: 3px solid var(--medicine-color);
 }
 
-.auth-form h2 {
-    margin-bottom: var(--spacing-lg);
-    font-size: 24px;
+.law-form .question-item {
+    border-left: 3px solid var(--law-color);
 }

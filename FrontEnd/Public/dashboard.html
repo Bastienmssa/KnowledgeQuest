@@ -16,6 +16,7 @@
             </div>
             <ul class="nav-links">
                 <li class="nav-item active"><a href="dashboard.html"><span class="icon">📊</span> Tableau de bord</a></li>
+                <li class="nav-item"><a href="home.html"><span class="icon">🏠</span> Accueil</a></li>
                 <li class="nav-item"><a href="create-qcm.html"><span class="icon">✍️</span> Créer un QCM</a></li>
                 <li class="nav-item"><a href="upload-document.html"><span class="icon">📄</span> Charger un document</a></li>
                 <li class="nav-item"><a href="take-test.html"><span class="icon">🎯</span> Passer un test</a></li>
@@ -34,7 +35,7 @@
                 </a>
             </div>
         </nav>
-
+        
         <!-- Contenu principal -->
         <main class="main-content">
             <div class="dashboard-content">
@@ -54,6 +55,13 @@
                     <div class="stat-card">
                         <h3>Tests passés</h3>
                         <p class="stat-value">23</p>
+                    </div>
+                    <div class="stat-card">
+                        <h3>Tendance de progression</h3>
+                        <div class="mini-chart">
+                            <canvas id="mini-progress-chart" height="60"></canvas>
+                        </div>
+                        <p class="stat-trend positive">En constante amélioration</p>
                     </div>
                 </div>
                 
@@ -180,7 +188,6 @@
             </div>
         </main>
     </div>
-
     <script type="module" src="src/index.js"></script>
 </body>
 </html>

@@ -25,8 +25,11 @@ function initUploadInterface() {
     const fileInput = document.getElementById('file-input');
     const uploadPreview = document.getElementById('upload-preview');
     const generateButton = document.getElementById('generate-qcm-btn');
+    const previewContainer = document.getElementById('generated-qcm-preview');
+    const editQcmButton = document.getElementById('edit-generated-qcm');
+    const saveQcmButton = document.getElementById('save-generated-qcm');
     
-    if (!dropArea || !fileInput || !uploadPreview || !generateButton) {
+    if (!dropArea || !fileInput || !uploadPreview || !generateButton || !previewContainer || !editQcmButton || !saveQcmButton) {
         console.error('Missing required elements for upload interface');
         return;
     }
@@ -110,6 +113,9 @@ function initUploadInterface() {
         generateButton.addEventListener('click', () => {
             generateQcmFromDocument(file);
         }, { once: true }); // Utiliser once: true pour éviter les événements multiples
+        
+        // Masquer le conteneur d'aperçu du QCM généré
+        previewContainer.classList.add('hidden');
     }
     
     // Générer des QCM à partir du document
@@ -146,6 +152,7 @@ function initUploadInterface() {
             showMessage(messageContainer, 'QCM généré avec succès!', 'success');
             
             // Afficher un aperçu du QCM et options
+            previewContainer.classList.remove('hidden');
             displayQcmPreview(generateResponse.qcm, messageContainer);
             
         } catch (error) {
@@ -180,6 +187,7 @@ function initUploadInterface() {
             
             <div class="preview-actions">
                 <a href="take-test.html?qcmId=${qcm._id}" class="btn-primary">Commencer le test</a>
+                <button id="save-generated-qcm" class="btn-secondary">Enregistrer</button>
                 <a href="dashboard.html" class="btn-secondary">Retour au tableau de bord</a>
             </div>
         `;
@@ -189,6 +197,28 @@ function initUploadInterface() {
         
         // Réinitialiser le bouton, car nous montrons maintenant les actions dans l'aperçu
         generateButton.style.display = 'none';
+        
+        // Ajouter les écouteurs d'événements pour les boutons d'aperçu
+        editQcmButton.addEventListener('click', () => {
+            previewContainer.classList.add('hidden');
+            generateButton.style.display = 'block';
+        });
+        
+        saveQcmButton.addEventListener('click', async () => {
+            try {
+                const response = await window.KnowledgeQuestAPI.createQCM(qcm);
+                if (response.success) {
+                    showMessage(container, 'QCM enregistré avec succès!', 'success');
+                    // Rediriger vers le tableau de bord ou la page de création de QCM
+                    window.location.href = 'dashboard.html';
+                } else {
+                    showMessage(container, 'Erreur lors de l\'enregistrement du QCM', 'error');
+                }
+            } catch (error) {
+                console.error('Erreur lors de l\'enregistrement du QCM:', error);
+                showMessage(container, 'Une erreur est survenue lors de l\'enregistrement du QCM', 'error');
+            }
+        });
     }
 }
 
