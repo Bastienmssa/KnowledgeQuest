@@ -26,7 +26,7 @@ exports.registerUser = async (req, res) => {
     const user = await User.create({
       name,
       email,
-      password,
+      passwordHash: password,
       domain
     });
 
@@ -64,7 +64,7 @@ exports.loginUser = async (req, res) => {
     }
 
     // Vérifier si l'utilisateur existe
-    const user = await User.findOne({ email }).select('+password');
+    const user = await User.findOne({ email }).select('+passwordHash');
     if (!user) {
       return res.status(401).json({ success: false, error: 'Email ou mot de passe invalide' });
     }

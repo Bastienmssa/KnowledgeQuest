@@ -3,39 +3,28 @@ const mongoose = require('mongoose');
 const QcmSchema = new mongoose.Schema({
   title: {
     type: String,
-    required: [true, 'Le titre est requis'],
-    trim: true
+    required: [true, 'Please add a title']
   },
   subject: {
     type: String,
-    required: [true, 'La matière est requise']
+    required: [true, 'Please add a subject']
   },
-  questions: [{
-    question: {
-      type: String,
-      required: true
-    },
-    choices: {
-      type: [String],
-      required: true,
-      validate: {
-        validator: function(v) {
-          return v.length >= 2; // Au moins 2 choix
-        },
-        message: 'Un QCM doit avoir au moins 2 choix de réponses'
-      }
-    },
-    correctAnswer: {
-      type: String,
-      required: true,
-      validate: {
-        validator: function(v) {
-          return this.choices.includes(v);
-        },
-        message: 'La réponse correcte doit être parmi les choix'
+  questions: [
+    {
+      question: {
+        type: String,
+        required: true
+      },
+      choices: {
+        type: [String],
+        required: true
+      },
+      correctAnswer: {
+        type: String,
+        required: true
       }
     }
-  }],
+  ],
   createdBy: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'User',
