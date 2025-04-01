@@ -1,51 +1,19 @@
 const express = require('express');
-const router = express.Router();
-const { protect } = require('../middleware/auth');
 const Stats = require('../models/Stats');
+const router = express.Router();
 
-// @desc    Obtenir les statistiques de l'utilisateur
-// @route   GET /api/stats
+// @desc    Get user stats
+// @route   GET /api/stats/:userId
 // @access  Private
-router.get('/', protect, async (req, res) => {
+router.get('/:userId', async (req, res) => {
   try {
-    const stats = await Stats.findOne({ userId: req.user._id })
-      .populate('scoresHistory.qcmId', 'title subject');
-    
+    const stats = await Stats.findOne({ userId: req.params.userId });
     if (!stats) {
-      return res.status(404).json({ success: false, error: 'Statistiques non trouvées' });
+      return res.status(404).json({ message: 'Stats not found' });
     }
-    
-    res.status(200).json({
-      success: true,
-      data: stats
-    });
+    res.json(stats);
   } catch (error) {
-    res.status(500).json({ success: false, error: error.message });
-  }
-});
-
-// @desc    Réinitialiser les statistiques de l'utilisateur
-// @route   DELETE /api/stats/reset
-// @access  Private
-router.delete('/reset', protect, async (req, res) => {
-  try {
-    const stats = await Stats.findOne({ userId: req.user._id });
-    
-    if (!stats) {
-      return res.status(404).json({ success: false, error: 'Statistiques non trouvées' });
-    }
-    
-    stats.scoresHistory = [];
-    stats.averageScore = 0;
-    await stats.save();
-    
-    res.status(200).json({
-      success: true,
-      message: 'Statistiques réinitialisées avec succès',
-      data: stats
-    });
-  } catch (error) {
-    res.status(500).json({ success: false, error: error.message });
+    res.status(500).json({ message: error.message });
   }
 });
 

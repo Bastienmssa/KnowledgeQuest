@@ -11,8 +11,13 @@
     <div class="app-container">
         <!-- Navigation latérale -->
         <nav class="sidebar">
+            <div class="sidebar-toggle">
+                <button id="toggle-sidebar">
+                    <span class="toggle-icon">◀</span>
+                </button>
+            </div>
             <div class="sidebar-header">
-                <img src="images/logo.png" alt="Knowledge Quest" class="logo">
+                <img src="images/logo_white.png" alt="Knowledge Quest" class="logo">
             </div>
             <ul class="nav-links">
                 <li class="nav-item"><a href="dashboard.html"><span class="icon">📊</span> Tableau de bord</a></li>
@@ -32,6 +37,12 @@
                         <p id="user-name">John Smith</p>
                         <span class="domain-badge medicine">Médecine</span>
                     </div>
+                </a>
+            </div>
+            <div class="sidebar-bottom">
+                <a href="index.html" class="logout-btn">
+                    <span class="icon">🚪</span>
+                    <span class="logout-text">Déconnexion</span>
                 </a>
             </div>
         </nav>
@@ -119,5 +130,6 @@
         </main>
     </div>
     <script type="module" src="src/index.js"></script>
+    <script type="module" src="src/component/sidebar.js"></script>
 </body>
 </html>

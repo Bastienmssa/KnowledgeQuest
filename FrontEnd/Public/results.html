@@ -11,11 +11,17 @@
     <div class="app-container">
         <!-- Navigation latérale -->
         <nav class="sidebar">
+            <div class="sidebar-toggle">
+                <button id="toggle-sidebar">
+                    <span class="toggle-icon">◀</span>
+                </button>
+            </div>
             <div class="sidebar-header">
-                <img src="images/logo.png" alt="Knowledge Quest" class="logo">
+                <img src="images/logo_white.png" alt="Knowledge Quest" class="logo">
             </div>
             <ul class="nav-links">
                 <li class="nav-item"><a href="dashboard.html"><span class="icon">📊</span> Tableau de bord</a></li>
+                <li class="nav-item"><a href="home.html"><span class="icon">🏠</span> Accueil</a></li>
                 <li class="nav-item"><a href="create-qcm.html"><span class="icon">✍️</span> Créer un QCM</a></li>
                 <li class="nav-item"><a href="upload-document.html"><span class="icon">📄</span> Charger un document</a></li>
                 <li class="nav-item active"><a href="take-test.html"><span class="icon">🎯</span> Passer un test</a></li>
@@ -31,6 +37,12 @@
                         <p id="user-name">John Smith</p>
                         <span class="domain-badge medicine">Médecine</span>
                     </div>
+                </a>
+            </div>
+            <div class="sidebar-bottom">
+                <a href="index.html" class="logout-btn">
+                    <span class="icon">🚪</span>
+                    <span class="logout-text">Déconnexion</span>
                 </a>
             </div>
         </nav>
@@ -95,5 +107,6 @@
     </div>
 
     <script type="module" src="src/index.js"></script>
+    <script src="src/component/sidebar.js"></script>
 </body>
 </html>

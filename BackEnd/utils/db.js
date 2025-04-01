@@ -4,17 +4,13 @@ const databaseConfig = require('../config/database');
 
 const connectDB = async () => {
   try {
-    // Connexion à MongoDB avec les options simplifiées
-    const conn = await mongoose.connect(process.env.MONGODB_URI, {
-      useNewUrlParser: true,
-      useUnifiedTopology: true
-    });
+    const conn = await mongoose.connect(process.env.MONGODB_URI, databaseConfig.options);
     
-    logger.info(`MongoDB connecté: ${conn.connection.host}`);
+    logger.info(`MongoDB Connected: ${conn.connection.host}`);
     return conn;
   } catch (error) {
-    logger.error(`Erreur de connexion à MongoDB: ${error.message}`);
-    throw error;
+    logger.error(`Error connecting to MongoDB: ${error.message}`);
+    process.exit(1);
   }
 };
 
