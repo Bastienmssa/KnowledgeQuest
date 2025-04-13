@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Connexion | Knowledge Quest</title>
+    <link rel="stylesheet" href="style/main.css">
+    <link rel="stylesheet" href="style/auth.css">
+    
+    <!-- Scripts pour les authentifications tierces -->
+    <script src="https://apis.google.com/js/platform.js" async defer></script>
+    <script src="https://alcdn.msftauth.net/lib/1.4.4/js/msal.js"></script>
+    <script type="text/javascript" src="https://appleid.cdn-apple.com/appleauth/static/jsapi/appleid/1/en_US/appleid.auth.js"></script>
+    
+    <!-- Configuration des API sociales -->
+    <meta name="google-signin-client_id" content="VOTRE_CLIENT_ID_GOOGLE">
+    <meta name="apple-signin-client_id" content="VOTRE_CLIENT_ID_APPLE">
+    <meta name="apple-signin-scope" content="name email">
+    <meta name="apple-signin-redirect-uri" content="https://votre-domaine.com/callback">
+    <meta name="apple-signin-use-popup" content="true">
+</head>
+<body>
+    <div class="auth-container">
+        <div class="auth-sidebar">
+            <div class="auth-sidebar-content">
+                <img src="images/logo_white.png" alt="Knowledge Quest" class="logo">
+                <h2>Transformez vos révisions avec Knowledge Quest</h2>
+                <p>Rejoignez des milliers d'étudiants qui optimisent leur apprentissage dans les domaines de la médecine et du droit.</p>
+            </div>
+        </div>
+        
+        <div class="auth-content">
+            <div class="auth-header">
+                <a href="index.html" class="back-link"><span class="icon">←</span> Retour à l'accueil</a>
+            </div>
+            
+            <div class="auth-form-container">
+                <div class="auth-tabs">
+                    <button class="tab-btn active" data-tab="login">Connexion</button>
+                </div>
+                
+                <div class="auth-messages"></div>
+                
+                <div id="login-tab" class="tab-content">
+                    <h2>Connectez-vous à votre compte</h2>
+                    <form id="login-form" class="auth-form">
+                        <div class="form-group">
+                            <label for="login-email">Email</label>
+                            <input type="email" id="login-email" name="email" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="login-password">Mot de passe</label>
+                            <input type="password" id="login-password" name="password" required>
+                        </div>
+                        <div class="form-actions">
+                            <div class="remember-me">
+                                <input type="checkbox" id="remember-me">
+                                <label for="remember-me">Se souvenir de moi</label>
+                            </div>
+                            <a href="#" class="forgot-password">Mot de passe oublié?</a>
+                        </div>
+                        <button type="submit" class="btn-primary btn-block">
+                            <span class="spinner"></span>
+                            Se connecter
+                        </button>
+                    </form>
+                    
+                    <div class="social-login">
+                        <p class="separator"><span>ou</span></p>
+
+                        <div id="google-signin-btn" class="google-button-container"></div>
+                        <button type="button" id="google-login" class="btn-social google">
+                            <img src="images/icons/google.svg" alt="Google">
+                            <span>Continuer avec Google</span>
+                        </button>
+
+                        <button type="button" id="microsoft-login" class="btn-social microsoft">
+                            <img src="images/icons/microsoft.png" alt="Microsoft">
+                            <span>Continuer avec Microsoft</span>
+                        </button>
+                        
+                        <button type="button" id="apple-login" class="btn-social apple">
+                            <img src="images/icons/apple.svg" alt="Apple">
+                            <span>Continuer avec Apple</span>
+                        </button>
+                    </div>
+                    
+                    <div class="form-actions mt-4">
+                        <a href="register.html" class="back-link">Créer un compte</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <script type="module" src="../js/index.js"></script>
+    <script type="module" src="../js/pages/login-page.js"></script>
+</body>
+</html>

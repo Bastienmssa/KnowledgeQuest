@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tableau de bord | Knowledge Quest</title>
+    <link rel="stylesheet" href="style/main.css">
+    <link rel="stylesheet" href="style/dashboard.css">
+</head>
+<body>
+    <div class="app-container">
+        <!-- Navigation latérale -->
+        <nav class="sidebar">
+            <div class="sidebar-toggle">
+                <button id="toggle-sidebar">
+                    <span class="toggle-icon">◀</span>
+                </button>
+            </div>
+            <div class="sidebar-header">
+                <img src="images/logo_white.png" alt="Knowledge Quest" class="logo">
+            </div>
+            <ul class="nav-links">
+                <li class="nav-item active"><a href="dashboard.html"><span class="icon">📊</span> Tableau de bord</a></li>
+                <li class="nav-item"><a href="home.html"><span class="icon">🏠</span> Accueil</a></li>
+                <li class="nav-item"><a href="create-qcm.html"><span class="icon">✍️</span> Créer un QCM</a></li>
+                <li class="nav-item"><a href="upload-document.html"><span class="icon">📄</span> Charger un document</a></li>
+                <li class="nav-item"><a href="take-test.html"><span class="icon">🎯</span> Passer un test</a></li>
+                <li class="nav-item"><a href="stats.html"><span class="icon">📈</span> Statistiques</a></li>
+                <li class="nav-item"><a href="settings.html"><span class="icon">⚙️</span> Paramètres</a></li>
+            </ul>
+            <div class="sidebar-footer">
+                <a href="profile.html" class="user-info">
+                    <div class="user-avatar">
+                        <div class="initials-avatar">JS</div>
+                    </div>
+                    <div class="user-details">
+                        <p id="user-name">John Smith</p>
+                        <span class="domain-badge medicine">Médecine</span>
+                    </div>
+                </a>
+            </div>
+            <div class="sidebar-bottom">
+                <a href="index.html" class="logout-btn">
+                    <span class="icon">🚪</span>
+                    <span class="logout-text">Déconnexion</span>
+                </a>
+            </div>
+        </nav>
+        
+        <!-- Contenu principal -->
+        <main class="main-content">
+            <div class="dashboard-content">
+                <h1 class="page-title">Bonjour, <span id="user-name">John</span>!</h1>
+                
+                <!-- Stats rapides -->
+                <div class="stats-overview">
+                    <div class="stat-card">
+                        <h3>Score moyen</h3>
+                        <p class="stat-value" id="average-score">-</p>
+                        <p class="stat-trend positive">↑ 5% depuis le dernier test</p>
+                    </div>
+                    <div class="stat-card">
+                        <h3>QCM créés</h3>
+                        <p class="stat-value" id="qcms-created">-</p>
+                    </div>
+                    <div class="stat-card">
+                        <h3>Tests passés</h3>
+                        <p class="stat-value" id="tests-completed">-</p>
+                    </div>
+                    <div class="stat-card">
+                        <h3>Tendance de progression</h3>
+                        <div class="mini-chart">
+                            <canvas id="mini-progress-chart"></canvas>
+                        </div>
+                        <p class="stat-trend positive">En constante amélioration</p>
+                    </div>
+                </div>
+                
+                <!-- Activité récente -->
+                <div class="section">
+                    <div class="section-header">
+                        <h2>Activité récente</h2>
+                        <a href="stats.html" class="btn-secondary">Voir tout</a>
+                    </div>
+                    <div class="activity-list" id="recent-activity">
+                        <!-- Les activités récentes seront ajoutées dynamiquement -->
+                    </div>
+                </div>
+                
+                <!-- Actions rapides -->
+                <div class="section">
+                    <div class="section-header">
+                        <h2>Actions rapides</h2>
+                    </div>
+                    <div class="quick-actions">
+                        <a href="create-qcm.html" class="action-card">
+                            <div class="action-icon">✍️</div>
+                            <div class="action-details">
+                                <h3>Créer un QCM</h3>
+                                <p>Créez un nouveau QCM manuellement</p>
+                            </div>
+                        </a>
+                        <a href="upload-document.html" class="action-card">
+                            <div class="action-icon">📄</div>
+                            <div class="action-details">
+                                <h3>Charger un document</h3>
+                                <p>Générez un QCM à partir d'un document</p>
+                            </div>
+                        </a>
+                        <a href="take-test.html" class="action-card">
+                            <div class="action-icon">🎯</div>
+                            <div class="action-details">
+                                <h3>Passer un test</h3>
+                                <p>Commencez un test de révision</p>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+                
+                <!-- QCM récents -->
+                <div class="section">
+                    <div class="section-header">
+                        <h2>QCM récents</h2>
+                    </div>
+                    <div class="qcm-cards-container" id="recent-qcms">
+                        <!-- Les cartes QCM récents seront ajoutées dynamiquement -->
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+    <script type="module" src="../js/index.js"></script>
+    <script type="module">
+        import { statsAPI, qcmAPI, sessionAPI } from '../js/api/api.js';
+        import { appendQcmCard } from '../js/components/qcm-card.js';
+
+        document.addEventListener('DOMContentLoaded', async function() {
+            // Vérifier l'authentification
+            const token = localStorage.getItem('token');
+            if (!token) {
+                window.location.href = 'login.html';
+                return;
+            }
+
+            try {
+                // Récupérer les informations de l'utilisateur
+                const user = JSON.parse(localStorage.getItem('user'));
+                document.getElementById('user-name').textContent = user.name;
+
+                // Charger les statistiques
+                const statsResponse = await statsAPI.getUserStats();
+                if (statsResponse.success) {
+                    const stats = statsResponse.data;
+                    document.getElementById('average-score').textContent = `${Math.round(stats.averageScore || 0)}%`;
+                    document.getElementById('qcms-created').textContent = stats.qcmsCreated || 0;
+                    document.getElementById('tests-completed').textContent = stats.sessionsCount || 0;
+                }
+
+                // Charger les QCM récents
+                const qcmsResponse = await qcmAPI.getQCMs({ limit: 3 });
+                if (qcmsResponse.success) {
+                    const recentQcmsContainer = document.getElementById('recent-qcms');
+                    qcmsResponse.data.forEach(qcm => {
+                        appendQcmCard(recentQcmsContainer, qcm);
+                    });
+                }
+
+                // Charger l'activité récente
+                const sessionsResponse = await sessionAPI.getUserSessions({ limit: 3 });
+                if (sessionsResponse.success) {
+                    const recentActivityContainer = document.getElementById('recent-activity');
+                    sessionsResponse.data.forEach(session => {
+                        const activityItem = document.createElement('div');
+                        activityItem.className = 'activity-item';
+
+                        activityItem.innerHTML = `
+                            <div class="activity-icon ${session.type}">🎯</div>
+                            <div class="activity-details">
+                                <h3>Session complétée: ${session.qcm.title}</h3>
+                                <p>Score: ${session.score}% - ${new Date(session.createdAt).toLocaleDateString()}</p>
+                            </div>
+                            <a href="results.html?sessionId=${session._id}" class="btn-secondary">Voir</a>
+                        `;
+
+                        recentActivityContainer.appendChild(activityItem);
+                    });
+                }
+            } catch (error) {
+                console.error('Erreur lors du chargement des données du dashboard:', error);
+            }
+        });
+    </script>
+</body>
+</html>

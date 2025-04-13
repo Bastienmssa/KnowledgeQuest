@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Résultats | Knowledge Quest</title>
+    <link rel="stylesheet" href="style/main.css">
+    <link rel="stylesheet" href="style/test-page.css">
+</head>
+<body>
+    <div class="app-container">
+        <!-- Navigation latérale -->
+        <nav class="sidebar">
+            <div class="sidebar-toggle">
+                <button id="toggle-sidebar">
+                    <span class="toggle-icon">◀</span>
+                </button>
+            </div>
+            <div class="sidebar-header">
+                <img src="images/logo_white.png" alt="Knowledge Quest" class="logo">
+            </div>
+            <ul class="nav-links">
+                <li class="nav-item"><a href="dashboard.html"><span class="icon">📊</span> Tableau de bord</a></li>
+                <li class="nav-item"><a href="home.html"><span class="icon">🏠</span> Accueil</a></li>
+                <li class="nav-item"><a href="create-qcm.html"><span class="icon">✍️</span> Créer un QCM</a></li>
+                <li class="nav-item"><a href="upload-document.html"><span class="icon">📄</span> Charger un document</a></li>
+                <li class="nav-item active"><a href="take-test.html"><span class="icon">🎯</span> Passer un test</a></li>
+                <li class="nav-item"><a href="stats.html"><span class="icon">📈</span> Statistiques</a></li>
+                <li class="nav-item"><a href="settings.html"><span class="icon">⚙️</span> Paramètres</a></li>
+            </ul>
+            <div class="sidebar-footer">
+                <a href="profile.html" class="user-info">
+                    <div class="user-avatar">
+                        <div class="initials-avatar">JS</div>
+                    </div>
+                    <div class="user-details">
+                        <p id="user-name">John Smith</p>
+                        <span class="domain-badge medicine">Médecine</span>
+                    </div>
+                </a>
+            </div>
+            <div class="sidebar-bottom">
+                <a href="index.html" class="logout-btn">
+                    <span class="icon">🚪</span>
+                    <span class="logout-text">Déconnexion</span>
+                </a>
+            </div>
+        </nav>
+
+        <!-- Contenu principal -->
+        <main class="main-content">
+            <div class="result-container">
+                <div class="result-header">
+                    <h2>Résultats - Physiologie Cardiaque</h2>
+                    <div class="score-display">
+                        <div class="score-circle good">
+                            <span id="score-value">85%</span>
+                        </div>
+                        <div class="score-details">
+                            <p><span id="correct-answers">17</span>/<span id="total-questions">20</span> réponses correctes</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="result-message">
+                    <p class="result-good">Bien joué ! Vous avez une bonne compréhension du sujet.</p>
+                </div>
+                
+                <div class="answers-review" id="answers-review">
+                    <h3>Revue des réponses</h3>
+                    
+                    <div class="answer-item correct">
+                        <div class="answer-header">
+                            <h3>Question 1</h3>
+                            <span class="answer-status">✓ Correct</span>
+                        </div>
+                        <p class="question-text">Quelle est la fréquence cardiaque normale chez un adulte au repos ?</p>
+                        <p class="user-answer">Votre réponse: 60-100 bpm</p>
+                    </div>
+                    
+                    <div class="answer-item incorrect">
+                        <div class="answer-header">
+                            <h3>Question 2</h3>
+                            <span class="answer-status">✗ Incorrect</span>
+                        </div>
+                        <p class="question-text">Quelle chambre du cœur reçoit le sang oxygéné venant des poumons ?</p>
+                        <p class="user-answer">Votre réponse: Ventricule droit</p>
+                        <p class="correct-answer">Réponse correcte: Oreillette gauche</p>
+                    </div>
+                    
+                    <div class="answer-item correct">
+                        <div class="answer-header">
+                            <h3>Question 3</h3>
+                            <span class="answer-status">✓ Correct</span>
+                        </div>
+                        <p class="question-text">Quel est le rôle des valves cardiaques ?</p>
+                        <p class="user-answer">Votre réponse: Empêcher le reflux sanguin</p>
+                    </div>
+                </div>
+                
+                <div class="result-actions">
+                    <a href="dashboard.html" class="btn-secondary">Retour au tableau de bord</a>
+                    <a href="take-test.html" class="btn-primary">Faire un autre test</a>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script type="module" src="../js/index.js"></script>
+    <script src="../js/components/sidebar.js"></script>
+</body>
+</html>
