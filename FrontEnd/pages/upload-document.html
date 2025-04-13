@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Charger un document | Knowledge Quest</title>
+    <link rel="stylesheet" href="style/main.css">
+    <link rel="stylesheet" href="style/upload-document.css">
+</head>
+<body>
+    <div class="app-container">
+        <!-- Navigation latérale -->
+        <nav class="sidebar">
+            <div class="sidebar-toggle">
+                <button id="toggle-sidebar">
+                    <span class="toggle-icon">◀</span>
+                </button>
+            </div>            
+            <div class="sidebar-header">
+                <img src="images/logo_white.png" alt="Knowledge Quest" class="logo">
+            </div>
+            <ul class="nav-links">
+                <li class="nav-item"><a href="dashboard.html"><span class="icon">📊</span> Tableau de bord</a></li>
+                <li class="nav-item"><a href="home.html"><span class="icon">🏠</span> Accueil</a></li>
+                <li class="nav-item"><a href="create-qcm.html"><span class="icon">✍️</span> Créer un QCM</a></li>
+                <li class="nav-item active"><a href="upload-document.html"><span class="icon">📄</span> Charger un document</a></li>
+                <li class="nav-item"><a href="take-test.html"><span class="icon">🎯</span> Passer un test</a></li>
+                <li class="nav-item"><a href="stats.html"><span class="icon">📈</span> Statistiques</a></li>
+                <li class="nav-item"><a href="settings.html"><span class="icon">⚙️</span> Paramètres</a></li>
+            </ul>
+            <div class="sidebar-footer">
+                <a href="profile.html" class="user-info">
+                    <div class="user-avatar">
+                        <div class="initials-avatar">JS</div>
+                    </div>
+                    <div class="user-details">
+                        <p id="user-name">John Smith</p>
+                        <span class="domain-badge medicine">Médecine</span>
+                    </div>
+                </a>
+            </div>
+            <div class="sidebar-bottom">
+                <a href="index.html" class="logout-btn">
+                    <span class="icon">🚪</span>
+                    <span class="logout-text">Déconnexion</span>
+                </a>
+            </div>
+        </nav>
+        
+        <!-- Contenu principal -->
+        <main class="main-content">
+            <div class="upload-container">
+                <h1 class="page-title">Charger un document</h1>
+                
+                <div class="upload-section">
+                    <p class="upload-info">Chargez un document pour générer automatiquement des QCM. Notre système analysera votre contenu et créera des questions pertinentes.</p>
+                    
+                    <div id="drop-area" class="drop-area">
+                        <div class="drop-icon">📄</div>
+                        <p>Glissez et déposez votre fichier ici</p>
+                        <p>ou</p>
+                        <button type="button" class="btn-secondary" id="file-select-btn">Sélectionner un fichier</button>
+                        <input type="file" id="file-input" accept=".pdf,.doc,.docx,.txt" hidden>
+                        <p class="file-types">Formats supportés: PDF, DOCX, DOC, TXT</p>
+                    </div>
+                    
+                    <div id="selected-files-list" class="selected-files">
+                        <!-- Les fichiers sélectionnés apparaîtront ici -->
+                    </div>
+                    
+                    <div id="upload-preview" class="upload-preview">
+                        <!-- Le fichier sélectionné apparaîtra ici -->
+                    </div>
+                    
+                    <div class="upload-progress">
+                        <div class="progress-bar-container">
+                            <div id="upload-progress-bar" class="progress-bar" style="width: 0%"></div>
+                        </div>
+                        <p id="upload-status" class="upload-status"></p>
+                    </div>
+                    
+                    <div class="upload-actions">
+                        <button type="button" id="generate-qcm-btn" class="btn-primary" disabled>Générer des QCM</button>
+                    </div>
+                    
+                    <div id="generated-qcm-preview" class="generated-qcm-preview hidden">
+                        <div class="preview-header">
+                            <h3>Aperçu des questions générées</h3>
+                            <div class="preview-actions">
+                                <button id="edit-generated-qcm" class="btn-secondary">Modifier</button>
+                                <button id="save-generated-qcm" class="btn-primary">Enregistrer</button>
+                            </div>
+                        </div>
+                        <div class="qcm-generation-status">
+                            <div class="ai-processing">
+                                <div class="ai-icon">🤖</div>
+                                <div class="processing-text">
+                                    <h4>Analyse du document en cours...</h4>
+                                    <p>Notre IA extrait les concepts clés pour créer des questions pertinentes</p>
+                                    <div class="processing-progress">
+                                        <div class="processing-bar"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="generated-questions-container">
+                            <!-- Questions générées dynamiquement par l'IA -->
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="upload-tips">
+                    <h3>Conseils pour de meilleurs résultats</h3>
+                    <ul>
+                        <li>Utilisez des documents bien structurés avec des titres clairs</li>
+                        <li>Les documents de 2-20 pages donnent généralement les meilleurs résultats</li>
+                        <li>Vérifiez toujours les QCM générés avant de les utiliser</li>
+                    </ul>
+                </div>
+            </div>
+        </main>
+    </div>
+    <script type="module" src="../js/index.js"></script>
+    <script type="module" src="../js/pages/upload-page.js"></script>
+</body>
+</html>

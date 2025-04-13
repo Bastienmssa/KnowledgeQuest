@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Statistiques | Knowledge Quest</title>
+    <link rel="stylesheet" href="style/main.css">
+    <link rel="stylesheet" href="style/stats.css">
+</head>
+<body>
+    <div class="app-container">
+        <!-- Navigation latérale -->
+        <nav class="sidebar">
+            <div class="sidebar-toggle">
+                <button id="toggle-sidebar">
+                    <span class="toggle-icon">◀</span>
+                </button>
+            </div>
+            <div class="sidebar-header">
+                <img src="images/logo_white.png" alt="Knowledge Quest" class="logo">
+            </div>
+            <ul class="nav-links">
+                <li class="nav-item"><a href="dashboard.html"><span class="icon">📊</span> Tableau de bord</a></li>
+                <li class="nav-item"><a href="home.html"><span class="icon">🏠</span> Accueil</a></li>
+                <li class="nav-item"><a href="create-qcm.html"><span class="icon">✍️</span> Créer un QCM</a></li>
+                <li class="nav-item"><a href="upload-document.html"><span class="icon">📄</span> Charger un document</a></li>
+                <li class="nav-item"><a href="take-test.html"><span class="icon">🎯</span> Passer un test</a></li>
+                <li class="nav-item active"><a href="stats.html"><span class="icon">📈</span> Statistiques</a></li>
+                <li class="nav-item"><a href="settings.html"><span class="icon">⚙️</span> Paramètres</a></li>
+            </ul>
+            <div class="sidebar-footer">
+                <a href="profile.html" class="user-info">
+                    <div class="user-avatar">
+                        <div class="initials-avatar">JS</div>
+                    </div>
+                    <div class="user-details">
+                        <p id="user-name">John Smith</p>
+                        <span class="domain-badge medicine">Médecine</span>
+                    </div>
+                </a>
+            </div>
+            <div class="sidebar-bottom">
+                <a href="index.html" class="logout-btn">
+                    <span class="icon">🚪</span>
+                    <span class="logout-text">Déconnexion</span>
+                </a>
+            </div>
+        </nav>
+        
+        <!-- Contenu principal -->
+        <main class="main-content">
+            <div class="stats-page">
+                <h1 class="page-title">Statistiques et progression</h1>
+                
+                <div class="stats-filters">
+                    <form id="stats-filter-form" class="filter-form">
+                        <div class="filter-group">
+                            <label for="filter-subject">Matière</label>
+                            <select id="filter-subject">
+                                <option value="">Toutes les matières</option>
+                                <option value="Anatomie">Anatomie</option>
+                                <option value="Physiologie">Physiologie</option>
+                                <option value="Pathologies">Pathologies</option>
+                                <option value="Pharmacologie">Pharmacologie</option>
+                                <option value="Droit civil">Droit civil</option>
+                                <option value="Droit pénal">Droit pénal</option>
+                                <option value="Droit constitutionnel">Droit constitutionnel</option>
+                                <option value="Droit administratif">Droit administratif</option>
+                            </select>
+                        </div>
+                        
+                        <div class="filter-group">
+                            <label for="filter-period">Période</label>
+                            <select id="filter-period">
+                                <option value="7">7 derniers jours</option>
+                                <option value="30" selected>30 derniers jours</option>
+                                <option value="90">3 derniers mois</option>
+                                <option value="365">12 derniers mois</option>
+                            </select>
+                        </div>
+                        
+                        <div class="filter-actions">
+                            <button type="button" id="reset-filters" class="btn-secondary">Réinitialiser</button>
+                            <button type="submit" class="btn-primary">Appliquer</button>
+                        </div>
+                    </form>
+                </div>
+                
+                <div class="stats-container">
+                    <div class="stats-overview">
+                        <div class="stat-card">
+                            <h3>Score moyen</h3>
+                            <p class="stat-value">75%</p>
+                            <p class="stat-trend positive">↑ 5% depuis le dernier mois</p>
+                        </div>
+                        <div class="stat-card">
+                            <h3>Tests complétés</h3>
+                            <p class="stat-value">23</p>
+                        </div>
+                        <div class="stat-card">
+                            <h3>Meilleur score</h3>
+                            <p class="stat-value">92%</p>
+                        </div>
+                        <div class="stat-card">
+                            <h3>Matière à approfondir</h3>
+                            <p class="stat-value">Physiologie</p>
+                            <p class="stat-trend negative">↓ 68% de réussite</p>
+                        </div>
+                        <div class="stat-card">
+                            <h3>Progression</h3>
+                            <div class="streak-indicator">
+                                <span class="streak active" data-score="75"></span>
+                                <span class="streak active" data-score="80"></span>
+                                <span class="streak active" data-score="85"></span>
+                                <span class="streak inactive" data-score="65"></span>
+                                <span class="streak active" data-score="78"></span>
+                                <span class="streak active" data-score="82"></span>
+                                <span class="streak active" data-score="92"></span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="stats-charts">
+                        <div class="chart-container">
+                            <h3>Évolution des scores</h3>
+                            <canvas id="score-evolution-chart"></canvas>
+                            <div class="chart-legend">
+                                <div class="legend-item">
+                                    <span class="legend-color" style="background-color: #4285F4;"></span>
+                                    <span class="legend-text">Score moyen</span>
+                                </div>
+                                <div class="legend-item">
+                                    <span class="legend-color" style="background-color: #34A853;"></span>
+                                    <span class="legend-text">Objectif</span>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="chart-container">
+                            <h3>Répartition par matière</h3>
+                            <canvas id="subject-distribution-chart"></canvas>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="stats-detailed">
+                    <h3>Performance par matière</h3>
+                    <div class="performance-table-container">
+                        <table class="performance-table">
+                            <thead>
+                                <tr>
+                                    <th>Matière</th>
+                                    <th>Tests passés</th>
+                                    <th>Score moyen</th>
+                                    <th>Évolution</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>Anatomie</td>
+                                    <td>8</td>
+                                    <td>85%</td>
+                                    <td><span class="trend-positive">↑ 7%</span></td>
+                                    <td><a href="#" class="btn-small">Réviser</a></td>
+                                </tr>
+                                <tr>
+                                    <td>Physiologie</td>
+                                    <td>5</td>
+                                    <td>68%</td>
+                                    <td><span class="trend-negative">↓ 3%</span></td>
+                                    <td><a href="#" class="btn-small btn-highlight">Prioritaire</a></td>
+                                </tr>
+                                <tr>
+                                    <td>Pharmacologie</td>
+                                    <td>4</td>
+                                    <td>72%</td>
+                                    <td><span class="trend-positive">↑ 2%</span></td>
+                                    <td><a href="#" class="btn-small">Réviser</a></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                
+                <div class="stats-recommendations">
+                    <h3>Recommandations personnalisées</h3>
+                    <div class="recommendations-list">
+                        <div class="recommendation-item">
+                            <div class="recommendation-icon">📚</div>
+                            <div class="recommendation-content">
+                                <h4>Concentrez-vous sur les QCM de Physiologie</h4>
+                                <p>Vos scores sont plus faibles dans cette matière. Entraînez-vous davantage.</p>
+                                <a href="take-test.html?subject=Physiologie" class="btn-small">Commencer un QCM</a>
+                            </div>
+                        </div>
+                        <div class="recommendation-item">
+                            <div class="recommendation-icon">🔄</div>
+                            <div class="recommendation-content">
+                                <h4>Révisez régulièrement</h4>
+                                <p>Pour améliorer votre rétention, essayez de faire au moins 3 QCM par semaine.</p>
+                                <a href="home.html" class="btn-small">Planifier mes révisions</a>
+                            </div>
+                        </div>
+                        <div class="recommendation-item">
+                            <div class="recommendation-icon">🎯</div>
+                            <div class="recommendation-content">
+                                <h4>Créez des QCM plus variés</h4>
+                                <p>Diversifier vos questions vous aidera à mieux comprendre les différents aspects du sujet.</p>
+                                <a href="create-qcm.html" class="btn-small">Créer un QCM</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="export-section">
+                    <h3>Exporter vos statistiques</h3>
+                    <p>Téléchargez vos données pour un suivi personnel ou pour les partager avec vos professeurs.</p>
+                    <div class="export-actions">
+                        <button class="btn-secondary" id="export-pdf">PDF</button>
+                        <button class="btn-secondary" id="export-csv">CSV</button>
+                        <button class="btn-secondary" id="export-png">Image</button>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+    
+    <script type="module" src="../js/index.js"></script>
+    <script src="../js/components/sidebar.js"></script>
+</body>
+</html>

@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Créer un QCM | Knowledge Quest</title>
+    <link rel="stylesheet" href="style/main.css">
+    <link rel="stylesheet" href="style/forms.css">
+</head>
+<body>
+    <div class="app-container">
+        <!-- Navigation latérale -->
+        <nav class="sidebar">
+            <div class="sidebar-toggle">
+                <button id="toggle-sidebar">
+                    <span class="toggle-icon">◀</span>
+                </button>
+            </div>
+            <div class="sidebar-header">
+                <img src="images/logo_white.png" alt="Knowledge Quest" class="logo">
+            </div>
+            <ul class="nav-links">
+                <li class="nav-item"><a href="dashboard.html"><span class="icon">📊</span> Tableau de bord</a></li>
+                <li class="nav-item"><a href="home.html"><span class="icon">🏠</span> Accueil</a></li>
+                <li class="nav-item active"><a href="create-qcm.html"><span class="icon">✍️</span> Créer un QCM</a></li>
+                <li class="nav-item"><a href="upload-document.html"><span class="icon">📄</span> Charger un document</a></li>
+                <li class="nav-item"><a href="take-test.html"><span class="icon">🎯</span> Passer un test</a></li>
+                <li class="nav-item"><a href="stats.html"><span class="icon">📈</span> Statistiques</a></li>
+                <li class="nav-item"><a href="settings.html"><span class="icon">⚙️</span> Paramètres</a></li>
+            </ul>
+            <div class="sidebar-footer">
+                <a href="profile.html" class="user-info">
+                    <div class="user-avatar">
+                        <div class="initials-avatar">JS</div>
+                    </div>
+                    <div class="user-details">
+                        <p id="user-name">John Smith</p>
+                        <span class="domain-badge medicine">Médecine</span>
+                    </div>
+                </a>
+            </div>
+            <div class="sidebar-bottom">
+                <a href="index.html" class="logout-btn">
+                    <span class="icon">🚪</span>
+                    <span class="logout-text">Déconnexion</span>
+                </a>
+            </div>
+        </nav>
+        
+        <!-- Contenu principal -->
+        <main class="main-content">
+            <div class="create-qcm-container">
+                <h1 class="page-title">Créer un QCM</h1>
+                
+                <div class="form-messages"></div>
+                
+                <form id="create-qcm-form" class="create-qcm-form">
+                    <div class="form-header">
+                        <h2>Informations générales</h2>
+                        <p>Définissez les détails de votre QCM</p>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="qcm-title">Titre du QCM</label>
+                        <input type="text" id="qcm-title" name="title" required placeholder="Ex: Physiologie Cardiaque">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="qcm-subject">Matière</label>
+                        <select id="qcm-subject" name="subject" required>
+                            <option value="" disabled selected>Choisissez une matière</option>
+                        </select>
+                    </div>
+                    
+                    <div class="questions-section">
+                        <div class="section-header">
+                            <h3>Questions</h3>
+                            <button type="button" id="add-question-btn" class="btn-secondary">
+                                <span class="icon">+</span> Ajouter une question
+                            </button>
+                        </div>
+                        
+                        <div id="questions-container" class="questions-container">
+                            <!-- Question 1 (exemple) -->
+                            <div class="question-item" data-index="0">
+                                <div class="question-header">
+                                    <h3>Question 1</h3>
+                                    <button type="button" class="btn-remove-question">Supprimer</button>
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label for="question-0">Énoncé de la question</label>
+                                    <input type="text" id="question-0" name="questions[0][question]" required placeholder="Saisissez votre question ici">
+                                </div>
+                                
+                                <div class="choices-container">
+                                    <div class="form-group choice-item">
+                                        <label>
+                                            <input type="radio" name="questions[0][correctAnswer]" value="0" required>
+                                            <input type="text" name="questions[0][choices][0]" placeholder="Réponse 1" required>
+                                        </label>
+                                    </div>
+                                    
+                                    <div class="form-group choice-item">
+                                        <label>
+                                            <input type="radio" name="questions[0][correctAnswer]" value="1">
+                                            <input type="text" name="questions[0][choices][1]" placeholder="Réponse 2" required>
+                                        </label>
+                                    </div>
+                                    
+                                    <div class="form-group choice-item">
+                                        <label>
+                                            <input type="radio" name="questions[0][correctAnswer]" value="2">
+                                            <input type="text" name="questions[0][choices][2]" placeholder="Réponse 3" required>
+                                        </label>
+                                    </div>
+                                    
+                                    <div class="form-group choice-item">
+                                        <label>
+                                            <input type="radio" name="questions[0][correctAnswer]" value="3">
+                                            <input type="text" name="questions[0][choices][3]" placeholder="Réponse 4" required>
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="form-actions">
+                        <button type="button" id="cancel-btn" class="btn-secondary">Annuler</button>
+                        <button type="submit" class="btn-primary">Créer le QCM</button>
+                    </div>
+                </form>
+                
+                <div class="qcm-templates">
+                    <h3>Modèles de QCM</h3>
+                    <p>Utilisez un modèle pour démarrer plus rapidement</p>
+                    
+                    <div class="templates-grid">
+                        <div class="template-card" data-template="medicine-anatomy">
+                            <h4>Anatomie</h4>
+                            <p>5 questions pré-formatées sur l'anatomie humaine</p>
+                            <button class="btn-secondary">Utiliser</button>
+                        </div>
+                        <div class="template-card" data-template="medicine-pathology">
+                            <h4>Pathologies</h4>
+                            <p>8 questions sur les pathologies courantes</p>
+                            <button class="btn-secondary">Utiliser</button>
+                        </div>
+                        <div class="template-card" data-template="law-civil">
+                            <h4>Droit civil</h4>
+                            <p>6 questions sur les principes du droit civil</p>
+                            <button class="btn-secondary">Utiliser</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+    <script type="module" src="../js/index.js"></script>
+    <script type="module" src="../js/pages/create-qcm-page.js"></script>
+</body>
+</html>

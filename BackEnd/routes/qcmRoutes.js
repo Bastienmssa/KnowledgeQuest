@@ -1,57 +1,27 @@
 const express = require('express');
-const Qcm = require('../models/Qcm');
 const router = express.Router();
+const { protect } = require('../middleware/auth');
+const qcmController = require('../controllers/qcmController');
 
-// @desc    Create a new QCM
-// @route   POST /api/qcms
-// @access  Private
-router.post('/', async (req, res) => {
-  try {
-    const { title, subject, questions, createdBy } = req.body;
-    const qcm = await Qcm.create({ title, subject, questions, createdBy });
-    res.status(201).json(qcm);
-  } catch (error) {
-    res.status(500).json({ message: error.message });
-  }
-});
+// Routes publiques (aucune)
 
-// @desc    Get all QCMs
-// @route   GET /api/qcms
-// @access  Private
-router.get('/', async (req, res) => {
-  try {
-    const qcms = await Qcm.find({});
-    res.json(qcms);
-  } catch (error) {
-    res.status(500).json({ message: error.message });
-  }
-});
+// Routes protégées
+router.use(protect);
 
-// @desc    Get QCM by id
-// @route   GET /api/qcms/:id
-// @access  Private
-router.get('/:id', async (req, res) => {
-  try {
-    const qcm = await Qcm.findById(req.params.id);
-    if (!qcm) {
-      return res.status(404).json({ message: 'QCM not found' });
-    }
-    res.json(qcm);
-  } catch (error) {
-    res.status(500).json({ message: error.message });
-  }
-});
+// Routes pour la gestion des QCM
+router.route('/')
+  .post(qcmController.createQcm)
+  .get(qcmController.getQcms);
 
-// @desc    Get QCMs by subject
-// @route   GET /api/qcms/subject/:subject
-// @access  Private
-router.get('/subject/:subject', async (req, res) => {
-  try {
-    const qcms = await Qcm.find({ subject: req.params.subject });
-    res.json(qcms);
-  } catch (error) {
-    res.status(500).json({ message: error.message });
-  }
-});
+router.route('/:id')
+  .get(qcmController.getQcmById)
+  .put(qcmController.updateQcm)
+  .delete(qcmController.deleteQcm);
+
+// Route pour générer un QCM à partir d'un document
+router.post('/generate', qcmController.generateQcm);
+
+// Route pour récupérer les QCM par matière
+router.get('/subject/:subject', qcmController.getQcms);
 
 module.exports = router;
