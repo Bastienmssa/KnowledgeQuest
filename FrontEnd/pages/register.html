@@ -38,8 +38,8 @@
                 <h2>Créez votre compte</h2>
                 
                 <div class="auth-messages"></div>
-                
-                <form id="register-form" class="auth-form">
+
+                <form id="register-form" class="auth-form" method="post" onsubmit="return false;">
                     <div class="form-row">
                         <div class="form-group">
                             <label for="register-firstname">Prénom</label>
@@ -50,14 +50,22 @@
                             <input type="text" id="register-lastname" name="lastName" required>
                         </div>
                     </div>
+                    
                     <div class="form-group">
                         <label for="register-email">Email</label>
                         <input type="email" id="register-email" name="email" required>
                     </div>
+
                     <div class="form-group">
                         <label for="register-password">Mot de passe</label>
                         <input type="password" id="register-password" name="password" required>
                     </div>
+
+                    <div class="form-group">
+                        <label for="register-confirm-password">Confirmer le mot de passe</label>
+                        <input type="password" id="register-confirm-password" name="confirmPassword" required>
+                    </div>
+
                     <div class="form-group">
                         <label for="register-domain">Domaine d'étude</label>
                         <select id="register-domain" name="domain" required>
@@ -66,11 +74,12 @@
                             <option value="Droit">Droit</option>
                         </select>
                     </div>
+
                     <div class="terms">
                         <input type="checkbox" id="terms" required>
                         <label for="terms">J'accepte les <a href="#">conditions d'utilisation</a> et la <a href="#">politique de confidentialité</a></label>
                     </div>
-                    <button type="submit" class="btn-primary btn-block">
+                    <button type="button" id="register-btn" class="btn-primary btn-block">
                         <span class="spinner"></span>
                         Créer un compte
                     </button>
@@ -99,7 +108,116 @@
         </div>
     </div>
     
-    <script type="module" src="../js/index.js"></script>
-    <script type="module" src="../js/pages/register-page.js"></script>
+    <script type="module" src="js/index.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // Rediriger si déjà connecté
+            if (localStorage.getItem('token')) {
+                window.location.href = 'dashboard.html';
+                return;
+            }
+    
+            // Gestion du formulaire d'inscription
+            const registerBtn = document.getElementById('register-btn');
+            const registerForm = document.getElementById('register-form');
+            
+            if (registerBtn && registerForm) {
+                registerBtn.addEventListener('click', async () => {
+                    // Récupérer les données du formulaire
+                    const firstName = document.getElementById('register-firstname').value.trim();
+                    const lastName = document.getElementById('register-lastname').value.trim();
+                    const email = document.getElementById('register-email').value.trim();
+                    const password = document.getElementById('register-password').value;
+                    const confirmPassword = document.getElementById('register-confirm-password').value;
+                    const domain = document.getElementById('register-domain').value;
+                    const termsCheckbox = document.getElementById('terms');
+                    
+                    // Validation
+                    if (!firstName || !lastName || !email || !password || !domain) {
+                        showNotification('Veuillez remplir tous les champs obligatoires', 'error');
+                        return;
+                    }
+                    
+                    if (password !== confirmPassword) {
+                        showNotification('Les mots de passe ne correspondent pas', 'error');
+                        return;
+                    }
+                    
+                    if (!termsCheckbox.checked) {
+                        showNotification('Vous devez accepter les conditions d\'utilisation', 'error');
+                        return;
+                    }
+                    
+                    // Préparer les données
+                    const userData = {
+                        name: `${firstName} ${lastName}`,
+                        email,
+                        password,
+                        domain
+                    };
+                    
+                    try {
+                        // Activer indicateur de chargement
+                        const spinner = registerBtn.querySelector('.spinner');
+                        registerBtn.disabled = true;
+                        if (spinner) spinner.classList.add('active');
+                        
+                        // Appel API
+                        const response = await fetch('http://localhost:5000/api/auth/register', {
+                            method: 'POST',
+                            headers: { 'Content-Type': 'application/json' },
+                            body: JSON.stringify(userData)
+                        });
+                        
+                        const data = await response.json();
+                        
+                        if (response.ok) {
+                            // Succès
+                            showNotification('Compte créé avec succès!', 'success');
+                            
+                            // Si le backend renvoie un token lors de l'inscription
+                            if (data.token) {
+                                localStorage.setItem('token', data.token);
+                                localStorage.setItem('user', JSON.stringify(data.user));
+                                
+                                // Redirection vers dashboard
+                                setTimeout(() => {
+                                    window.location.href = 'dashboard.html';
+                                }, 1500);
+                            } else {
+                                // Redirection vers login
+                                setTimeout(() => {
+                                    window.location.href = 'login.html';
+                                }, 1500);
+                            }
+                        } else {
+                            showNotification(data.message || 'Erreur lors de l\'inscription', 'error');
+                        }
+                    } catch (error) {
+                        showNotification('Erreur de connexion au serveur', 'error');
+                        console.error('Erreur:', error);
+                    } finally {
+                        // Désactiver l'indicateur de chargement
+                        const spinner = registerBtn.querySelector('.spinner');
+                        registerBtn.disabled = false;
+                        if (spinner) spinner.classList.remove('active');
+                    }
+                });
+            }
+        });
+    
+        // Fonction pour afficher les notifications
+        function showNotification(message, type) {
+            const messagesElem = document.querySelector('.auth-messages');
+            if (messagesElem) {
+                messagesElem.innerHTML = `<div class="notification ${type}">${message}</div>`;
+                setTimeout(() => {
+                    messagesElem.innerHTML = '';
+                }, 5000);
+            } else {
+                alert(message);
+            }
+        }
+    </script>
 </body>
 </html>

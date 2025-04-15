@@ -112,16 +112,16 @@
             </div>
         </main>
     </div>
-    <script type="module" src="../js/index.js"></script>
+    <script type="module" src="js/index.js"></script>
     <script type="module">
-        import { sessionAPI, qcmAPI } from '../js/utils/api.js';
-        import { showNotification } from '../js/components/notification.js';
+        import { sessionAPI, qcmAPI } from 'js/utils/api.js';
+        import { showNotification } from 'js/components/notification.js';
 
         document.addEventListener('DOMContentLoaded', async function() {
             // Vérifier l'authentification
             const token = localStorage.getItem('token');
             if (!token) {
-                window.location.href = '../pages/login.html';
+                window.location.href = 'login.html';
                 return;
             }
 
