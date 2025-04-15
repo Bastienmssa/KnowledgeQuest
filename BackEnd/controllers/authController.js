@@ -288,37 +288,3 @@ exports.appleAuth = async (req, res) => {
     });
   }
 };
-
-// Récupérer les données de l'utilisateur connecté
-exports.getMe = async (req, res) => {
-  try {
-    const user = await User.findById(req.user.id);
-    
-    if (!user) {
-      return res.status(404).json({
-        success: false,
-        message: 'Utilisateur non trouvé'
-      });
-    }
-    
-    res.status(200).json({
-      success: true,
-      user: {
-        id: user._id,
-        name: user.name,
-        email: user.email,
-        domain: user.domain
-      }
-    });
-  } catch (error) {
-    console.error('Erreur de récupération de profil:', error);
-    res.status(500).json({
-      success: false,
-      message: 'Erreur serveur',
-      error: error.message
-    });
-  }
-};
-
-// Exporter generateToken pour l'utiliser dans d'autres contrôleurs si nécessaire
-exports.generateToken = generateToken;

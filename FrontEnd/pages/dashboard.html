@@ -129,66 +129,16 @@
             </div>
         </main>
     </div>
-    <script type="module" src="../js/index.js"></script>
+    <script type="module" src="js/index.js"></script>
     <script type="module">
-        import { statsAPI, qcmAPI, sessionAPI } from '../js/api/api.js';
-        import { appendQcmCard } from '../js/components/qcm-card.js';
+        import { auth } from 'js/utils/auth.js';
+        import { initDashboardPage } from 'js/pages/dashboard-page.js';
 
-        document.addEventListener('DOMContentLoaded', async function() {
-            // Vérifier l'authentification
-            const token = localStorage.getItem('token');
-            if (!token) {
-                window.location.href = 'login.html';
-                return;
-            }
-
-            try {
-                // Récupérer les informations de l'utilisateur
-                const user = JSON.parse(localStorage.getItem('user'));
-                document.getElementById('user-name').textContent = user.name;
-
-                // Charger les statistiques
-                const statsResponse = await statsAPI.getUserStats();
-                if (statsResponse.success) {
-                    const stats = statsResponse.data;
-                    document.getElementById('average-score').textContent = `${Math.round(stats.averageScore || 0)}%`;
-                    document.getElementById('qcms-created').textContent = stats.qcmsCreated || 0;
-                    document.getElementById('tests-completed').textContent = stats.sessionsCount || 0;
-                }
-
-                // Charger les QCM récents
-                const qcmsResponse = await qcmAPI.getQCMs({ limit: 3 });
-                if (qcmsResponse.success) {
-                    const recentQcmsContainer = document.getElementById('recent-qcms');
-                    qcmsResponse.data.forEach(qcm => {
-                        appendQcmCard(recentQcmsContainer, qcm);
-                    });
-                }
-
-                // Charger l'activité récente
-                const sessionsResponse = await sessionAPI.getUserSessions({ limit: 3 });
-                if (sessionsResponse.success) {
-                    const recentActivityContainer = document.getElementById('recent-activity');
-                    sessionsResponse.data.forEach(session => {
-                        const activityItem = document.createElement('div');
-                        activityItem.className = 'activity-item';
-
-                        activityItem.innerHTML = `
-                            <div class="activity-icon ${session.type}">🎯</div>
-                            <div class="activity-details">
-                                <h3>Session complétée: ${session.qcm.title}</h3>
-                                <p>Score: ${session.score}% - ${new Date(session.createdAt).toLocaleDateString()}</p>
-                            </div>
-                            <a href="results.html?sessionId=${session._id}" class="btn-secondary">Voir</a>
-                        `;
-
-                        recentActivityContainer.appendChild(activityItem);
-                    });
-                }
-            } catch (error) {
-                console.error('Erreur lors du chargement des données du dashboard:', error);
-            }
-        });
+        if (auth.isLoggedIn) {
+            initDashboardPage();
+        } else {
+            window.location.href = 'pages/login.html';
+        }
     </script>
 </body>
 </html>

@@ -122,16 +122,15 @@
             </div>
         </main>
     </div>
-    <script type="module" src="../js/index.js"></script>
+    <script type="module" src="js/index.js"></script>
     <script type="module">
-        import { auth } from '../utils/auth.js';
-        import { initTakeTestPage } from '../js/pages/take-test-page.js';
+        import { auth } from 'js/utils/auth.js';
+        import { initTakeTestPage } from '/js/pages/take-test-page.js';
 
-        // Vérifier l'authentification et initialiser la page
         if (auth.isLoggedIn) {
             initTakeTestPage();
         } else {
-            window.location.href = '../pages/login.html';
+            window.location.href = 'login.html';
         }
     </script>
 </body>

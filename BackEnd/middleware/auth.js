@@ -15,7 +15,7 @@ exports.protect = async (req, res, next) => {
     if (!token) {
       return res.status(401).json({
         success: false,
-        message: 'Non autorisé, veuillez vous connecter'
+        message: 'Accès non autorisé, authentification requise'
       });
     }
     
