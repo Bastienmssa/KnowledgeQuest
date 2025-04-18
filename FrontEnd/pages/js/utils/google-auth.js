@@ -1,4 +1,4 @@
-// google-auth.js
+// js/utils/google-auth.js
 export class GoogleAuth {
   constructor(clientId) {
     this.clientId = clientId;
@@ -50,21 +50,19 @@ export class GoogleAuth {
       try {
         const payload = this.parseJwt(response.credential);
 
-        if (this.onSuccess) {
-          this.onSuccess({
-            token: response.credential,
-            user: {
-              name: payload.name,
-              email: payload.email,
-              picture: payload.picture
-            }
-          });
-        }
+        const user = {
+          token: response.credential,
+          user: {
+            name: payload.name,
+            email: payload.email,
+            picture: payload.picture
+          }
+        };
+
+        if (this.onSuccess) this.onSuccess(user);
       } catch (error) {
         console.error("Erreur de traitement de la réponse Google:", error);
-        if (this.onFailure) {
-          this.onFailure(error);
-        }
+        if (this.onFailure) this.onFailure(error);
       }
     } else if (this.onFailure) {
       this.onFailure(new Error("Réponse d'authentification invalide"));
@@ -73,7 +71,7 @@ export class GoogleAuth {
 
   renderButton(elementId, options = {}) {
     if (!this.isInitialized || !window.google) {
-      console.error("Google Auth n'est pas initialisé");
+      console.error("Google Auth non initialisé");
       return;
     }
 
@@ -87,16 +85,13 @@ export class GoogleAuth {
       width: '100%'
     };
 
-    const buttonOptions = { ...defaultOptions, ...options };
     const element = document.getElementById(elementId);
     if (element) {
       try {
-        google.accounts.id.renderButton(element, buttonOptions);
+        google.accounts.id.renderButton(element, { ...defaultOptions, ...options });
       } catch (error) {
         console.error("Erreur lors du rendu du bouton Google:", error);
       }
-    } else {
-      console.error(`Élément avec l'id ${elementId} introuvable`);
     }
   }
 
@@ -116,9 +111,10 @@ export class GoogleAuth {
     try {
       const base64Url = token.split('.')[1];
       const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
-      const jsonPayload = decodeURIComponent(atob(base64).split('').map(function(c) {
-        return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
-      }).join(''));
+      const jsonPayload = decodeURIComponent(atob(base64).split('').map(c =>
+        `%${('00' + c.charCodeAt(0).toString(16)).slice(-2)}`
+      ).join(''));
+
       return JSON.parse(jsonPayload);
     } catch (error) {
       console.error("Erreur de parsing JWT:", error);
@@ -128,26 +124,24 @@ export class GoogleAuth {
 
   async loginWithKnowledgeQuest(googleResponse) {
     try {
-      if (!window.auth) {
-        const { auth } = await import('./auth.js');
-        window.auth = auth;
-      }
-      
-      return await window.auth.loginWithGoogle(googleResponse.credential);
+      const { auth } = await import('./auth.js');
+      return await auth.loginWithGoogle(googleResponse.credential);
     } catch (error) {
-      console.error("Erreur d'authentification avec Knowledge Quest:", error);
+      console.error("Erreur de liaison Google -> Backend:", error);
       throw error;
     }
   }
 }
 
-export const googleAuthClient = new GoogleAuth('485248682786-uqu5d30854o41npvr8l1l9paivmcgrc9.apps.googleusercontent.com');
+export const googleAuthClient = new GoogleAuth(
+  '485248682786-uqu5d30854o41npvr8l1l9paivmcgrc9.apps.googleusercontent.com'
+);
 
 document.addEventListener('DOMContentLoaded', async () => {
   try {
     await googleAuthClient.init();
-    console.log('Google Auth initialisé avec succès');
+    console.log('✅ Google Auth initialisé');
   } catch (error) {
-    console.error('Échec de l\'initialisation Google Auth:', error);
+    console.error('❌ Échec de l\'initialisation Google Auth:', error);
   }
 });

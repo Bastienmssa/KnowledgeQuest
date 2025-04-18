@@ -8,18 +8,14 @@ import { sessionService } from '../services/session-service.js';
 import { showNotification } from '../components/notification.js';
 
 export async function initTakeTestPage() {
-  console.log("Initialisation de la page de test...");
-  
-  // Vérifier l'authentification
   if (!auth.isLoggedIn) {
-    window.location.href = '../pages/login.html';
+    window.location.href = 'login.html';
     return;
   }
-  
-  // Vérifier si un QCM spécifique est demandé via l'URL
+
   const urlParams = new URLSearchParams(window.location.search);
   const qcmId = urlParams.get('qcmId');
-  
+
   if (qcmId) {
     await loadAndStartTest(qcmId);
   } else {
@@ -28,49 +24,34 @@ export async function initTakeTestPage() {
 }
 
 async function loadQcmSelection() {
-  const selectionContainer = document.getElementById('qcm-selection');
-  if (!selectionContainer) return;
-  
+  const container = document.getElementById('qcm-selection');
+  if (!container) return;
+
+  container.innerHTML = `<div class="loading-spinner">Chargement des QCM...</div>`;
+
   try {
-    // Afficher un indicateur de chargement
-    selectionContainer.innerHTML = '<div class="loading-spinner">Chargement des QCM...</div>';
-    
-    // Charger la liste des QCM disponibles
     const qcms = await qcmService.getAllQcms();
-    
-    if (qcms && qcms.length > 0) {
-      selectionContainer.innerHTML = `
-        <h2>Choisir un QCM</h2>
-        <div class="qcm-list">
-          ${qcms.map(qcm => `
-            <div class="qcm-selection-item">
-              <div class="qcm-info">
-                <h3>${qcm.title}</h3>
-                <p>${qcm.questions.length} questions - ${qcm.subject}</p>
-              </div>
-              <a href="../pages/take-test.html?qcmId=${qcm._id}" class="btn-primary">Commencer</a>
+
+    container.innerHTML = `
+      <h2>Choisissez un QCM</h2>
+      <div class="qcm-list">
+        ${qcms.map(qcm => `
+          <div class="qcm-selection-item">
+            <div class="qcm-info">
+              <h3>${qcm.title}</h3>
+              <p>${qcm.questions.length} questions – ${qcm.subject}</p>
             </div>
-          `).join('')}
-        </div>
-      `;
-    } else {
-      selectionContainer.innerHTML = `
-        <div class="empty-state">
-          <h2>Aucun QCM disponible</h2>
-          <p>Vous devez d'abord créer des QCM ou en générer à partir de vos documents.</p>
-          <div class="empty-state-actions">
-            <a href="../pages/create-qcm.html" class="btn-primary">Créer un QCM</a>
-            <a href="../pages/upload-document.html" class="btn-secondary">Charger un document</a>
+            <a href="take-test.html?qcmId=${qcm._id}" class="btn-primary">Commencer</a>
           </div>
-        </div>
-      `;
-    }
-  } catch (error) {
-    console.error('Erreur:', error);
-    selectionContainer.innerHTML = `
+        `).join('')}
+      </div>
+    `;
+  } catch (err) {
+    console.error(err);
+    container.innerHTML = `
       <div class="error-state">
-        <h2>Erreur de chargement</h2>
-        <p>Impossible de charger les QCM disponibles.</p>
+        <h2>Erreur</h2>
+        <p>Impossible de charger les QCM. Réessayez.</p>
         <button class="btn-primary" onclick="location.reload()">Réessayer</button>
       </div>
     `;
@@ -78,202 +59,188 @@ async function loadQcmSelection() {
 }
 
 async function loadAndStartTest(qcmId) {
-  const testContainer = document.getElementById('test-container');
-  if (!testContainer) return;
-  
+  const container = document.getElementById('test-container');
+  const selection = document.getElementById('qcm-selection');
+  if (selection) selection.remove();
+
+  container.innerHTML = `<div class="loading-spinner">Chargement du test...</div>`;
+
   try {
-    // Afficher un indicateur de chargement
-    testContainer.innerHTML = '<div class="loading-spinner">Chargement du test...</div>';
-    
-    // Charger le QCM
     const qcm = await qcmService.getQcmById(qcmId);
-    
-    if (qcm) {
-      // Cacher le conteneur de sélection si présent
-      const selectionContainer = document.getElementById('qcm-selection');
-      if (selectionContainer) selectionContainer.style.display = 'none';
-      
-      // Préparer l'interface du test
-      setupTestInterface(qcm);
-    } else {
-      testContainer.innerHTML = `
-        <div class="error-state">
-          <h2>QCM introuvable</h2>
-          <p>Impossible de charger ce QCM.</p>
-          <a href="../pages/take-test.html" class="btn-primary">Choisir un autre QCM</a>
-        </div>
-      `;
-    }
-  } catch (error) {
-    console.error('Erreur:', error);
-    testContainer.innerHTML = `
+    if (!qcm) throw new Error("QCM introuvable");
+
+    startTest(qcm, container);
+  } catch (err) {
+    console.error(err);
+    container.innerHTML = `
       <div class="error-state">
-        <h2>Erreur de chargement</h2>
-        <p>Impossible de charger ce QCM.</p>
-        <a href="../pages/take-test.html" class="btn-primary">Choisir un autre QCM</a>
+        <h2>Erreur</h2>
+        <p>QCM non disponible.</p>
+        <a href="take-test.html" class="btn-primary">Retour</a>
       </div>
     `;
   }
 }
 
-function setupTestInterface(qcm) {
-  const testContainer = document.getElementById('test-container');
-  
-  // Variables pour suivre l'état du test
-  let currentQuestionIndex = 0;
-  let userAnswers = Array(qcm.questions.length).fill(null);
-  let startTime = new Date();
-  
-  // Construire l'interface
-  testContainer.innerHTML = `
+function startTest(qcm, container) {
+  let currentIndex = 0;
+  const userAnswers = Array(qcm.questions.length).fill(null);
+  const startTime = new Date();
+
+  // Timer affiché en haut
+  let timerInterval;
+  const timerEl = document.createElement('div');
+  timerEl.className = 'test-timer';
+  timerEl.textContent = '⏱ Temps écoulé : 00:00';
+  container.prepend(timerEl);
+
+  function updateTimer() {
+    const now = new Date();
+    const seconds = Math.floor((now - startTime) / 1000);
+    const min = String(Math.floor(seconds / 60)).padStart(2, '0');
+    const sec = String(seconds % 60).padStart(2, '0');
+    timerEl.textContent = `⏱ Temps écoulé : ${min}:${sec}`;
+  }
+
+  timerInterval = setInterval(updateTimer, 1000);
+
+  container.innerHTML = `
     <div class="test-header">
       <h2>${qcm.title}</h2>
-      <div class="test-info">
-        <span>${qcm.questions.length} questions | ${qcm.subject}</span>
-      </div>
+      <p>${qcm.subject} – ${qcm.questions.length} questions</p>
     </div>
-    
     <div class="test-progress">
-      <div class="progress-bar">
-        <div class="progress-indicator" style="width: 0%"></div>
-      </div>
-      <div class="progress-text">Question 1/${qcm.questions.length}</div>
+      <div class="progress-bar"><div class="progress-indicator"></div></div>
+      <div class="progress-text"></div>
     </div>
-    
-    <div class="question-container">
-      <!-- La question sera affichée ici -->
-    </div>
-    
+    <div class="question-container"></div>
     <div class="test-navigation">
-      <button id="prev-btn" class="btn-secondary" disabled>Question précédente</button>
-      <button id="next-btn" class="btn-primary">Question suivante</button>
-      <button id="finish-btn" class="btn-primary" style="display: none;">Terminer le test</button>
+      <button id="prev-btn" class="btn-secondary">Précédent</button>
+      <button id="next-btn" class="btn-primary">Suivant</button>
+      <button id="finish-btn" class="btn-primary" style="display: none;">Terminer</button>
     </div>
   `;
-  
-  // Récupérer des références aux éléments
-  const questionContainer = testContainer.querySelector('.question-container');
-  const progressIndicator = testContainer.querySelector('.progress-indicator');
-  const progressText = testContainer.querySelector('.progress-text');
-  const prevButton = document.getElementById('prev-btn');
-  const nextButton = document.getElementById('next-btn');
-  const finishButton = document.getElementById('finish-btn');
-  
-  // Fonction pour afficher une question
-  function displayQuestion(index) {
+
+  const questionEl = container.querySelector('.question-container');
+  const progressText = container.querySelector('.progress-text');
+  const progressBar = container.querySelector('.progress-indicator');
+  const prevBtn = container.querySelector('#prev-btn');
+  const nextBtn = container.querySelector('#next-btn');
+  const finishBtn = container.querySelector('#finish-btn');
+
+  function renderQuestion(index) {
     const question = qcm.questions[index];
-    
-    questionContainer.innerHTML = `
+    questionEl.innerHTML = `
       <div class="question">
         <h3>Question ${index + 1}</h3>
-        <p class="question-text">${question.question}</p>
-        
+        <p>${question.question}</p>
         <div class="choices">
-          ${question.choices.map((choice, choiceIndex) => `
-            <div class="choice">
-              <input type="radio" id="choice-${choiceIndex}" name="question-${index}" value="${choiceIndex}" ${userAnswers[index] === choiceIndex ? 'checked' : ''}>
-              <label for="choice-${choiceIndex}">${choice}</label>
-            </div>
+          ${question.choices.map((choice, i) => `
+            <label class="choice">
+              <input type="radio" name="q-${index}" value="${i}" ${userAnswers[index] === i ? 'checked' : ''}>
+              ${choice}
+            </label>
           `).join('')}
         </div>
       </div>
     `;
-    
-    // Mettre à jour la barre de progression
-    progressIndicator.style.width = `${((index + 1) / qcm.questions.length) * 100}%`;
-    progressText.textContent = `Question ${index + 1}/${qcm.questions.length}`;
-    
-    // Mettre à jour les boutons de navigation
-    prevButton.disabled = index === 0;
-    nextButton.style.display = index < qcm.questions.length - 1 ? 'inline-block' : 'none';
-    finishButton.style.display = index === qcm.questions.length - 1 ? 'inline-block' : 'none';
-    
-    // Ajouter des écouteurs pour les boutons radio
-    const choiceInputs = questionContainer.querySelectorAll('input[type="radio"]');
-    choiceInputs.forEach(input => {
+
+    progressText.textContent = `Question ${index + 1} / ${qcm.questions.length}`;
+    progressBar.style.width = `${((index + 1) / qcm.questions.length) * 100}%`;
+
+    prevBtn.disabled = index === 0;
+    nextBtn.style.display = index < qcm.questions.length - 1 ? 'inline-block' : 'none';
+    finishBtn.style.display = index === qcm.questions.length - 1 ? 'inline-block' : 'none';
+
+    questionEl.querySelectorAll('input[type="radio"]').forEach(input => {
       input.addEventListener('change', () => {
         userAnswers[index] = parseInt(input.value);
+
+        // Mode révision : afficher la correction immédiate
+        const isCorrect = question.choices[parseInt(input.value)] === question.correctAnswer;
+        if (!isCorrect) {
+          showNotification(`❌ Mauvaise réponse. La bonne réponse est : "${question.correctAnswer}"`, 'warning');
+        }
+        saveProgress(); // sauvegarde auto
       });
     });
   }
-  
-  // Afficher la première question
-  displayQuestion(currentQuestionIndex);
-  
-  // Ajouter des écouteurs pour les boutons de navigation
-  prevButton.addEventListener('click', () => {
-    if (currentQuestionIndex > 0) {
-      currentQuestionIndex--;
-      displayQuestion(currentQuestionIndex);
+
+  prevBtn.addEventListener('click', () => {
+    if (currentIndex > 0) {
+      currentIndex--;
+      renderQuestion(currentIndex);
     }
   });
-  
-  nextButton.addEventListener('click', () => {
-    if (currentQuestionIndex < qcm.questions.length - 1) {
-      currentQuestionIndex++;
-      displayQuestion(currentQuestionIndex);
+
+  nextBtn.addEventListener('click', () => {
+    if (currentIndex < qcm.questions.length - 1) {
+      currentIndex++;
+      renderQuestion(currentIndex);
     }
   });
-  
-  finishButton.addEventListener('click', () => {
-    // Vérifier si des questions restent sans réponse
-    const unansweredCount = userAnswers.filter(answer => answer === null).length;
-    
-    if (unansweredCount > 0) {
-      if (!confirm(`Vous n'avez pas répondu à ${unansweredCount} question(s). Voulez-vous quand même terminer?`)) {
-        return;
-      }
-    }
-    
+
+  finishBtn.addEventListener('click', () => {
+    const unanswered = userAnswers.filter(v => v === null).length;
+    if (unanswered > 0 && !confirm(`Il reste ${unanswered} question(s) sans réponse. Continuer ?`)) return;
     finishTest();
   });
-  
+
+  function saveProgress() {
+    const key = `qcm-progress-${qcm._id}`;
+    localStorage.setItem(key, JSON.stringify({ userAnswers, currentIndex }));
+  }
+
+  function clearProgress() {
+    localStorage.removeItem(`qcm-progress-${qcm._id}`);
+  }
+
   async function finishTest() {
+    clearInterval(timerInterval);
+    clearProgress();
+
+    const results = qcm.questions.map((q, i) => {
+      const selected = userAnswers[i];
+      return {
+        question: q.question,
+        userAnswer: selected !== null ? q.choices[selected] : null,
+        correctAnswer: q.correctAnswer,
+        isCorrect: q.choices[selected] === q.correctAnswer
+      };
+    });
+
+    const score = Math.round(results.filter(r => r.isCorrect).length / qcm.questions.length * 100);
+    const duration = Math.floor((new Date() - startTime) / 1000);
+
     try {
-      // Calculer le score
-      let correctCount = 0;
-      const questionsAnswered = [];
-      
-      qcm.questions.forEach((question, index) => {
-        const userAnswerIndex = userAnswers[index];
-        const userAnswer = userAnswerIndex !== null ? question.choices[userAnswerIndex] : null;
-        const isCorrect = userAnswer === question.correctAnswer;
-        
-        if (isCorrect) correctCount++;
-        
-        questionsAnswered.push({
-          question: question.question,
-          userAnswer,
-          correctAnswer: question.correctAnswer,
-          isCorrect
-        });
-      });
-      
-      const score = Math.round((correctCount / qcm.questions.length) * 100);
-      
-      // Calculer la durée
-      const endTime = new Date();
-      const durationInSeconds = Math.floor((endTime - startTime) / 1000);
-      
-      // Créer la session
-      const sessionData = {
+      const session = await sessionService.createSession({
         qcmId: qcm._id,
         score,
-        questionsAnswered,
-        duration: durationInSeconds
-      };
-      
-      // Envoyer la session au serveur
-      const session = await sessionService.createSession(sessionData);
-      
-      // Rediriger vers la page de résultats
-      window.location.href = `../pages/results.html?sessionId=${session._id}`;
-    } catch (error) {
-      console.error('Erreur:', error);
-      showNotification('Erreur lors de l\'enregistrement des résultats', 'error');
+        duration,
+        questionsAnswered: results
+      });
+
+      window.location.href = `results.html?sessionId=${session._id}`;
+    } catch (err) {
+      console.error(err);
+      showNotification("Erreur lors de l'enregistrement", 'error');
     }
   }
+
+  // Reprise automatique ?
+  const saved = localStorage.getItem(`qcm-progress-${qcm._id}`);
+  if (saved) {
+    const restore = confirm("⚠️ Une tentative précédente de ce QCM a été trouvée. Reprendre ?");
+    if (restore) {
+      const data = JSON.parse(saved);
+      Object.assign(userAnswers, data.userAnswers);
+      currentIndex = data.currentIndex;
+    } else {
+      clearProgress();
+    }
+  }
+
+  renderQuestion(currentIndex);
 }
 
-// Initialiser la page au chargement du document
 document.addEventListener('DOMContentLoaded', initTakeTestPage);

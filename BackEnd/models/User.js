@@ -29,20 +29,36 @@ const UserSchema = new mongoose.Schema({
   createdAt: {
     type: Date,
     default: Date.now
+  },
+  settings: {
+    theme: { type: String, default: 'medicine' },
+    fontSize: { type: String, default: 'medium' },
+    darkMode: { type: Boolean, default: false },
+    notifications: {
+      email: { type: Boolean, default: true },
+      reminders: { type: Boolean, default: true },
+      frequency: { type: String, default: 'weekly' }
+    },
+    privacy: {
+      dataSharing: { type: Boolean, default: true },
+      documentRetention: { type: Number, default: 7 }
+    },
+    study: {
+      mode: { type: String, default: 'random' },
+      timePerQuestion: { type: Number, default: 30 },
+      dailyGoal: { type: Number, default: 20 }
+    }
   }
 });
 
-// Encrypt password using bcrypt
+// Encrypt password
 UserSchema.pre('save', async function(next) {
-  if (!this.isModified('passwordHash')) {
-    next();
-  }
-
+  if (!this.isModified('passwordHash')) return next();
   const salt = await bcrypt.genSalt(10);
   this.passwordHash = await bcrypt.hash(this.passwordHash, salt);
 });
 
-// Match user entered password to hashed password in database
+// Match password
 UserSchema.methods.matchPassword = async function(enteredPassword) {
   return await bcrypt.compare(enteredPassword, this.passwordHash);
 };

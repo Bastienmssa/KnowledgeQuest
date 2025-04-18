@@ -143,6 +143,7 @@ const api = {
   subject: {
     getAll: () => apiRequest('/subjects'),
     getByName: (name) => apiRequest(`/subjects/${name}`),
+    getByDomain: (domain) => apiRequest(`/subjects?domain=${domain}`),
     create: (data) => apiRequest('/subjects', {
       method: 'POST',
       body: data

@@ -9,10 +9,9 @@ export const authService = {
       console.log("AuthService - Register - Réponse reçue:", response);
       
       if (response.token) {
-        // Stocker le token et l'objet user
         localStorage.setItem('token', response.token);
-        localStorage.setItem('user', JSON.stringify(response.user || { 
-          name: userData.name, 
+        localStorage.setItem('user', JSON.stringify(response.user || {
+          name: userData.name,
           email: userData.email,
           domain: userData.domain,
           _id: response._id
@@ -58,7 +57,7 @@ export const authService = {
       throw error;
     }
   },
-  
+
   logout() {
     console.log("AuthService - Déconnexion de l'utilisateur");
     localStorage.removeItem('token');
@@ -85,7 +84,6 @@ export const authService = {
     const response = await api.auth.updateProfile(profileData);
     console.log("AuthService - Mise à jour du profil - Réponse:", response);
     
-    // Mettre à jour les infos locales
     const currentUser = this.getCurrentUser();
     if (currentUser && response.user) {
       const updatedUser = { ...currentUser, ...response.user };

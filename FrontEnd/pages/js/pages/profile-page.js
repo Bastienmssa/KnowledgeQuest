@@ -7,14 +7,12 @@ import { showMessage } from '../components/component.js';
 
 export function initProfilePage() {
   console.log("Initialisation de la page de profil...");
-  
-  // Vérifier l'authentification
+
   if (!auth.isLoggedIn) {
     window.location.href = 'login.html';
     return;
   }
-  
-  // Initialiser le profil
+
   displayUserProfile();
   setupProfileForms();
   initProfileTabs();
@@ -22,133 +20,146 @@ export function initProfilePage() {
 
 function displayUserProfile() {
   if (!auth.user) return;
-  
-  // Afficher les informations de base du profil
-  const profileHeader = document.querySelector('.profile-header');
-  if (profileHeader) {
-    profileHeader.innerHTML = `
-      <div class="profile-avatar">
-        <div class="avatar-placeholder">${getInitials(auth.user.name)}</div>
-      </div>
-      <div class="profile-info">
-        <h2>${auth.user.name}</h2>
-        <p>${auth.user.email}</p>
-        <div class="domain-badge ${auth.user.domain === 'Médecine' ? 'medicine' : 'law'}">${auth.user.domain}</div>
-      </div>
-    `;
+
+  const name = auth.user.name || '-';
+  const email = auth.user.email || '-';
+  const domain = auth.user.domain || '-';
+  const createdAt = auth.user.createdAt || null;
+
+  // Avatar & Infos principales
+  const initials = getInitials(name);
+  const avatarElem = document.querySelector('#profile-avatar .initials-avatar');
+  if (avatarElem) avatarElem.textContent = initials;
+
+  const nameElem = document.getElementById('profile-name');
+  const emailElem = document.getElementById('profile-email');
+  const domainText = document.querySelector('#profile-domain .domain-text');
+  const joinDateText = document.querySelector('#profile-join-date .join-date-text');
+
+  if (nameElem) nameElem.textContent = name;
+  if (emailElem) emailElem.textContent = email;
+  if (domainText) domainText.textContent = domain;
+
+  if (joinDateText && createdAt) {
+    const date = new Date(createdAt);
+    joinDateText.textContent = `Membre depuis le ${date.toLocaleDateString('fr-FR', {
+      year: 'numeric',
+      month: 'long',
+      day: 'numeric',
+    })}`;
   }
-  
-  // Pré-remplir le formulaire de profil
-  document.getElementById('profile-name')?.setAttribute('value', auth.user.name || '');
-  document.getElementById('profile-email')?.setAttribute('value', auth.user.email || '');
-  
-  const domainSelect = document.getElementById('profile-domain');
+
+  // Statistiques (score, QCM, tests)
+  KnowledgeQuestAPI.stats.getUserStats().then(stats => {
+    document.getElementById("stat-tests").textContent = stats?.scoresHistory?.length || 0;
+    document.getElementById("stat-qcms").textContent = stats?.qcmCount || 0;
+    document.getElementById("stat-score").textContent = `${Math.round(stats?.averageScore || 0)}%`;
+  }).catch(() => {
+    console.warn("Impossible de charger les statistiques.");
+  });
+
+  // Pré-remplir formulaire
+  const nameSplit = name.split(' ');
+  const firstName = nameSplit[0];
+  const lastName = nameSplit.slice(1).join(' ');
+
+  document.getElementById('profile-firstname')?.setAttribute('value', firstName);
+  document.getElementById('profile-lastname')?.setAttribute('value', lastName);
+  document.getElementById('profile-email-input')?.setAttribute('value', email);
+
+  const domainSelect = document.getElementById('profile-domain-input');
   if (domainSelect) {
     Array.from(domainSelect.options).forEach(option => {
-      if (option.value === auth.user.domain) {
-        option.selected = true;
-      }
+      option.selected = (option.value === domain);
     });
   }
 }
 
 function getInitials(name) {
-  if (!name) return '?';
-  return name.split(' ').map(part => part.charAt(0)).join('').toUpperCase();
+  return name
+    .split(' ')
+    .map(part => part.charAt(0))
+    .join('')
+    .toUpperCase();
 }
 
 function setupProfileForms() {
-  // Formulaire de mise à jour du profil
-  const profileForm = document.getElementById('profile-form');
+  const profileForm = document.getElementById('personal-info-form');
+  const passwordForm = document.getElementById('password-form');
+
+  // 🧾 Modifier infos personnelles
   if (profileForm) {
     profileForm.addEventListener('submit', async (e) => {
       e.preventDefault();
-      
+
+      const name = `${profileForm.profileFirstname.value} ${profileForm.profileLastname.value}`;
+      const email = profileForm.email.value;
+      const domain = profileForm.domain.value;
+
       try {
-        const userData = {
-          name: document.getElementById('profile-name').value,
-          email: document.getElementById('profile-email').value,
-          domain: document.getElementById('profile-domain').value
-        };
-        
-        // Mettre à jour le profil
-        const response = await KnowledgeQuestAPI.user.updateProfile(userData);
-        
+        const response = await KnowledgeQuestAPI.user.updateProfile({ name, email, domain });
+
         if (response.success) {
-          // Mettre à jour les données utilisateur stockées localement
-          auth.user = { ...auth.user, ...userData };
-          localStorage.setItem('user', JSON.stringify(auth.user));
-          
-          // Afficher un message de succès
+          auth.user = { ...auth.user, name, email, domain };
+          localStorage.setItem("user", JSON.stringify(auth.user));
           showMessage(document.querySelector('.profile-messages'), 'Profil mis à jour avec succès', 'success');
-          
-          // Mettre à jour l'affichage
           displayUserProfile();
         } else {
-          showMessage(document.querySelector('.profile-messages'), response.message || 'Erreur lors de la mise à jour du profil', 'error');
+          showMessage(document.querySelector('.profile-messages'), response.message || 'Erreur lors de la mise à jour', 'error');
         }
-      } catch (error) {
-        console.error('Erreur:', error);
+      } catch (err) {
+        console.error(err);
         showMessage(document.querySelector('.profile-messages'), 'Erreur lors de la mise à jour du profil', 'error');
       }
     });
   }
-  
-  // Formulaire de changement de mot de passe
-  const passwordForm = document.getElementById('password-form');
+
+  // 🔐 Changer le mot de passe
   if (passwordForm) {
     passwordForm.addEventListener('submit', async (e) => {
       e.preventDefault();
-      
-      const currentPassword = document.getElementById('current-password').value;
-      const newPassword = document.getElementById('new-password').value;
-      const confirmPassword = document.getElementById('confirm-password').value;
-      
+
+      const currentPassword = passwordForm.currentPassword.value;
+      const newPassword = passwordForm.newPassword.value;
+      const confirmPassword = passwordForm.confirmPassword.value;
+
       if (newPassword !== confirmPassword) {
         showMessage(document.querySelector('.profile-messages'), 'Les mots de passe ne correspondent pas', 'error');
         return;
       }
-      
+
       try {
-        // Mettre à jour le mot de passe
-        const response = await KnowledgeQuestAPI.user.updatePassword(currentPassword, newPassword);
-        
-        if (response.success) {
+        const res = await KnowledgeQuestAPI.user.updatePassword(currentPassword, newPassword);
+        if (res.success) {
           showMessage(document.querySelector('.profile-messages'), 'Mot de passe mis à jour avec succès', 'success');
           passwordForm.reset();
         } else {
-          showMessage(document.querySelector('.profile-messages'), response.message || 'Erreur lors de la mise à jour du mot de passe', 'error');
+          showMessage(document.querySelector('.profile-messages'), res.message || 'Erreur lors du changement', 'error');
         }
-      } catch (error) {
-        console.error('Erreur:', error);
-        showMessage(document.querySelector('.profile-messages'), 'Erreur lors de la mise à jour du mot de passe', 'error');
+      } catch (err) {
+        showMessage(document.querySelector('.profile-messages'), 'Erreur serveur', 'error');
       }
     });
   }
 }
 
 function initProfileTabs() {
-  const tabButtons = document.querySelectorAll('.profile-tab');
-  const tabContents = document.querySelectorAll('.tab-content');
-  
-  tabButtons.forEach(button => {
-    button.addEventListener('click', () => {
-      // Supprimer la classe active de tous les onglets
-      tabButtons.forEach(btn => btn.classList.remove('active'));
-      tabContents.forEach(content => content.style.display = 'none');
-      
-      // Activer l'onglet cliqué
-      button.classList.add('active');
-      const tabId = button.getAttribute('data-tab');
-      document.getElementById(tabId)?.style.display = 'block';
+  const buttons = document.querySelectorAll('.profile-tab-btn');
+  const contents = document.querySelectorAll('.profile-tab-content');
+
+  buttons.forEach(btn => {
+    btn.addEventListener('click', () => {
+      buttons.forEach(b => b.classList.remove('active'));
+      contents.forEach(c => c.style.display = 'none');
+
+      btn.classList.add('active');
+      const target = btn.dataset.tab;
+      document.getElementById(`${target}-content`).style.display = 'block';
     });
   });
-  
-  // Activer le premier onglet par défaut
-  if (tabButtons.length > 0) {
-    tabButtons[0].click();
-  }
+
+  // Onglet actif par défaut
+  if (buttons.length > 0) buttons[0].click();
 }
 
-// Initialiser la page au chargement du document
 document.addEventListener('DOMContentLoaded', initProfilePage);

@@ -1,163 +1,156 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Knowledge Quest - Transformez vos cours en QCM</title>
-    <link rel="stylesheet" href="style/style.css">
-    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&family=Playfair+Display:wght@500;700&display=swap" rel="stylesheet">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Knowledge Quest - Transformez vos cours en QCM</title>
+  <link rel="stylesheet" href="style/style.css" />
+  <link rel="stylesheet" href="style/error.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&family=Playfair+Display:wght@500;700&display=swap" rel="stylesheet" />
 </head>
 <body>
-    <header>
-        <div class="logo-container">
-            <img src="images/logo.png" alt="Knowledge Quest Logo" class="logo">
-            <h1>Knowledge Quest</h1>
-        </div>
-        <nav>
-            <ul>
-                <li><a href="#fonctionnalites">Fonctionnalités</a></li>
-                <li><a href="#comment-ca-marche">Comment ça marche</a></li>
-                <li><a href="login.html">Se connecter</a></li>
-                <li><a href="register.html" class="btn-primary">Créer un compte</a></li>
-            </ul>
-        </nav>
-    </header>
-
-    <main>
-        <section class="hero">
-            <div class="hero-content">
-                <h2>Transformez vos cours en QCM et améliorez vos révisions !</h2>
-                <p>Générez automatiquement des questionnaires à partir de vos documents pour réviser efficacement et suivre votre progression.</p>
-                <a href="register.html" class="btn-primary btn-large">Commencer</a>
-            </div>
-            <div class="hero-image">
-                <img src="images/student.jpg" alt="Étudiant en révision" width="400">
-            </div>
-        </section>
-
-        <section id="fonctionnalites" class="features">
-            <h2>Pourquoi choisir Knowledge Quest ?</h2>
-            <div class="features-grid">
-                <div class="feature-card">
-                    <div class="feature-icon">📄</div>
-                    <h3>Génération automatique</h3>
-                    <p>Téléchargez vos documents (PDF ou Word) et obtenez des QCM générés par IA.</p>
-                </div>
-                <div class="feature-card">
-                    <div class="feature-icon">✍️</div>
-                    <h3>Création manuelle</h3>
-                    <p>Créez vos propres QCM pour personnaliser votre apprentissage.</p>
-                </div>
-                <div class="feature-card">
-                    <div class="feature-icon">📊</div>
-                    <h3>Suivi des performances</h3>
-                    <p>Visualisez votre progression et identifiez vos points faibles.</p>
-                </div>
-            </div>
-        </section>
-
-        <section id="comment-ca-marche" class="how-it-works">
-            <h2>Comment ça marche</h2>
-            <div class="steps-container">
-                <div class="step">
-                    <div class="step-number">1</div>
-                    <h3>Chargez votre cours</h3>
-                    <p>Téléversez vos documents de cours au format PDF ou Word.</p>
-                </div>
-                <div class="step">
-                    <div class="step-number">2</div>
-                    <h3>Générez des QCM</h3>
-                    <p>Notre IA analyse votre document et crée des questions pertinentes.</p>
-                </div>
-                <div class="step">
-                    <div class="step-number">3</div>
-                    <h3>Révisez et progressez</h3>
-                    <p>Répondez aux questions et suivez votre évolution au fil du temps.</p>
-                </div>
-            </div>
-        </section>
-
-        <section class="domain-specific">
-            <div class="domain med">
-                <h3>Spécial Médecine</h3>
-                <p>Questionnaires adaptés à l'anatomie, physiologie, pathologies et pharmacologie. Parfait pour les ECN.</p>
-            </div>
-            <div class="domain law">
-                <h3>Spécial Droit</h3>
-                <p>QCM personnalisés pour le droit civil, pénal, administratif et constitutionnel. Idéal pour la préparation aux examens.</p>
-            </div>
-        </section>
-    </main>
-
-    <footer>
-        <div class="footer-content">
-            <div class="footer-logo">
-                <h3>Knowledge Quest</h3>
-                <p>© 2024 Knowledge Quest. Tous droits réservés.</p>
-            </div>
-            <div class="footer-links">
-                <h4>Liens utiles</h4>
-                <ul>
-                    <li><a href="#" class="modal-trigger" data-modal-target="about-modal">À propos</a></li>
-                    <li><a href="#" class="modal-trigger" data-modal-target="contact-modal">Contact</a></li>
-                    <li><a href="#" class="modal-trigger" data-modal-target="privacy-modal">Confidentialité</a></li>
-                </ul>
-            </div>
-        </div>
-    </footer>
-    
-    <div id="about-modal" class="modal">
-        <div class="modal-content">
-            <h2>À propos de Knowledge Quest</h2>
-            <p>Knowledge Quest est une application web innovante conçue pour aider les étudiants en médecine et en droit à optimiser leur apprentissage et leurs révisions.</p>
-            <button class="modal-close">&times;</button>
-        </div>
+  <header>
+    <div class="logo-container">
+      <img src="images/logo.png" alt="Knowledge Quest Logo" class="logo" />
+      <h1>Knowledge Quest</h1>
     </div>
-    
-    <div id="contact-modal" class="modal">
-        <div class="modal-content">
-            <h2>Nous contacter</h2>
-            <p>Pour toute question ou demande d'information, n'hésitez pas à nous contacter :</p>
-            <ul>
-                <li>Email : contact@knowledgequest.com</li>
-                <li>Téléphone : 01 23 45 67 89</li>
-                <li>Adresse : 42 Rue de la Connaissance, 75000 Paris</li>
-            </ul>
-            <button class="modal-close">&times;</button>
+    <nav>
+      <ul>
+        <li><a href="#fonctionnalites">Fonctionnalités</a></li>
+        <li><a href="#comment-ca-marche">Comment ça marche</a></li>
+        <li><a href="login.html" class="login-link">Se connecter</a></li>
+        <li><a href="register.html" class="register-link btn-primary">Créer un compte</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <main>
+    <section class="hero">
+      <div class="hero-content">
+        <h2>Transformez vos cours en QCM et améliorez vos révisions !</h2>
+        <p>Générez automatiquement des questionnaires à partir de vos documents pour réviser efficacement et suivre votre progression.</p>
+        <a href="register.html" class="btn-primary btn-large">Commencer</a>
+      </div>
+      <div class="hero-image">
+        <img src="images/student.jpg" alt="Étudiant en révision" width="400" />
+      </div>
+    </section>
+
+    <section id="fonctionnalites" class="features">
+      <h2>Pourquoi choisir Knowledge Quest ?</h2>
+      <div class="features-grid">
+        <div class="feature-card">
+          <div class="feature-icon">📄</div>
+          <h3>Génération automatique</h3>
+          <p>Téléchargez vos documents (PDF ou Word) et obtenez des QCM générés par IA.</p>
         </div>
-    </div>
-    
-    <div id="privacy-modal" class="modal">
-        <div class="modal-content">
-            <h2>Politique de confidentialité</h2>
-            <p>Chez Knowledge Quest, nous nous engageons à protéger la vie privée de nos utilisateurs. Nous nous conformons aux réglementations en vigueur en matière de protection des données personnelles.</p>
-            <a href="pdf/politique-confidentialite.pdf" class="btn-primary">Consulter la politique</a>
-            <button class="modal-close">&times;</button>
+        <div class="feature-card">
+          <div class="feature-icon">✍️</div>
+          <h3>Création manuelle</h3>
+          <p>Créez vos propres QCM pour personnaliser votre apprentissage.</p>
         </div>
+        <div class="feature-card">
+          <div class="feature-icon">📊</div>
+          <h3>Suivi des performances</h3>
+          <p>Visualisez votre progression et identifiez vos points faibles.</p>
+        </div>
+      </div>
+    </section>
+
+    <section id="comment-ca-marche" class="how-it-works">
+      <h2>Comment ça marche</h2>
+      <div class="steps-container">
+        <div class="step">
+          <div class="step-number">1</div>
+          <h3>Chargez votre cours</h3>
+          <p>Téléversez vos documents de cours au format PDF ou Word.</p>
+        </div>
+        <div class="step">
+          <div class="step-number">2</div>
+          <h3>Générez des QCM</h3>
+          <p>Notre IA analyse votre document et crée des questions pertinentes.</p>
+        </div>
+        <div class="step">
+          <div class="step-number">3</div>
+          <h3>Révisez et progressez</h3>
+          <p>Répondez aux questions et suivez votre évolution au fil du temps.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="domain-specific">
+      <div class="domain med">
+        <h3>Spécial Médecine</h3>
+        <p>Questionnaires adaptés à l'anatomie, physiologie, pathologies et pharmacologie. Parfait pour les ECN.</p>
+      </div>
+      <div class="domain law">
+        <h3>Spécial Droit</h3>
+        <p>QCM personnalisés pour le droit civil, pénal, administratif et constitutionnel. Idéal pour la préparation aux examens.</p>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="footer-content">
+      <div class="footer-logo">
+        <h3>Knowledge Quest</h3>
+        <p>© 2024 Knowledge Quest. Tous droits réservés.</p>
+      </div>
+      <div class="footer-links">
+        <h4>Liens utiles</h4>
+        <ul>
+          <li><a href="#" class="modal-trigger" data-modal-target="about-modal">À propos</a></li>
+          <li><a href="#" class="modal-trigger" data-modal-target="contact-modal">Contact</a></li>
+          <li><a href="#" class="modal-trigger" data-modal-target="privacy-modal">Confidentialité</a></li>
+        </ul>
+      </div>
     </div>
-    
-    <script type="module" src="js/components/modal.js"></script>
-    <script>
-        // Vérification de l'authentification
-        document.addEventListener('DOMContentLoaded', () => {
-            const token = localStorage.getItem('token');
-            if (token) {
-                // Utilisateur déjà connecté, rediriger vers le dashboard
-                window.location.href = 'dashboard.html';
-            } else {
-                // Afficher les éléments de connexion/inscription
-                const loginLink = document.querySelector('.login-link');
-                const registerLink = document.querySelector('.register-link');
-                
-                if (loginLink) {
-                    loginLink.style.display = 'inline-block';
-                }
-                
-                if (registerLink) {
-                    registerLink.style.display = 'inline-block';
-                }
-            }
-        });
-    </script>
+  </footer>
+
+  <!-- Modals -->
+  <div id="about-modal" class="modal">
+    <div class="modal-content">
+      <h2>À propos de Knowledge Quest</h2>
+      <p>Knowledge Quest est une application web innovante conçue pour aider les étudiants en médecine et en droit à optimiser leur apprentissage et leurs révisions.</p>
+      <button class="modal-close">&times;</button>
+    </div>
+  </div>
+
+  <div id="contact-modal" class="modal">
+    <div class="modal-content">
+      <h2>Nous contacter</h2>
+      <p>Pour toute question ou demande d'information, n'hésitez pas à nous contacter :</p>
+      <ul>
+        <li>Email : contact@knowledgequest.com</li>
+        <li>Téléphone : 01 23 45 67 89</li>
+        <li>Adresse : 42 Rue de la Connaissance, 75000 Paris</li>
+      </ul>
+      <button class="modal-close">&times;</button>
+    </div>
+  </div>
+
+  <div id="privacy-modal" class="modal">
+    <div class="modal-content">
+      <h2>Politique de confidentialité</h2>
+      <p>Chez Knowledge Quest, nous nous engageons à protéger la vie privée de nos utilisateurs. Nous nous conformons aux réglementations en vigueur en matière de protection des données personnelles.</p>
+      <a href="pdf/politique-confidentialite.pdf" class="btn-primary">Consulter la politique</a>
+      <button class="modal-close">&times;</button>
+    </div>
+  </div>
+
+  <!-- Scripts -->
+  <script type="module" src="js/components/modal.js"></script>
+  <script type="module" src="js/utils/error-handler.js"></script>
+  <script>
+    // Vérification de l'authentification
+    document.addEventListener('DOMContentLoaded', () => {
+      const token = localStorage.getItem('token');
+      if (token) {
+        window.location.href = 'dashboard.html';
+      } else {
+        document.querySelectorAll('.login-link, .register-link').forEach(el => el.style.display = 'inline-block');
+      }
+    });
+  </script>
 </body>
 </html>

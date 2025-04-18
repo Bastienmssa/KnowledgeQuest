@@ -1,0 +1,41 @@
+/* style/error.css */
+
+/* Affichage d’erreur classique dans un bloc */
+.error-message {
+    color: #e74c3c;
+    background-color: #fdecea;
+    border-left: 4px solid #e74c3c;
+    padding: 12px 16px;
+    margin: 10px 0;
+    border-radius: 6px;
+    font-size: 0.95rem;
+    display: block;
+  }
+  
+  /* Toast flottant d’erreur */
+  .toast {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    z-index: 9999;
+    padding: 14px 20px;
+    border-radius: 8px;
+    color: #fff;
+    font-weight: 500;
+    font-size: 0.95rem;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+    opacity: 1;
+    transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+  }
+  
+  /* Spécifique pour les erreurs */
+  .error-toast {
+    background-color: #e74c3c;
+  }
+  
+  /* Animation de disparition */
+  .fade-out {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  
