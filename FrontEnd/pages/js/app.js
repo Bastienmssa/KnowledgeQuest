@@ -6,33 +6,33 @@ import { initNotifications } from './components/notification.js';
 
 export function initializeApp() {
   console.log("Initializing main application components...");
-  
+
   // Initialiser les notifications
   initNotifications();
-  
+
   // Initialiser la navigation
   initNavigation();
-  
+
   // Configurer les pages
   setupPages();
-  
+
   // Vérifier le statut d'authentification
   checkAuthStatus();
 }
 
 function checkAuthStatus() {
   const protectedPages = [
-    'dashboard.html', 
-    'create-qcm.html', 
+    'dashboard.html',
+    'create-qcm.html',
     'upload-document.html',
     'stats.html',
     'profile.html',
     'settings.html',
     'results.html'
   ];
-  
+
   const currentPage = window.location.pathname.split('/').pop();
-  
+
   if (auth.isLoggedIn) {
     // Si l'utilisateur est connecté mais sur la page de login ou register
     if (currentPage === 'login.html' || currentPage === 'register.html') {

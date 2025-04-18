@@ -1,6 +1,6 @@
 /**
- * Contient des fichiers pour les différentes pages ou vues de l'application
- * Chaque page peut être composée de plusieurs composants
+ * pages.js
+ * Point d'entrée de l’application frontend pour gérer l’initialisation des différentes pages.
  */
 
 import { initDashboardPage } from './dashboard-page.js';
@@ -11,18 +11,22 @@ import { initUploadPage } from './upload-page.js';
 import { initResultsPage } from './results-page.js';
 import { initProfilePage } from './profile-page.js';
 import { initSettingsPage } from './settings-page.js';
+import { initRegisterPage } from './register-page.js';
+import { initLoginPage } from './login-page.js';
+import { initHomePage } from './home-page.js'; // à créer si tu veux gérer home.html dynamiquement
 
-// Fonction d'initialisation des pages
+/**
+ * Initialisation des pages selon le nom de fichier HTML courant
+ */
 export function setupPages() {
-  console.log("Setting up application pages...");
+  console.log("📄 Initialisation dynamique de la page...");
 
-  // Déterminer quelle page est actuellement chargée
   const currentPage = window.location.pathname.split('/').pop() || 'index.html';
 
-  // Initialiser la page appropriée
   switch (currentPage) {
     case 'index.html':
     case '/':
+    case '':
       initHomePage();
       break;
     case 'register.html':
@@ -56,7 +60,6 @@ export function setupPages() {
       initSettingsPage();
       break;
     default:
-      console.log(`No specific initialization for page: ${currentPage}`);
-      initHomePage(); // Fallback à la page d'accueil
+      console.warn(`⚠️ Aucune initialisation spécifique pour la page : ${currentPage}`);
   }
 }

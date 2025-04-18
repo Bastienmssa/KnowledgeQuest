@@ -40,6 +40,7 @@ const sessionRoutes = require('./routes/sessionRoutes');
 const statsRoutes = require('./routes/statsRoutes');
 const subjectRoutes = require('./routes/subjectRoutes');
 const documentRoutes = require('./routes/documentRoutes');
+const settingsRoutes = require('./routes/settingsRoutes'); 
 
 // Définir les routes
 app.use('/api/auth', authRoutes);
@@ -49,6 +50,7 @@ app.use('/api/sessions', sessionRoutes);
 app.use('/api/stats', statsRoutes);
 app.use('/api/subjects', subjectRoutes);
 app.use('/api/documents', documentRoutes);
+app.use('/api/settings', settingsRoutes);
 
 // Route de test
 app.get('/api', (req, res) => {

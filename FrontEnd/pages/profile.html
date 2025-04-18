@@ -1,269 +1,107 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Profil | Knowledge Quest</title>
-    <link rel="stylesheet" href="style/main.css">
-    <link rel="stylesheet" href="style/forms.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Profil | Knowledge Quest</title>
+  <link rel="stylesheet" href="style/main.css" />
+  <link rel="stylesheet" href="style/forms.css" />
+  <link rel="stylesheet" href="style/error.css" />
 </head>
 <body>
-    <div class="app-container">
-        <!-- Navigation latérale -->
-        <nav class="sidebar">
-            <div class="sidebar-toggle">
-                <button id="toggle-sidebar">
-                    <span class="toggle-icon">◀</span>
-                </button>
+  <div class="app-container">
+    <!-- Navigation latérale -->
+    <nav class="sidebar">
+      <div class="sidebar-toggle">
+        <button id="toggle-sidebar"><span class="toggle-icon">◀</span></button>
+      </div>
+      <div class="sidebar-header">
+        <img src="images/logo_white.png" alt="Knowledge Quest" class="logo" />
+      </div>
+      <ul class="nav-links">
+        <li class="nav-item"><a href="dashboard.html">📊 Tableau de bord</a></li>
+        <li class="nav-item"><a href="home.html">🏠 Accueil</a></li>
+        <li class="nav-item"><a href="create-qcm.html">✍️ Créer un QCM</a></li>
+        <li class="nav-item"><a href="upload-document.html">📄 Charger un document</a></li>
+        <li class="nav-item"><a href="take-test.html">🎯 Passer un test</a></li>
+        <li class="nav-item"><a href="stats.html">📈 Statistiques</a></li>
+        <li class="nav-item"><a href="settings.html">⚙️ Paramètres</a></li>
+      </ul>
+      <div class="sidebar-footer">
+        <a href="profile.html" class="user-info">
+          <div class="user-avatar">
+            <div class="initials-avatar">JS</div>
+          </div>
+          <div class="user-details">
+            <p id="sidebar-user-name">Utilisateur</p>
+            <span id="sidebar-user-domain" class="domain-badge">Domaine</span>
+          </div>
+        </a>
+      </div>
+      <div class="sidebar-bottom">
+        <button id="logout-button" class="logout-btn">
+          <span class="icon">🚪</span>
+          <span class="logout-text">Déconnexion</span>
+        </button>
+      </div>
+    </nav>
+
+    <!-- Contenu principal -->
+    <main class="main-content">
+      <div class="profile-container">
+        <h1 class="page-title">Mon profil</h1>
+
+        <div class="profile-header">
+          <div class="profile-avatar-section">
+            <div id="profile-avatar" class="profile-avatar">
+              <div class="initials-avatar">JS</div>
             </div>
-            <div class="sidebar-header">
-                <img src="images/logo_white.png" alt="Knowledge Quest" class="logo">
+            <button id="avatar-upload" class="btn-secondary">Modifier la photo</button>
+            <input type="file" id="avatar-input" accept="image/*" hidden />
+          </div>
+
+          <div class="profile-info">
+            <h2 id="profile-name">Nom Prénom</h2>
+            <p id="profile-email">email@example.com</p>
+            <div class="profile-details">
+              <p id="profile-domain" class="domain-info">
+                <span class="icon">🎓</span>
+                <span class="domain-text">Domaine</span>
+              </p>
+              <p id="profile-join-date" class="join-date">
+                <span class="icon">📅</span>
+                <span class="join-date-text">Membre depuis le ...</span>
+              </p>
             </div>
-            <ul class="nav-links">
-                <li class="nav-item"><a href="dashboard.html"><span class="icon">📊</span> Tableau de bord</a></li>
-                <li class="nav-item"><a href="home.html"><span class="icon">🏠</span> Accueil</a></li>
-                <li class="nav-item"><a href="create-qcm.html"><span class="icon">✍️</span> Créer un QCM</a></li>
-                <li class="nav-item"><a href="upload-document.html"><span class="icon">📄</span> Charger un document</a></li>
-                <li class="nav-item"><a href="take-test.html"><span class="icon">🎯</span> Passer un test</a></li>
-                <li class="nav-item"><a href="stats.html"><span class="icon">📈</span> Statistiques</a></li>
-                <li class="nav-item"><a href="settings.html"><span class="icon">⚙️</span> Paramètres</a></li>
-            </ul>
-            <div class="sidebar-footer">
-                <a href="profile.html" class="user-info active">
-                    <div class="user-avatar">
-                        <div class="initials-avatar">JS</div>
-                    </div>
-                    <div class="user-details">
-                        <p id="user-name">John Smith</p>
-                        <span class="domain-badge medicine">Médecine</span>
-                    </div>
-                </a>
+            <div class="profile-stats">
+              <div class="stat-item">
+                <span class="stat-number" id="stat-tests">-</span>
+                <span class="stat-label">Tests complétés</span>
+              </div>
+              <div class="stat-item">
+                <span class="stat-number" id="stat-qcms">-</span>
+                <span class="stat-label">QCM créés</span>
+              </div>
+              <div class="stat-item">
+                <span class="stat-number" id="stat-score">-</span>
+                <span class="stat-label">Score moyen</span>
+              </div>
             </div>
-            <div class="sidebar-bottom">
-                <a href="index.html" class="logout-btn">
-                    <span class="icon">🚪</span>
-                    <span class="logout-text">Déconnexion</span>
-                </a>
-            </div>
-        </nav>
-        
-        <!-- Contenu principal -->
-        <main class="main-content">
-            <div class="profile-container">
-                <h1 class="page-title">Mon profil</h1>
-                
-                <div class="profile-header">
-                    <div class="profile-avatar-section">
-                        <div id="profile-avatar" class="profile-avatar">
-                            <div class="initials-avatar">JS</div>
-                        </div>
-                        <button id="avatar-upload" class="btn-secondary">Modifier la photo</button>
-                        <input type="file" id="avatar-input" accept="image/*" hidden>
-                    </div>
-                    
-                    <div class="profile-info">
-                        <h2 id="profile-name">John Smith</h2>
-                        <p id="profile-email">john.smith@example.com</p>
-                        <div class="profile-details">
-                            <p id="profile-domain" class="domain-info">
-                                <span class="icon">🎓</span>
-                                <span class="domain-text">Médecine</span>
-                            </p>
-                            <p id="profile-join-date" class="join-date">
-                                <span class="icon">📅</span>
-                                <span class="join-date-text">Membre depuis le 01/01/2024</span>
-                            </p>
-                        </div>
-                        <div class="profile-stats">
-                            <div class="stat-item">
-                                <span class="stat-number">23</span>
-                                <span class="stat-label">Tests complétés</span>
-                            </div>
-                            <div class="stat-item">
-                                <span class="stat-number">12</span>
-                                <span class="stat-label">QCM créés</span>
-                            </div>
-                            <div class="stat-item">
-                                <span class="stat-number">75%</span>
-                                <span class="stat-label">Score moyen</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                
-                <div class="profile-messages"></div>
-                
-                <div class="profile-tabs">
-                    <button class="profile-tab-btn active" data-tab="personal">Informations personnelles</button>
-                    <button class="profile-tab-btn" data-tab="password">Mot de passe</button>
-                    <button class="profile-tab-btn" data-tab="academic">Profil académique</button>
-                    <button class="profile-tab-btn" data-tab="badges">Badges & Récompenses</button>
-                </div>
-                
-                <div id="personal-content" class="profile-tab-content">
-                    <form id="personal-info-form" class="profile-form">
-                        <div class="form-row">
-                            <div class="form-group">
-                                <label for="profile-firstname">Prénom</label>
-                                <input type="text" id="profile-firstname" name="firstName" value="John" required>
-                            </div>
-                            <div class="form-group">
-                                <label for="profile-lastname">Nom</label>
-                                <input type="text" id="profile-lastname" name="lastName" value="Smith" required>
-                            </div>
-                        </div>
-                        
-                        <div class="form-group">
-                            <label for="profile-email-input">Email</label>
-                            <input type="email" id="profile-email-input" name="email" value="john.smith@example.com" required>
-                        </div>
-                        
-                        <div class="form-group">
-                            <label for="profile-domain-input">Domaine d'étude</label>
-                            <select id="profile-domain-input" name="domain" required>
-                                <option value="Médecine" selected>Médecine</option>
-                                <option value="Droit">Droit</option>
-                            </select>
-                        </div>
-                        
-                        <div class="form-actions">
-                            <button type="submit" class="btn-primary">Enregistrer les modifications</button>
-                        </div>
-                    </form>
-                </div>
-                
-                <div id="password-content" class="profile-tab-content" style="display: none;">
-                    <form id="password-form" class="profile-form">
-                        <div class="form-group">
-                            <label for="current-password">Mot de passe actuel</label>
-                            <input type="password" id="current-password" name="currentPassword" required>
-                        </div>
-                        
-                        <div class="form-group">
-                            <label for="new-password">Nouveau mot de passe</label>
-                            <input type="password" id="new-password" name="newPassword" required>
-                            <div class="password-strength">
-                                <div class="strength-meter">
-                                    <div class="strength-segment"></div>
-                                    <div class="strength-segment"></div>
-                                    <div class="strength-segment"></div>
-                                    <div class="strength-segment"></div>
-                                </div>
-                                <span class="strength-text">Force du mot de passe</span>
-                            </div>
-                        </div>
-                        
-                        <div class="form-group">
-                            <label for="confirm-password">Confirmer le mot de passe</label>
-                            <input type="password" id="confirm-password" name="confirmPassword" required>
-                        </div>
-                        
-                        <div class="form-actions">
-                            <button type="submit" class="btn-primary">Changer le mot de passe</button>
-                        </div>
-                    </form>
-                </div>
-                
-                <div id="academic-content" class="profile-tab-content" style="display: none;">
-                    <form id="academic-form" class="profile-form">
-                        <div class="form-group">
-                            <label for="academic-level">Niveau d'études</label>
-                            <select id="academic-level" name="academicLevel">
-                                <option value="undergrad">Licence / DFGSM</option>
-                                <option value="masters" selected>Master / DFASM</option>
-                                <option value="doctorate">Doctorat / Spécialisation</option>
-                                <option value="professional">Professionnel</option>
-                            </select>
-                        </div>
-                        
-                        <div class="form-group">
-                            <label for="academic-year">Année d'études</label>
-                            <select id="academic-year" name="academicYear">
-                                <option value="1">1ère année</option>
-                                <option value="2">2ème année</option>
-                                <option value="3" selected>3ème année</option>
-                                <option value="4">4ème année</option>
-                                <option value="5">5ème année</option>
-                                <option value="6">6ème année</option>
-                            </select>
-                        </div>
-                        
-                        <div class="form-group">
-                            <label for="specialization">Spécialisation</label>
-                            <select id="specialization" name="specialization">
-                                <option value="">Sélectionnez une spécialisation</option>
-                                <optgroup label="Médecine">
-                                    <option value="cardiology" selected>Cardiologie</option>
-                                    <option value="neurology">Neurologie</option>
-                                    <option value="orthopedics">Orthopédie</option>
-                                    <option value="pediatrics">Pédiatrie</option>
-                                </optgroup>
-                                <optgroup label="Droit">
-                                    <option value="business-law">Droit des affaires</option>
-                                    <option value="criminal-law">Droit pénal</option>
-                                    <option value="family-law">Droit de la famille</option>
-                                    <option value="international-law">Droit international</option>
-                                </optgroup>
-                            </select>
-                        </div>
-                        
-                        <div class="form-group">
-                            <label for="study-goals">Objectifs d'étude</label>
-                            <textarea id="study-goals" name="studyGoals" rows="4" placeholder="Décrivez vos objectifs d'étude à court et long terme...">Préparer l'examen national classant et me spécialiser en cardiologie.</textarea>
-                        </div>
-                        
-                        <div class="form-actions">
-                            <button type="submit" class="btn-primary">Enregistrer</button>
-                        </div>
-                    </form>
-                </div>
-                
-                <div id="badges-content" class="profile-tab-content" style="display: none;">
-                    <div class="badges-container">
-                        <h3>Vos badges</h3>
-                        <p class="badges-info">Gagnez des badges en utilisant l'application et en progressant dans vos études.</p>
-                        
-                        <div class="badges-grid">
-                            <div class="badge-card earned">
-                                <div class="badge-icon">🚀</div>
-                                <h4>Premier pas</h4>
-                                <p>Vous avez complété votre premier QCM</p>
-                            </div>
-                            <div class="badge-card earned">
-                                <div class="badge-icon">🎯</div>
-                                <h4>Précision</h4>
-                                <p>Obtenez un score de 90% ou plus</p>
-                            </div>
-                            <div class="badge-card earned">
-                                <div class="badge-icon">📚</div>
-                                <h4>Créateur</h4>
-                                <p>Créez 5 QCM ou plus</p>
-                            </div>
-                            <div class="badge-card">
-                                <div class="badge-icon locked">🔥</div>
-                                <h4>Persévérance</h4>
-                                <p>Utilisez l'application 7 jours consécutifs</p>
-                            </div>
-                            <div class="badge-card">
-                                <div class="badge-icon locked">🧠</div>
-                                <h4>Expert</h4>
-                                <p>Complétez 50 QCM avec un score moyen de 85%+</p>
-                            </div>
-                            <div class="badge-card">
-                                <div class="badge-icon locked">🏆</div>
-                                <h4>Champion</h4>
-                                <p>Maintenir un score moyen de 90%+ pendant un mois</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </main>
-    </div>
-    
-    <script type="module" src="js/index.js"></script>
-    <script src="js/components/sidebar.js"></script>
-    <script type="module" src="js/pages/profile-page.js"></script>
-    <script type="module" src="js/utils/auth.js"></script>
+          </div>
+        </div>
+
+        <!-- Contenu dynamique des tabs (inchangé) -->
+        <div id="profile-tabs-content">
+          <!-- Ces contenus sont chargés via profile-page.js -->
+        </div>
+      </div>
+    </main>
+  </div>
+
+  <!-- Scripts -->
+  <script type="module" src="js/index.js"></script>
+  <script type="module" src="js/components/sidebar.js"></script>
+  <script type="module" src="js/utils/error-handler.js"></script>
+  <script type="module" src="js/pages/profile-page.js"></script>
 </body>
 </html>

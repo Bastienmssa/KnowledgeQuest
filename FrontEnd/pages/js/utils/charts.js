@@ -1,23 +1,26 @@
 // js/utils/charts.js
+
 import { statsService } from '../services/stats-service.js';
 
 export function initCharts(stats) {
-  console.log("Initializing charts...");
+  console.log("Initialisation des graphiques...");
 
   ensureChartJsLoaded().then(() => {
+    const chartData = statsService.formatChartData(stats);
+
     const scoreChartElement = document.getElementById('scores-chart');
     if (scoreChartElement) {
-      initScoreEvolutionChart(scoreChartElement, statsService.formatChartData(stats).scoreEvolution);
+      initScoreEvolutionChart(scoreChartElement, chartData.scoreEvolution);
     }
 
     const subjectChartElement = document.getElementById('distribution-chart');
     if (subjectChartElement) {
-      initSubjectDistributionChart(subjectChartElement, statsService.formatChartData(stats).subjectPerformance);
+      initSubjectDistributionChart(subjectChartElement, chartData.subjectPerformance);
     }
   });
 }
 
-async function ensureChartJsLoaded() {
+function ensureChartJsLoaded() {
   if (window.Chart) return Promise.resolve();
 
   return new Promise((resolve, reject) => {
@@ -42,15 +45,34 @@ function initScoreEvolutionChart(canvas, data) {
         backgroundColor: 'rgba(52, 152, 219, 0.2)',
         borderColor: 'rgba(52, 152, 219, 1)',
         borderWidth: 2,
-        tension: 0.3
+        tension: 0.3,
+        fill: true
       }]
     },
     options: {
       responsive: true,
+      plugins: {
+        legend: { display: false },
+        tooltip: {
+          callbacks: {
+            label: context => `${context.parsed.y} %`
+          }
+        }
+      },
       scales: {
         y: {
           beginAtZero: true,
-          max: 100
+          max: 100,
+          title: {
+            display: true,
+            text: 'Score (%)'
+          }
+        },
+        x: {
+          title: {
+            display: true,
+            text: 'Date'
+          }
         }
       }
     }
@@ -69,23 +91,43 @@ function initSubjectDistributionChart(canvas, data) {
           'rgba(52, 152, 219, 0.7)',
           'rgba(46, 204, 113, 0.7)',
           'rgba(155, 89, 182, 0.7)',
-          'rgba(230, 126, 34, 0.7)'
+          'rgba(241, 196, 15, 0.7)',
+          'rgba(231, 76, 60, 0.7)'
         ],
         borderColor: [
           'rgba(52, 152, 219, 1)',
           'rgba(46, 204, 113, 1)',
           'rgba(155, 89, 182, 1)',
-          'rgba(230, 126, 34, 1)'
+          'rgba(241, 196, 15, 1)',
+          'rgba(231, 76, 60, 1)'
         ],
         borderWidth: 1
       }]
     },
     options: {
       responsive: true,
+      plugins: {
+        legend: { display: false },
+        tooltip: {
+          callbacks: {
+            label: context => `${context.parsed.y} %`
+          }
+        }
+      },
       scales: {
         y: {
           beginAtZero: true,
-          max: 100
+          max: 100,
+          title: {
+            display: true,
+            text: 'Score moyen (%)'
+          }
+        },
+        x: {
+          title: {
+            display: true,
+            text: 'Matières'
+          }
         }
       }
     }
@@ -93,28 +135,32 @@ function initSubjectDistributionChart(canvas, data) {
 }
 
 export function updateCharts(stats, timeFilter) {
-  console.log("Updating charts with data:", stats);
-  const charts = Object.values(Chart.instances);
+  console.log("Mise à jour des graphiques avec filtre :", timeFilter);
+  const chartInstances = Chart.instances || Object.values(Chart.registry?.instances || {});
 
-  charts.forEach(chart => {
+  chartInstances.forEach(chart => {
     if (chart.canvas.id === 'scores-chart') {
-      let scoreData;
+      let data;
       switch (timeFilter) {
         case 'month':
-          scoreData = statsService.getLastMonthScores(stats);
+          data = statsService.getLastMonthScores(stats);
           break;
         case 'week':
-          scoreData = statsService.getLastWeekScores(stats);
+          data = statsService.getLastWeekScores(stats);
           break;
         default:
-          scoreData = statsService.formatChartData(stats).scoreEvolution;
+          data = statsService.formatChartData(stats).scoreEvolution;
       }
-      chart.data.labels = scoreData.labels;
-      chart.data.datasets[0].data = scoreData.data;
+
+      chart.data.labels = data.labels;
+      chart.data.datasets[0].data = data.data;
       chart.update();
-    } else if (chart.canvas.id === 'distribution-chart') {
-      chart.data.labels = statsService.formatChartData(stats).subjectPerformance.labels;
-      chart.data.datasets[0].data = statsService.formatChartData(stats).subjectPerformance.data;
+    }
+
+    if (chart.canvas.id === 'distribution-chart') {
+      const dist = statsService.formatChartData(stats).subjectPerformance;
+      chart.data.labels = dist.labels;
+      chart.data.datasets[0].data = dist.data;
       chart.update();
     }
   });

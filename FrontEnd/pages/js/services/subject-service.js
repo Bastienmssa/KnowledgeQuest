@@ -5,9 +5,19 @@ export const subjectService = {
   async getAllSubjects() {
     try {
       const response = await api.subject.getAll();
-      return response.data;
+      return response;
     } catch (error) {
-      console.error('Error fetching subjects:', error);
+      console.error('Error fetching all subjects:', error);
+      throw error;
+    }
+  },
+
+  async getSubjectsByDomain(domain) {
+    try {
+      const response = await api.subject.getByDomain(domain);
+      return response;
+    } catch (error) {
+      console.error('Error fetching subjects by domain:', error);
       throw error;
     }
   },
@@ -15,7 +25,7 @@ export const subjectService = {
   async getSubjectByName(name) {
     try {
       const response = await api.subject.getByName(name);
-      return response.data;
+      return response;
     } catch (error) {
       console.error(`Error fetching subject ${name}:`, error);
       throw error;
@@ -25,7 +35,7 @@ export const subjectService = {
   async createSubject(data) {
     try {
       const response = await api.subject.create(data);
-      return response.data;
+      return response;
     } catch (error) {
       console.error('Error creating subject:', error);
       throw error;

@@ -1,4 +1,3 @@
-// js/pages/results-page.js
 /**
  * Gestionnaire pour la page de résultats
  */
@@ -7,18 +6,14 @@ import { sessionService } from '../services/session-service.js';
 import { showNotification } from '../components/notification.js';
 
 export async function initResultsPage() {
-  console.log("Initialisation de la page de résultats...");
-  
-  // Vérifier l'authentification
   if (!auth.isLoggedIn) {
-    window.location.href = '../pages/login.html';
+    window.location.href = 'login.html';
     return;
   }
-  
-  // Vérifier si une session spécifique est demandée via l'URL
+
   const urlParams = new URLSearchParams(window.location.search);
   const sessionId = urlParams.get('sessionId');
-  
+
   if (sessionId) {
     await loadSessionResults(sessionId);
   } else {
@@ -27,104 +22,100 @@ export async function initResultsPage() {
 }
 
 async function loadSessionResults(sessionId) {
-  const resultsContainer = document.getElementById('results-container');
-  if (!resultsContainer) return;
-  
+  const container = document.getElementById('results-container');
+  if (!container) return;
+
+  container.innerHTML = `<div class="loading-spinner">Chargement des résultats...</div>`;
+
   try {
-    // Afficher un indicateur de chargement
-    resultsContainer.innerHTML = '<div class="loading-spinner">Chargement des résultats...</div>';
-    
-    // Charger les détails de la session
     const session = await sessionService.getSessionById(sessionId);
-    
-    if (session) {
-      displayResults(session);
-    } else {
-      resultsContainer.innerHTML = `
-        <div class="error-state">
-          <h2>Session introuvable</h2>
-          <p>Impossible de charger cette session de test.</p>
-          <a href="../pages/dashboard.html" class="btn-primary">Retour au tableau de bord</a>
-        </div>
-      `;
+
+    if (!session) {
+      container.innerHTML = getErrorTemplate('Session introuvable', 'Aucune session ne correspond à cet identifiant.');
+      return;
     }
-  } catch (error) {
-    console.error('Erreur:', error);
-    resultsContainer.innerHTML = `
-      <div class="error-state">
-        <h2>Erreur de chargement</h2>
-        <p>Impossible de charger les résultats de cette session.</p>
-        <a href="../pages/dashboard.html" class="btn-primary">Retour au tableau de bord</a>
+
+    const correct = session.questionsAnswered.filter(q => q.isCorrect).length;
+    const total = session.questionsAnswered.length;
+
+    container.innerHTML = `
+      <div class="results-header">
+        <h2>Résultats du test</h2>
+        <p class="session-date">Réalisé le ${new Date(session.createdAt).toLocaleDateString()}</p>
+      </div>
+
+      <div class="score-summary">
+        <div class="score-card ${getScoreClass(session.score)}">
+          <div class="score">${session.score}%</div>
+          <div class="score-label">${getScoreLabel(session.score)}</div>
+        </div>
+        <div class="score-details">
+          <p><strong>${correct}</strong> / ${total} bonnes réponses</p>
+          <p>Durée : ${Math.floor(session.duration / 60)}min ${session.duration % 60}s</p>
+        </div>
+      </div>
+
+      <div class="results-actions">
+        <button class="btn-primary" id="btn-export-pdf">📄 Exporter PDF</button>
+        <button class="btn-secondary" id="btn-share">🔗 Partager</button>
+        <button class="btn-secondary" id="btn-errors-only">❌ Revoir erreurs</button>
+        <a href="take-test.html" class="btn-primary">Nouveau test</a>
+        <a href="dashboard.html" class="btn-secondary">Retour au tableau de bord</a>
+      </div>
+
+      <div class="question-review" id="question-review">
+        <h3>Revue des questions</h3>
+        ${session.questionsAnswered.map((q, i) => `
+          <div class="question-item ${q.isCorrect ? 'correct' : 'incorrect'}" data-correct="${q.isCorrect}">
+            <div class="question-header">
+              <span>Question ${i + 1}</span>
+              <span class="question-status">${q.isCorrect ? '✓ Correct' : '✗ Incorrect'}</span>
+            </div>
+            <p class="question-text">${q.question}</p>
+            <p class="user-answer"><strong>Votre réponse :</strong> ${q.userAnswer || '<em>Aucune</em>'}</p>
+            ${!q.isCorrect ? `<p class="correct-answer"><strong>Bonne réponse :</strong> ${q.correctAnswer}</p>` : ''}
+          </div>
+        `).join('')}
       </div>
     `;
+
+    // Actions
+    document.getElementById('btn-export-pdf').addEventListener('click', () => window.print());
+
+    document.getElementById('btn-share').addEventListener('click', () => {
+      navigator.clipboard.writeText(window.location.href)
+        .then(() => showNotification("Lien copié dans le presse-papiers !", "success"));
+    });
+
+    document.getElementById('btn-errors-only').addEventListener('click', () => {
+      document.querySelectorAll('.question-item').forEach(item => {
+        item.style.display = item.dataset.correct === 'false' ? 'block' : 'none';
+      });
+    });
+
+  } catch (error) {
+    console.error(error);
+    container.innerHTML = getErrorTemplate('Erreur', 'Impossible de charger les résultats. Veuillez réessayer plus tard.');
   }
 }
 
-function displayResults(session) {
-  const resultsContainer = document.getElementById('results-container');
-  
-  // Calculer les statistiques
-  const totalQuestions = session.questionsAnswered.length;
-  const correctAnswers = session.questionsAnswered.filter(q => q.isCorrect).length;
-  
-  resultsContainer.innerHTML = `
-    <div class="results-header">
-      <h2>Résultats du test</h2>
-      <div class="session-date">
-        Session du ${new Date(session.createdAt).toLocaleDateString()} à ${new Date(session.createdAt).toLocaleTimeString()}
-      </div>
-    </div>
-    
-    <div class="score-summary">
-      <div class="score-card ${getScoreClass(session.score)}">
-        <div class="score">${session.score}%</div>
-        <div class="score-label">${getScoreLabel(session.score)}</div>
-      </div>
-      
-      <div class="score-details">
-        <div class="detail-item">
-          <span class="label">Questions correctes:</span>
-          <span class="value">${correctAnswers}/${totalQuestions}</span>
-        </div>
-      </div>
-    </div>
-    
-    <div class="question-review">
-      <h3>Révision des questions</h3>
-      
-      ${session.questionsAnswered.map((item, index) => `
-        <div class="question-item ${item.isCorrect ? 'correct' : 'incorrect'}">
-          <div class="question-header">
-            <span class="question-number">Question ${index + 1}</span>
-            <span class="question-status">${item.isCorrect ? '✓ Correct' : '✗ Incorrect'}</span>
-          </div>
-          
-          <p class="question-text">${item.question}</p>
-          
-          <div class="answer-info">
-            <p class="user-answer">Votre réponse: ${item.userAnswer || '<em>Aucune réponse</em>'}</p>
-            ${!item.isCorrect ? `<p class="correct-answer">Réponse correcte: ${item.correctAnswer}</p>` : ''}
-          </div>
-        </div>
-      `).join('')}
-    </div>
-    
-    <div class="results-actions">
-      <a href="../pages/take-test.html" class="btn-primary">Nouveau test</a>
-      <a href="../pages/dashboard.html" class="btn-secondary">Retour au tableau de bord</a>
+function displayEmptyState() {
+  const container = document.getElementById('results-container');
+  container.innerHTML = `
+    <div class="empty-state">
+      <h2>Aucun test sélectionné</h2>
+      <p>Commencez un test pour voir vos résultats ici.</p>
+      <a href="take-test.html" class="btn-primary">Passer un test</a>
     </div>
   `;
 }
 
-function displayEmptyState() {
-  const resultsContainer = document.getElementById('results-container');
-  if (!resultsContainer) return;
-  
-  resultsContainer.innerHTML = `
-    <div class="empty-state">
-      <h2>Aucun résultat à afficher</h2>
-      <p>Veuillez compléter un test pour voir vos résultats.</p>
-      <a href="../pages/take-test.html" class="btn-primary">Commencer un test</a>
+function getErrorTemplate(title, message) {
+  return `
+    <div class="error-state">
+      <h2>${title}</h2>
+      <p>${message}</p>
+      <a href="dashboard.html" class="btn-secondary">Retour au tableau de bord</a>
     </div>
   `;
 }
@@ -137,13 +128,12 @@ function getScoreClass(score) {
 }
 
 function getScoreLabel(score) {
-  if (score >= 90) return 'Excellent!';
-  if (score >= 80) return 'Très bien!';
-  if (score >= 70) return 'Bien!';
-  if (score >= 60) return 'Assez bien';
-  if (score >= 50) return 'Moyen';
+  if (score >= 90) return 'Excellent !';
+  if (score >= 80) return 'Très bien !';
+  if (score >= 70) return 'Bien';
+  if (score >= 60) return 'Correct';
+  if (score >= 50) return 'Passable';
   return 'À améliorer';
 }
 
-// Initialiser la page au chargement du document
 document.addEventListener('DOMContentLoaded', initResultsPage);

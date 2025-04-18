@@ -3,7 +3,11 @@ const mongoose = require('mongoose');
 const SubjectSchema = new mongoose.Schema({
   name: {
     type: String,
-    required: [true, 'Please add a subject name'],
+    required: [true, 'Veuillez ajouter un nom de matière']
+  },
+  domain: {
+    type: String,
+    required: [true, 'Veuillez spécifier le domaine (ex: Médecine, Droit)'],
     enum: ['Médecine', 'Droit']
   },
   topics: {

@@ -1,147 +1,118 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Accueil | Knowledge Quest</title>
-    <link rel="stylesheet" href="style/main.css">
-    <link rel="stylesheet" href="style/home.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Accueil | Knowledge Quest</title>
+  <link rel="stylesheet" href="style/main.css" />
+  <link rel="stylesheet" href="style/home.css" />
+  <link rel="stylesheet" href="style/error.css"/>
 </head>
 <body>
-    <div class="app-container">
-        <!-- Navigation latérale -->
-        <nav class="sidebar">
-            <div class="sidebar-toggle">
-                <button id="toggle-sidebar">
-                    <span class="toggle-icon">◀</span>
-                </button>
-            </div>
-            <div class="sidebar-header">
-                <img src="images/logo_white.png" alt="Knowledge Quest" class="logo">
-            </div>
-            <ul class="nav-links">
-                <li class="nav-item"><a href="dashboard.html"><span class="icon">📊</span> Tableau de bord</a></li>
-                <li class="nav-item active"><a href="home.html"><span class="icon">🏠</span> Accueil</a></li>
-                <li class="nav-item"><a href="create-qcm.html"><span class="icon">✍️</span> Créer un QCM</a></li>
-                <li class="nav-item"><a href="upload-document.html"><span class="icon">📄</span> Charger un document</a></li>
-                <li class="nav-item"><a href="take-test.html"><span class="icon">🎯</span> Passer un test</a></li>
-                <li class="nav-item"><a href="stats.html"><span class="icon">📈</span> Statistiques</a></li>
-                <li class="nav-item"><a href="settings.html"><span class="icon">⚙️</span> Paramètres</a></li>
-            </ul>
-            <div class="sidebar-footer">
-                <a href="profile.html" class="user-info">
-                    <div class="user-avatar">
-                        <div class="initials-avatar">JS</div>
-                    </div>
-                    <div class="user-details">
-                        <p id="user-name">John Smith</p>
-                        <span class="domain-badge medicine">Médecine</span>
-                    </div>
-                </a>
-            </div>
-            <div class="sidebar-bottom">
-                <a href="index.html" class="logout-btn">
-                    <span class="icon">🚪</span>
-                    <span class="logout-text">Déconnexion</span>
-                </a>
-            </div>
-        </nav>
+  <div class="app-container">
+    <!-- Navigation latérale -->
+    <nav class="sidebar">
+      <div class="sidebar-toggle">
+        <button id="toggle-sidebar"><span class="toggle-icon">◀</span></button>
+      </div>
+      <div class="sidebar-header">
+        <img src="images/logo_white.png" alt="Knowledge Quest" class="logo" />
+      </div>
+      <ul class="nav-links">
+        <li class="nav-item"><a href="dashboard.html"><span class="icon">📊</span> Tableau de bord</a></li>
+        <li class="nav-item active"><a href="home.html"><span class="icon">🏠</span> Accueil</a></li>
+        <li class="nav-item"><a href="create-qcm.html"><span class="icon">✍️</span> Créer un QCM</a></li>
+        <li class="nav-item"><a href="upload-document.html"><span class="icon">📄</span> Charger un document</a></li>
+        <li class="nav-item"><a href="take-test.html"><span class="icon">🎯</span> Passer un test</a></li>
+        <li class="nav-item"><a href="stats.html"><span class="icon">📈</span> Statistiques</a></li>
+        <li class="nav-item"><a href="settings.html"><span class="icon">⚙️</span> Paramètres</a></li>
+      </ul>
+      <div class="sidebar-footer">
+        <a href="profile.html" class="user-info">
+          <div class="user-avatar">
+            <div class="initials-avatar">JS</div>
+          </div>
+          <div class="user-details">
+            <p id="sidebar-user-name">Utilisateur</p>
+            <span id="sidebar-user-domain" class="domain-badge">Domaine</span>
+          </div>
+        </a>
+      </div>
+      <div class="sidebar-bottom">
+        <button id="logout-button" class="logout-btn">
+          <span class="icon">🚪</span>
+          <span class="logout-text">Déconnexion</span>
+        </button>
+      </div>
+    </nav>
 
-        <!-- Contenu principal -->
-        <main class="main-content">
-            <div class="home-container">
-                <h1 class="welcome-message">Bienvenue sur Knowledge Quest, <span id="user-first-name">John</span> !</h1>
-                
-                <div class="quick-status">
-                    <div class="status-card">
-                        <h3>Votre progression</h3>
-                        <div class="progress-visual">
-                            <div class="progress-circle" data-progress="65">
-                                <span>65%</span>
-                            </div>
-                        </div>
-                        <p>Continuez vos révisions pour améliorer votre score</p>
-                    </div>
-                    
-                    <div class="status-card">
-                        <h3>Prochaine étape recommandée</h3>
-                        <div class="recommendation">
-                            <div class="recommendation-icon">📚</div>
-                            <p>Créez un nouveau QCM pour renforcer vos connaissances</p>
-                        </div>
-                        <a href="create-qcm.html" class="btn-primary">Commencer</a>
-                    </div>
-                </div>
-                
-                <div class="main-actions">
-                    <h2>Que souhaitez-vous faire aujourd'hui ?</h2>
-                    <div class="action-cards">
-                        <div class="action-card">
-                            <div class="action-icon create">✍️</div>
-                            <h3>Créer un QCM</h3>
-                            <p>Créez vos propres questions pour tester vos connaissances</p>
-                            <a href="create-qcm.html" class="btn-primary">Créer</a>
-                        </div>
-                        
-                        <div class="action-card">
-                            <div class="action-icon upload">📄</div>
-                            <h3>Générer un QCM</h3>
-                            <p>Téléchargez un document pour créer automatiquement des questions</p>
-                            <a href="upload-document.html" class="btn-primary">Générer</a>
-                        </div>
-                        
-                        <div class="action-card">
-                            <div class="action-icon test">🎯</div>
-                            <h3>Passer un test</h3>
-                            <p>Évaluez vos connaissances avec des questions existantes</p>
-                            <a href="take-test.html" class="btn-primary">Commencer</a>
-                        </div>
-                    </div>
-                </div>
-                
-                <div class="recent-activity">
-                    <div class="section-header">
-                        <h2>Activité récente</h2>
-                        <a href="dashboard.html" class="view-all">Voir tout</a>
-                    </div>
-                    
-                    <div class="activity-timeline" id="recent-activity">
-                        <!-- Les activités récentes seront ajoutées dynamiquement -->
-                    </div>
-                </div>
+    <!-- Contenu principal -->
+    <main class="main-content">
+      <div class="home-container">
+        <h1 class="welcome-message">Bienvenue sur Knowledge Quest, <span id="user-first-name">Utilisateur</span> !</h1>
+
+        <div class="quick-status">
+          <div class="status-card">
+            <h3>Votre progression</h3>
+            <div class="progress-visual">
+              <div class="progress-circle" data-progress="0">
+                <span id="progress-score">0%</span>
+              </div>
             </div>
-        </main>
-    </div>
-    <script type="module" src="js/index.js"></script>
-    <script type="module">
-        import { sessionAPI, qcmAPI } from 'js/utils/api.js';
-        import { showNotification } from 'js/components/notification.js';
+            <p>Continuez vos révisions pour améliorer votre score</p>
+          </div>
 
-        document.addEventListener('DOMContentLoaded', async function() {
-            // Vérifier l'authentification
-            const token = localStorage.getItem('token');
-            if (!token) {
-                window.location.href = 'login.html';
-                return;
-            }
+          <div class="status-card">
+            <h3>Prochaine étape recommandée</h3>
+            <div class="recommendation">
+              <div class="recommendation-icon">📚</div>
+              <p>Créez un nouveau QCM pour renforcer vos connaissances</p>
+            </div>
+            <a href="create-qcm.html" class="btn-primary">Commencer</a>
+          </div>
+        </div>
 
-            try {
-                // Récupérer les informations de l'utilisateur
-                const user = JSON.parse(localStorage.getItem('user'));
-                document.getElementById('user-first-name').textContent = user.name.split(' ')[0];
+        <div class="main-actions">
+          <h2>Que souhaitez-vous faire aujourd'hui ?</h2>
+          <div class="action-cards">
+            <div class="action-card">
+              <div class="action-icon create">✍️</div>
+              <h3>Créer un QCM</h3>
+              <p>Créez vos propres questions pour tester vos connaissances</p>
+              <a href="create-qcm.html" class="btn-primary">Créer</a>
+            </div>
+            <div class="action-card">
+              <div class="action-icon upload">📄</div>
+              <h3>Générer un QCM</h3>
+              <p>Téléchargez un document pour créer automatiquement des questions</p>
+              <a href="upload-document.html" class="btn-primary">Générer</a>
+            </div>
+            <div class="action-card">
+              <div class="action-icon test">🎯</div>
+              <h3>Passer un test</h3>
+              <p>Évaluez vos connaissances avec des questions existantes</p>
+              <a href="take-test.html" class="btn-primary">Commencer</a>
+            </div>
+          </div>
+        </div>
 
-                // Charger l'activité récente
-                const sessions = await sessionAPI.getUserSessions({ limit: 2 });
-                const recentActivityContainer = document.getElementById('recent-activity');
-                sessions.forEach(session => {
-                    const timelineItem = document.createElement('div');
-                    timelineItem.className = 'timeline-item';
-                    // Reste du code pour afficher les sessions récentes
-                });
-            } catch (error) {
-                console.error('Erreur lors du chargement des données de l\'accueil:', error);
-            }
-        });
-    </script>
+        <div class="recent-activity">
+          <div class="section-header">
+            <h2>Activité récente</h2>
+            <a href="dashboard.html" class="view-all">Voir tout</a>
+          </div>
+          <div class="activity-timeline" id="recent-activity">
+            <!-- Activité chargée dynamiquement -->
+          </div>
+        </div>
+      </div>
+    </main>
+  </div>
+
+  <!-- Scripts -->
+  <script type="module" src="js/index.js"></script>
+  <script type="module" src="js/components/sidebar.js"></script>
+  <script type="module" src="js/pages/home-page.js"></script>
+  <script type="module" src="js/utils/error-handler.js"></script>
 </body>
 </html>

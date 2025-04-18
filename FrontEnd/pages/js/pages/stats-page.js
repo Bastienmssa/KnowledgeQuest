@@ -5,28 +5,25 @@
 import { auth } from '../utils/auth.js';
 import { statsService } from '../services/stats-service.js';
 import { showNotification } from '../components/notification.js';
-import { initCharts, updateCharts } from '../utils/charts.js'; // Import chart functions explicitly
+import { initCharts, updateCharts } from '../utils/charts.js';
 
 export async function initStatsPage() {
   console.log("Initialisation de la page de statistiques...");
-  
-  // Vérifier l'authentification
+
+  // 🔐 Redirection si l'utilisateur n'est pas connecté
   if (!auth.isLoggedIn) {
-    window.location.href = '../pages/login.html';
+    window.location.href = 'login.html';
     return;
   }
-  
+
   try {
-    // Charger les statistiques utilisateur
     const stats = await statsService.getUserStats();
-    
-    if (stats) {
+
+    if (stats && stats.scoresHistory?.length > 0) {
       displayStats(stats);
-      
-      // Initialiser les graphiques - using imported functions
-      initCharts(stats);
+      initCharts(stats); // Génère les graphiques
     } else {
-      displayEmptyState();
+      displayEmptyState(); // Aucun test passé
     }
   } catch (error) {
     console.error('Erreur:', error);
@@ -37,24 +34,18 @@ export async function initStatsPage() {
 function displayStats(stats) {
   const statsContainer = document.querySelector('.stats-container');
   if (!statsContainer) return;
-  
-  // Calculer les statistiques additionnelles
+
   const sessionCount = stats.scoresHistory?.length || 0;
   const averageScore = stats.averageScore || 0;
-  
-  // Trouver le score le plus élevé et le plus bas
+
   let highestScore = 0;
   let lowestScore = 100;
-  
-  if (stats.scoresHistory && stats.scoresHistory.length > 0) {
-    stats.scoresHistory.forEach(item => {
-      if (item.score > highestScore) highestScore = item.score;
-      if (item.score < lowestScore) lowestScore = item.score;
-    });
-  } else {
-    lowestScore = 0;
-  }
-  
+
+  stats.scoresHistory.forEach(session => {
+    if (session.score > highestScore) highestScore = session.score;
+    if (session.score < lowestScore) lowestScore = session.score;
+  });
+
   statsContainer.innerHTML = `
     <div class="stats-header">
       <h2>Vos statistiques</h2>
@@ -66,87 +57,91 @@ function displayStats(stats) {
         </select>
       </div>
     </div>
-    
+
     <div class="stats-summary">
       <div class="stat-card">
         <div class="stat-value">${averageScore.toFixed(1)}%</div>
         <div class="stat-label">Score moyen</div>
       </div>
-      
       <div class="stat-card">
         <div class="stat-value">${sessionCount}</div>
         <div class="stat-label">Tests complétés</div>
       </div>
-      
       <div class="stat-card">
         <div class="stat-value">${highestScore}%</div>
         <div class="stat-label">Meilleur score</div>
       </div>
-      
       <div class="stat-card">
         <div class="stat-value">${lowestScore}%</div>
         <div class="stat-label">Score le plus bas</div>
       </div>
     </div>
-    
+
     <div class="stats-charts">
       <div class="chart-container">
         <h3>Évolution des scores</h3>
         <canvas id="scores-chart"></canvas>
       </div>
-      
       <div class="chart-container">
         <h3>Répartition des scores</h3>
         <canvas id="distribution-chart"></canvas>
       </div>
     </div>
-    
+
     <div class="recent-sessions">
       <h3>Sessions récentes</h3>
-      ${stats.scoresHistory && stats.scoresHistory.length > 0 ? 
-        `<table class="sessions-table">
-          <thead>
-            <tr>
-              <th>Date</th>
-              <th>Score</th>
-              <th>Actions</th>
-            </tr>
-          </thead>
-          <tbody>
-            ${stats.scoresHistory.slice().reverse().slice(0, 5).map(session => `
-              <tr>
-                <td>${new Date(session.date).toLocaleDateString()}</td>
-                <td class="score ${getScoreClass(session.score)}">${session.score}%</td>
-                <td>
-                  <a href="../pages/results.html?sessionId=${session._id}" class="btn-small">Voir</a>
-                </td>
-              </tr>
-            `).join('')}
-          </tbody>
-        </table>`
-        : '<p>Aucune session récente</p>'
-      }
+      ${renderSessionsTable(stats.scoresHistory)}
     </div>
   `;
-  
-  // Ajouter un écouteur pour le filtre de temps
+
   const timeFilter = document.getElementById('time-filter');
-if (timeFilter) {
-  timeFilter.addEventListener('change', () => {
-    updateCharts(stats, timeFilter.value);
-  });
+  if (timeFilter) {
+    timeFilter.addEventListener('change', () => {
+      updateCharts(stats, timeFilter.value);
+    });
+  }
 }
+
+function renderSessionsTable(sessions) {
+  if (!sessions || sessions.length === 0) {
+    return '<p>Aucune session récente</p>';
+  }
+
+  const recent = sessions.slice().reverse().slice(0, 5);
+
+  return `
+    <table class="sessions-table">
+      <thead>
+        <tr>
+          <th>Date</th>
+          <th>Score</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        ${recent.map(session => `
+          <tr>
+            <td>${new Date(session.date).toLocaleDateString()}</td>
+            <td class="score ${getScoreClass(session.score)}">${session.score}%</td>
+            <td>
+              <a href="results.html?sessionId=${session._id}" class="btn-small">Voir</a>
+            </td>
+          </tr>
+        `).join('')}
+      </tbody>
+    </table>
+  `;
 }
 
 function displayEmptyState() {
   const statsContainer = document.querySelector('.stats-container');
   if (!statsContainer) return;
-  
+
   statsContainer.innerHTML = `
     <div class="empty-state">
       <h2>Aucune statistique disponible</h2>
       <p>Complétez des tests pour voir apparaître vos statistiques.</p>
-      <a href="../pages/take-test.html" class="btn-primary">Commencer un test</a>
+      <a href="take-test.html" class="btn-primary">Commencer un test</a>
     </div>
   `;
 }
@@ -158,5 +153,4 @@ function getScoreClass(score) {
   return 'poor';
 }
 
-// Initialiser la page au chargement du document
 document.addEventListener('DOMContentLoaded', initStatsPage);
