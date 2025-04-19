@@ -5,9 +5,9 @@ export const subjectService = {
   async getAllSubjects() {
     try {
       const response = await api.subject.getAll();
-      return response;
+      return response.success ? response.data : [];
     } catch (error) {
-      console.error('Error fetching all subjects:', error);
+      console.error('Erreur récupération de toutes les matières:', error);
       throw error;
     }
   },
@@ -15,9 +15,10 @@ export const subjectService = {
   async getSubjectsByDomain(domain) {
     try {
       const response = await api.subject.getByDomain(domain);
-      return response;
+      console.log('📦 Réponse matières domaine :', response);
+      return response.success ? response.data : [];
     } catch (error) {
-      console.error('Error fetching subjects by domain:', error);
+      console.error('Erreur récupération des matières par domaine:', error);
       throw error;
     }
   },
@@ -25,9 +26,9 @@ export const subjectService = {
   async getSubjectByName(name) {
     try {
       const response = await api.subject.getByName(name);
-      return response;
+      return response.success ? response.data : null;
     } catch (error) {
-      console.error(`Error fetching subject ${name}:`, error);
+      console.error(`Erreur récupération de la matière ${name}:`, error);
       throw error;
     }
   },
@@ -35,9 +36,9 @@ export const subjectService = {
   async createSubject(data) {
     try {
       const response = await api.subject.create(data);
-      return response;
+      return response.success ? response.data : null;
     } catch (error) {
-      console.error('Error creating subject:', error);
+      console.error('Erreur création matière:', error);
       throw error;
     }
   }

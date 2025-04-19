@@ -1,92 +1,70 @@
-// js/api/api.js
 const API_BASE_URL = 'http://localhost:5000/api';
 
-// Récupérer le token JWT dans localStorage
 function getAuthHeaders() {
   const token = localStorage.getItem('token');
+  if (!token) {
+    console.warn('⚠️ Aucun token trouvé dans le localStorage.');
+  } else {
+    console.log('🔐 Token utilisé dans les headers');
+  }
   return token ? { Authorization: `Bearer ${token}` } : {};
 }
 
 async function apiRequest(endpoint, options = {}) {
+  const url = `${API_BASE_URL}${endpoint}`;
+  const headers = {
+    'Content-Type': 'application/json',
+    ...getAuthHeaders(),
+    ...(options.headers || {})
+  };
+
+  const config = {
+    ...options,
+    headers
+  };
+
+  if (config.body && typeof config.body === 'object') {
+    config.body = JSON.stringify(config.body);
+  }
+
   try {
-    const url = `${API_BASE_URL}${endpoint}`;
-
-    const headers = {
-      'Content-Type': 'application/json',
-      ...getAuthHeaders(),
-      ...(options.headers || {})
-    };
-
-    const config = {
-      ...options,
-      headers
-    };
-
-    if (config.body && typeof config.body === 'object') {
-      config.body = JSON.stringify(config.body);
-    }
-
+    console.log(`📡 [API REQUEST] ${config.method || 'GET'} ${url}`);
     const response = await fetch(url, config);
     const data = await response.json();
 
     if (!response.ok) {
+      console.error(`❌ [${response.status}] ${url}`, data);
       throw new Error(data.message || 'Une erreur est survenue');
     }
 
     return data;
   } catch (error) {
-    console.error(`Erreur API sur l'endpoint ${endpoint} :`, error);
+    console.error(`❌ Erreur API sur ${url}:`, error);
     throw error;
   }
 }
 
 const api = {
-  // Routes d'authentification
   auth: {
-    register: (userData) => apiRequest('/auth/register', {
-      method: 'POST',
-      body: userData
-    }),
-    login: (credentials) => apiRequest('/auth/login', {
-      method: 'POST',
-      body: credentials
-    }),
+    register: (userData) => apiRequest('/auth/register', { method: 'POST', body: userData }),
+    login: (credentials) => apiRequest('/auth/login', { method: 'POST', body: credentials }),
     getProfile: () => apiRequest('/auth/me'),
-    updateProfile: (profileData) => apiRequest('/auth/update-profile', {
-      method: 'PUT',
-      body: profileData
-    }),
-    updateDomain: (domainData) => apiRequest('/auth/update-domain', {
-      method: 'PUT',
-      body: domainData
-    })
+    updateProfile: (profileData) => apiRequest('/auth/update-profile', { method: 'PUT', body: profileData }),
+    updateDomain: (domainData) => apiRequest('/auth/update-domain', { method: 'PUT', body: domainData })
   },
 
-  // Routes QCM
   qcm: {
     getAll: (filters = {}) => {
       const query = new URLSearchParams(filters).toString();
       return apiRequest(`/qcms?${query}`);
     },
     getById: (id) => apiRequest(`/qcms/${id}`),
-    create: (qcmData) => apiRequest('/qcms', {
-      method: 'POST',
-      body: qcmData
-    }),
-    update: (id, qcmData) => apiRequest(`/qcms/${id}`, {
-      method: 'PUT',
-      body: qcmData
-    }),
-    delete: (id) => apiRequest(`/qcms/${id}`, {
-      method: 'DELETE'
-    }),
-    generateQcm: (data) => apiRequest('/qcms/generate', {
-      method: 'POST',
-      body: data
-    })
+    create: (qcmData) => apiRequest('/qcms', { method: 'POST', body: qcmData }),
+    update: (id, qcmData) => apiRequest(`/qcms/${id}`, { method: 'PUT', body: qcmData }),
+    delete: (id) => apiRequest(`/qcms/${id}`, { method: 'DELETE' }),
+    generateQcm: (data) => apiRequest('/qcms/generate', { method: 'POST', body: data })
   },
 
-  // Routes Documents
   document: {
     upload: (formData, onProgress) => {
       return new Promise((resolve, reject) => {
@@ -109,11 +87,11 @@ const api = {
           if (xhr.status >= 200 && xhr.status < 300) {
             resolve(JSON.parse(xhr.responseText));
           } else {
-            reject(new Error(`Upload failed: ${xhr.statusText}`));
+            reject(new Error(`Échec de l'upload : ${xhr.statusText}`));
           }
         };
 
-        xhr.onerror = () => reject(new Error('Network error'));
+        xhr.onerror = () => reject(new Error('Erreur réseau'));
         xhr.send(formData);
       });
     },
@@ -123,31 +101,22 @@ const api = {
     }
   },
 
-  // Routes Sessions
   session: {
-    create: (sessionData) => apiRequest('/sessions', {
-      method: 'POST',
-      body: sessionData
-    }),
+    create: (sessionData) => apiRequest('/sessions', { method: 'POST', body: sessionData }),
     getById: (id) => apiRequest(`/sessions/${id}`),
     getUserSessions: () => apiRequest('/sessions/user')
   },
 
-  // Routes Stats
   stats: {
     getUserStats: () => apiRequest('/stats'),
     getAggregatedStats: () => apiRequest('/stats/aggregated/data')
   },
 
-  // Routes Matières (subjects)
   subject: {
     getAll: () => apiRequest('/subjects'),
-    getByName: (name) => apiRequest(`/subjects/${name}`),
-    getByDomain: (domain) => apiRequest(`/subjects?domain=${domain}`),
-    create: (data) => apiRequest('/subjects', {
-      method: 'POST',
-      body: data
-    })
+    getByName: (name) => apiRequest(`/subjects/${encodeURIComponent(name)}`),
+    getByDomain: (domain) => apiRequest(`/subjects/domain/${encodeURIComponent(domain)}`),
+    create: (data) => apiRequest('/subjects', { method: 'POST', body: data })
   }
 };
 

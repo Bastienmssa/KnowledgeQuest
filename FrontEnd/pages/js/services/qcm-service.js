@@ -5,9 +5,9 @@ export const qcmService = {
   async getAllQcms(filters = {}) {
     try {
       const response = await api.qcm.getAll(filters);
-      return response.data;
+      return response.success ? response.data : [];
     } catch (error) {
-      console.error('Error fetching QCMs:', error);
+      console.error('❌ Erreur récupération des QCMs :', error);
       throw error;
     }
   },
@@ -15,9 +15,9 @@ export const qcmService = {
   async getQcmById(id) {
     try {
       const response = await api.qcm.getById(id);
-      return response.data;
+      return response.success ? response.data : null;
     } catch (error) {
-      console.error(`Error fetching QCM ${id}:`, error);
+      console.error(`❌ Erreur récupération du QCM ${id} :`, error);
       throw error;
     }
   },
@@ -25,9 +25,9 @@ export const qcmService = {
   async createQcm(qcmData) {
     try {
       const response = await api.qcm.create(qcmData);
-      return response.data;
+      return response.success ? response.data : null;
     } catch (error) {
-      console.error('Error creating QCM:', error);
+      console.error('❌ Erreur création du QCM :', error);
       throw error;
     }
   },
@@ -35,9 +35,9 @@ export const qcmService = {
   async updateQcm(id, qcmData) {
     try {
       const response = await api.qcm.update(id, qcmData);
-      return response.data;
+      return response.success ? response.data : null;
     } catch (error) {
-      console.error(`Error updating QCM ${id}:`, error);
+      console.error(`❌ Erreur mise à jour du QCM ${id} :`, error);
       throw error;
     }
   },
@@ -46,17 +46,17 @@ export const qcmService = {
     try {
       await api.qcm.delete(id);
     } catch (error) {
-      console.error(`Error deleting QCM ${id}:`, error);
+      console.error(`❌ Erreur suppression du QCM ${id} :`, error);
       throw error;
     }
   },
 
   async generateQcmFromDocument(documentId, subject) {
     try {
-      const response = await api.qcm.generateQcm(documentId, subject);
-      return response.data;
+      const response = await api.qcm.generateQcm({ documentId, subject });
+      return response.success ? response.data : null;
     } catch (error) {
-      console.error('Error generating QCM:', error);
+      console.error('❌ Erreur génération de QCM :', error);
       throw error;
     }
   }
