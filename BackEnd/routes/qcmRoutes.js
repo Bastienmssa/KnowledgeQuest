@@ -17,6 +17,6 @@ router.route('/:id')
   .delete(qcmController.deleteQcm);
 
 // Génération par document
-router.post('/generate', qcmController.generateQcm);
+// router.post('/generate', qcmController.generateQcm);
 
 module.exports = router;

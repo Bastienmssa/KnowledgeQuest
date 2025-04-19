@@ -1,3 +1,4 @@
+// js/pages/create-qcm-page.js
 import { auth } from '../utils/auth.js';
 import { qcmService } from '../services/qcm-service.js';
 import { subjectService } from '../services/subject-service.js';
@@ -12,7 +13,7 @@ async function initCreateQcmPage() {
   }
 
   setupCreateQcmForm();
-  setupCreateSubjectModal();
+  setupCreateSubjectForm();
   await loadSubjects();
 
   const urlParams = new URLSearchParams(window.location.search);
@@ -24,14 +25,17 @@ async function initCreateQcmPage() {
 }
 
 async function loadSubjects() {
+  const user = auth.user;
+  console.log("🌍 Domaine utilisateur :", user?.domain);
+
   try {
-    const user = auth.getUser();
     const subjectSelect = document.getElementById('qcm-subject');
     const topicSelect = document.getElementById('qcm-topic');
 
     if (!subjectSelect || !topicSelect || !user?.domain) return;
 
     const subjects = await subjectService.getSubjectsByDomain(user.domain);
+
     subjectSelect.innerHTML = `<option value="" disabled selected>Choisissez une matière</option>`;
     subjects.forEach(sub => {
       subjectSelect.innerHTML += `<option value="${sub.name}">${sub.name}</option>`;
@@ -64,32 +68,18 @@ async function loadSubjects() {
   }
 }
 
-function setupCreateSubjectModal() {
-  const addBtn = document.getElementById('add-subject-btn');
-  const modal = document.getElementById('subject-modal');
-  const cancelBtn = document.getElementById('cancel-subject-btn');
+function setupCreateSubjectForm() {
   const submitBtn = document.getElementById('submit-subject-btn');
   const nameInput = document.getElementById('new-subject-name');
   const topicsInput = document.getElementById('new-subject-topics');
 
-  if (!addBtn || !modal || !cancelBtn || !submitBtn) return;
-
-  addBtn.addEventListener('click', () => {
-    modal.classList.remove('hidden');
-    nameInput.value = '';
-    topicsInput.value = '';
-  });
-
-  cancelBtn.addEventListener('click', () => {
-    modal.classList.add('hidden');
-  });
+  if (!submitBtn || !nameInput || !topicsInput) return;
 
   submitBtn.addEventListener('click', async () => {
     const name = nameInput.value.trim();
     const topicsRaw = topicsInput.value.trim();
     const topics = topicsRaw.split(',').map(t => t.trim()).filter(Boolean);
-    const user = auth.getUser();
-    const token = auth.getToken();
+    const user = auth.user;
 
     if (!name || !topics.length) {
       showNotification("Veuillez renseigner un nom de matière et au moins un thème.", "error");
@@ -97,33 +87,79 @@ function setupCreateSubjectModal() {
     }
 
     try {
-      const res = await fetch('http://localhost:5000/api/subjects', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          Authorization: `Bearer ${token}`
-        },
-        body: JSON.stringify({
-          name,
-          domain: user.domain,
-          topics
-        })
+      await subjectService.createSubject({
+        name,
+        domain: user.domain,
+        topics
       });
 
-      const data = await res.json();
-      if (!res.ok) throw new Error(data.message || 'Erreur lors de la création de la matière');
+      showNotification('Matière créée avec succès !', 'success');
+      nameInput.value = '';
+      topicsInput.value = '';
 
-      showNotification('Matière créée avec succès', 'success');
-      modal.classList.add('hidden');
       await loadSubjects();
       const subjectSelect = document.getElementById('qcm-subject');
       subjectSelect.value = name;
       subjectSelect.dispatchEvent(new Event('change'));
     } catch (err) {
       console.error(err);
-      showNotification(err.message, 'error');
+      showNotification(err.message || 'Erreur lors de la création de la matière', 'error');
     }
   });
+}
+
+async function handleFormSubmission(form) {
+  try {
+    const formData = new FormData(form);
+    const user = auth.user;
+
+    const qcmData = {
+      title: formData.get('title'),
+      subject: formData.get('subject'),
+      topic: formData.get('topic'),
+      domain: user.domain, // ✅ Ajout du champ `domain` attendu par le backend
+      questions: []
+    };
+
+    if (!user || !user.domain) throw new Error("Utilisateur non authentifié");
+
+    const allowedSubjects = await subjectService.getSubjectsByDomain(user.domain);
+    const allowedNames = allowedSubjects.map(s => s.name);
+    if (!allowedNames.includes(qcmData.subject)) {
+      showNotification('La matière sélectionnée ne correspond pas à votre domaine', 'error');
+      return;
+    }
+
+    if (!qcmData.topic) {
+      showNotification("Veuillez sélectionner un thème", "error");
+      return;
+    }
+
+    const questionElems = form.querySelectorAll('.question-item');
+    questionElems.forEach((el, i) => {
+      const question = formData.get(`questions[${i}][question]`);
+      const correctIndex = formData.get(`questions[${i}][correctAnswer]`);
+      const choices = [0, 1, 2, 3].map(j => formData.get(`questions[${i}][choices][${j}]`));
+      qcmData.questions.push({
+        question,
+        choices,
+        correctAnswer: choices[correctIndex]
+      });
+    });
+
+    const qcmId = form.getAttribute('data-qcm-id');
+    const response = qcmId
+      ? await qcmService.updateQcm(qcmId, qcmData)
+      : await qcmService.createQcm(qcmData);
+
+    showNotification('QCM enregistré avec succès !', 'success');
+    setTimeout(() => {
+      window.location.href = `take-test.html?qcmId=${response._id}`;
+    }, 1000);
+  } catch (error) {
+    console.error(error);
+    showNotification(error.message || 'Erreur lors de la sauvegarde du QCM', 'error');
+  }
 }
 
 async function loadExistingQcm(qcmId) {
@@ -215,56 +251,4 @@ function updateQuestionIndices(container) {
     item.dataset.index = index;
     item.querySelector('h3').textContent = `Question ${index + 1}`;
   });
-}
-
-async function handleFormSubmission(form) {
-  try {
-    const formData = new FormData(form);
-    const qcmData = {
-      title: formData.get('title'),
-      subject: formData.get('subject'),
-      topic: formData.get('topic'),
-      questions: []
-    };
-
-    const user = auth.getUser();
-    if (!user || !user.domain) throw new Error("Utilisateur non authentifié");
-
-    const allowedSubjects = await subjectService.getSubjectsByDomain(user.domain);
-    const allowedNames = allowedSubjects.map(s => s.name);
-    if (!allowedNames.includes(qcmData.subject)) {
-      showNotification('La matière sélectionnée ne correspond pas à votre domaine', 'error');
-      return;
-    }
-
-    if (!qcmData.topic) {
-      showNotification("Veuillez sélectionner un thème", "error");
-      return;
-    }
-
-    const questionElems = form.querySelectorAll('.question-item');
-    questionElems.forEach((el, i) => {
-      const question = formData.get(`questions[${i}][question]`);
-      const correctIndex = formData.get(`questions[${i}][correctAnswer]`);
-      const choices = [0, 1, 2, 3].map(j => formData.get(`questions[${i}][choices][${j}]`));
-      qcmData.questions.push({
-        question,
-        choices,
-        correctAnswer: choices[correctIndex]
-      });
-    });
-
-    const qcmId = form.getAttribute('data-qcm-id');
-    const response = qcmId
-      ? await qcmService.updateQcm(qcmId, qcmData)
-      : await qcmService.createQcm(qcmData);
-
-    showNotification('QCM enregistré avec succès !', 'success');
-    setTimeout(() => {
-      window.location.href = `take-test.html?qcmId=${response._id}`;
-    }, 1000);
-  } catch (error) {
-    console.error(error);
-    showNotification('Erreur lors de la sauvegarde du QCM', 'error');
-  }
 }
