@@ -1,286 +1,673 @@
 /* forms.css - Styles améliorés pour les formulaires */
-
 .form-group {
-    margin-bottom: var(--spacing-md);
-  }
-  
+  margin-bottom: var(--spacing-md);
+}
+
+.form-row {
+  display: flex;
+  gap: var(--spacing-md);
+}
+
+.form-row .form-group {
+  flex: 1;
+}
+
+label {
+  display: block;
+  margin-bottom: var(--spacing-xs);
+  font-weight: 500;
+  color: var(--text-color);
+  font-size: 14px;
+}
+
+input[type="text"],
+input[type="email"],
+input[type="password"],
+input[type="number"],
+select,
+textarea {
+  width: 100%;
+  padding: 12px 14px;
+  border: 1px solid var(--border-color);
+  border-radius: var(--border-radius);
+  font-size: 15px;
+  background-color: var(--card-bg);
+  color: var(--text-color);
+  transition: all 0.3s ease;
+}
+
+input:focus,
+select:focus,
+textarea:focus {
+  outline: none;
+  border-color: var(--primary-color);
+  box-shadow: 0 0 0 3px rgba(44, 123, 229, 0.15);
+}
+
+input.input-error {
+  border-color: var(--error-color);
+}
+
+input.input-error:focus {
+  box-shadow: 0 0 0 3px rgba(230, 55, 87, 0.15);
+}
+
+.error-message {
+  color: var(--error-color);
+  font-size: 13px;
+  margin-top: 4px;
+}
+
+/* Styles pour cases à cocher et boutons radio */
+input[type="checkbox"],
+input[type="radio"] {
+  margin-right: var(--spacing-xs);
+  accent-color: var(--primary-color);
+}
+
+/* ------------------------ QCM CREATION ------------------------ */
+.create-qcm-form {
+  max-width: 900px;
+  margin: 0 auto 30px;
+  background-color: var(--card-bg);
+  border-radius: var(--border-radius);
+  box-shadow: var(--shadow-sm);
+  padding: var(--spacing-lg);
+  border: 1px solid var(--border-color);
+  position: relative;
+  transition: all 0.3s ease;
+}
+
+.create-qcm-form:hover {
+  box-shadow: var(--shadow-md);
+}
+
+.form-header {
+  margin-bottom: var(--spacing-lg);
+  padding-bottom: var(--spacing-md);
+  border-bottom: 1px solid var(--border-color);
+}
+
+.form-header h2 {
+  font-size: 22px;
+  color: var(--secondary-color);
+  margin-bottom: var(--spacing-xs);
+  position: relative;
+  padding-left: 30px;
+}
+
+.form-header h2:before {
+  content: "📝";
+  position: absolute;
+  left: 0;
+  top: 0;
+  font-size: 22px;
+}
+
+.form-header p {
+  color: var(--text-light);
+  opacity: 0.9;
+  font-size: 14px;
+}
+
+.questions-section {
+  margin: var(--spacing-xl) 0;
+  background-color: var(--light-bg);
+  padding: var(--spacing-md);
+  border-radius: var(--border-radius);
+  border: 1px solid var(--border-color);
+}
+
+.section-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: var(--spacing-md);
+  padding-bottom: var(--spacing-sm);
+  border-bottom: 1px solid var(--border-color);
+}
+
+.section-header h3 {
+  font-size: 18px;
+  color: var(--secondary-color);
+  position: relative;
+  padding-left: 28px;
+}
+
+.section-header h3:before {
+  content: "❓";
+  position: absolute;
+  left: 0;
+  top: 0;
+  font-size: 18px;
+}
+
+.question-item {
+  background-color: white;
+  border: 1px solid var(--border-color);
+  border-radius: var(--border-radius);
+  padding: 20px;
+  margin-bottom: 16px;
+  transition: all 0.3s ease;
+  position: relative;
+  box-shadow: var(--shadow-sm);
+}
+
+.question-item:hover {
+  box-shadow: var(--shadow-md);
+  transform: translateY(-3px);
+}
+
+.question-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 16px;
+  padding-bottom: 8px;
+  border-bottom: 1px solid var(--border-color);
+}
+
+.question-header h3 {
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--secondary-color);
+}
+
+.btn-remove-question {
+  background-color: rgba(231, 76, 60, 0.1);
+  color: var(--error-color);
+  border: none;
+  padding: 8px 12px;
+  border-radius: var(--border-radius);
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 500;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.btn-remove-question:hover {
+  background-color: rgba(231, 76, 60, 0.2);
+}
+
+.choices-container {
+  margin-top: 16px;
+}
+
+.choice-item {
+  display: flex;
+  align-items: center;
+  margin-bottom: 10px;
+  background-color: white;
+  padding: 12px 15px;
+  border-radius: var(--border-radius);
+  border: 1px solid var(--border-color);
+  transition: all 0.2s ease;
+}
+
+.choice-item:hover {
+  border-color: var(--primary-color);
+  background-color: rgba(44, 123, 229, 0.02);
+}
+
+.choice-item label {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  cursor: pointer;
+  margin-bottom: 0;
+}
+
+.choice-item input[type="radio"] {
+  margin-right: var(--spacing-sm);
+}
+
+.choice-item input[type="text"] {
+  margin-left: var(--spacing-sm);
+  flex: 1;
+  border: 1px solid transparent;
+  background-color: transparent;
+  padding: 8px;
+  transition: all 0.2s ease;
+}
+
+.choice-item input[type="text"]:focus {
+  border-color: var(--border-color);
+  background-color: white;
+  box-shadow: 0 0 0 2px rgba(44, 123, 229, 0.1);
+}
+
+.form-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: var(--spacing-md);
+  margin-top: var(--spacing-xl);
+}
+
+.form-actions button {
+  padding: 10px 16px;
+  font-weight: 600;
+}
+
+/* Styles pour nouvelle matière */
+.new-subject-form {
+  background-color: var(--light-bg);
+  padding: 20px;
+  border: 1px solid var(--border-color);
+  border-radius: var(--border-radius);
+  margin-bottom: 24px;
+  margin-top: 16px;
+  box-shadow: var(--shadow-sm);
+  transition: all 0.3s ease;
+}
+
+.new-subject-form:hover {
+  box-shadow: var(--shadow-md);
+  transform: translateY(-2px);
+}
+
+.new-subject-form h3 {
+  margin-bottom: 12px;
+  color: var(--primary-color);
+  font-size: 18px;
+  position: relative;
+  padding-left: 28px;
+}
+
+.new-subject-form h3:before {
+  content: "➕";
+  position: absolute;
+  left: 0;
+  top: 0;
+  font-size: 18px;
+}
+
+.new-subject-form input {
+  width: 100%;
+  padding: 12px;
+  margin-bottom: 12px;
+  border-radius: var(--border-radius);
+  border: 1px solid var(--border-color);
+  transition: all 0.2s ease;
+}
+
+.new-subject-form input:focus {
+  border-color: var(--primary-color);
+  box-shadow: 0 0 0 3px rgba(44, 123, 229, 0.15);
+}
+
+.new-subject-form .btn-submit-subject {
+  margin-top: 12px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-weight: 600;
+}
+
+/* Correct answer section */
+.correct-answer-selector {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 15px;
+  margin-top: 10px;
+}
+
+.correct-answer-selector label {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  cursor: pointer;
+  font-weight: normal;
+}
+
+/* Animations */
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes slideDown {
+  from { opacity: 0; transform: translateY(-10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.question-item {
+  animation: slideDown 0.3s ease;
+}
+
+.create-qcm-container {
+  animation: fadeInUp 0.4s ease-out;
+}
+
+/* Adaptation aux domaines */
+.medicine-form .question-item {
+  border-left: 4px solid var(--medicine-color);
+}
+
+.medicine-form .choice-item.correct {
+  border-left: 3px solid var(--medicine-color);
+}
+
+.law-form .question-item {
+  border-left: 4px solid var(--law-color);
+}
+
+.law-form .choice-item.correct {
+  border-left: 3px solid var(--law-color);
+}
+
+/* Badges de complexité */
+.complexity-badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 4px 10px;
+  border-radius: 12px;
+  font-size: 12px;
+  font-weight: 600;
+  margin-left: 10px;
+}
+
+.complexity-easy {
+  background-color: rgba(46, 204, 113, 0.15);
+  color: #27ae60;
+}
+
+.complexity-medium {
+  background-color: rgba(241, 196, 15, 0.15);
+  color: #f39c12;
+}
+
+.complexity-hard {
+  background-color: rgba(231, 76, 60, 0.15);
+  color: #e74c3c;
+}
+
+/* ------------------------ PROFIL UTILISATEUR ------------------------ */
+.profile-avatar-section {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.profile-avatar {
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  margin: 0 auto 10px;
+  background-color: var(--border-color);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 40px;
+  font-weight: bold;
+  color: var(--text-color);
+  overflow: hidden;
+  transition: all 0.3s ease;
+  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.1);
+  border: 4px solid var(--border-color);
+}
+
+.profile-avatar:hover {
+  transform: scale(1.05);
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.15);
+}
+
+.profile-avatar img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 50%;
+}
+
+/* Template cards */
+.qcm-templates {
+  margin-top: 30px;
+}
+
+.qcm-templates h3 {
+  color: var(--secondary-color);
+  margin-bottom: 10px;
+  font-size: 20px;
+  position: relative;
+  padding-left: 32px;
+}
+
+.qcm-templates h3:before {
+  content: "📋";
+  position: absolute;
+  left: 0;
+  top: 0;
+  font-size: 20px;
+}
+
+.qcm-templates p {
+  color: var(--text-light);
+  margin-bottom: 16px;
+}
+
+.templates-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  gap: 20px;
+}
+
+.template-card {
+  position: relative;
+  background-color: var(--card-bg);
+  border: 1px solid var(--border-color);
+  border-radius: var(--border-radius);
+  padding: 20px;
+  transition: all 0.3s ease;
+  overflow: hidden;
+}
+
+.template-card:hover {
+  transform: translateY(-5px);
+  box-shadow: var(--shadow-md);
+}
+
+.template-card h4 {
+  margin-bottom: 8px;
+  color: var(--secondary-color);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.template-card[data-template^="medicine"] h4:before {
+  content: "🔬";
+  font-size: 18px;
+}
+
+.template-card[data-template^="law"] h4:before {
+  content: "⚖️";
+  font-size: 18px;
+}
+
+.template-card p {
+  color: var(--text-light);
+  margin-bottom: 15px;
+  font-size: 14px;
+}
+
+.template-card button {
+  width: 100%;
+}
+
+.template-card[data-template^="medicine"] {
+  border-left: 4px solid var(--medicine-color);
+}
+
+.template-card[data-template^="law"] {
+  border-left: 4px solid var(--law-color);
+}
+
+/* ------------------------ AMÉLIORATIONS POUR LA PAGE PROFIL ------------------------ */
+/* Sélecteur d'avatar amélioré */
+#avatar-select {
+  padding: 10px 14px;
+  background-color: var(--light-bg);
+  cursor: pointer;
+  transition: all 0.2s ease;
+  margin-top: 5px;
+  font-size: 14px;
+}
+
+#avatar-select:hover {
+  border-color: var(--primary-color);
+}
+
+/* Formulaire profil */
+.profile-form {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-md);
+  animation: fadeIn 0.4s ease;
+}
+
+#personal-info-form button,
+#password-form button {
+  align-self: flex-end;
+  margin-top: var(--spacing-md);
+  padding: 10px 18px;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+/* Styles pour les onglets profil */
+.profile-tabs {
+  border-bottom: 1px solid var(--border-color);
+  margin-bottom: var(--spacing-md);
+}
+
+.profile-tab-btn {
+  background: none;
+  border: none;
+  border-bottom: 3px solid transparent;
+  padding: var(--spacing-md) var(--spacing-lg);
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.profile-tab-btn.active {
+  border-bottom-color: var(--primary-color);
+  color: var(--primary-color);
+}
+
+.profile-tab-btn:hover:not(.active) {
+  border-bottom-color: var(--border-color);
+}
+
+/* Historique des tests */
+.test-history {
+  max-height: 350px;
+  overflow-y: auto;
+  border: 1px solid var(--border-color);
+  border-radius: var(--border-radius);
+  background-color: var(--light-bg);
+}
+
+.test-history::-webkit-scrollbar {
+  width: 8px;
+}
+
+.test-history::-webkit-scrollbar-track {
+  background: var(--light-bg);
+  border-radius: 4px;
+}
+
+.test-history::-webkit-scrollbar-thumb {
+  background-color: var(--border-color);
+  border-radius: 4px;
+}
+
+.test-history::-webkit-scrollbar-thumb:hover {
+  background-color: var(--text-light);
+}
+
+/* Messages de confirmation et d'erreur */
+.profile-messages {
+  margin-top: var(--spacing-md);
+}
+
+.success-message,
+.error-message {
+  padding: 12px 16px;
+  border-radius: var(--border-radius);
+  margin-top: var(--spacing-md);
+  font-size: 14px;
+  position: relative;
+  padding-left: 40px;
+  animation: slideInRight 0.3s ease-out;
+}
+
+.success-message {
+  background-color: rgba(46, 204, 113, 0.1);
+  color: #27ae60;
+  border: 1px solid rgba(46, 204, 113, 0.2);
+}
+
+.success-message:before {
+  content: "✓";
+  position: absolute;
+  left: 16px;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 16px;
+  font-weight: bold;
+}
+
+/* Animations supplémentaires */
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes slideInRight {
+  from { opacity: 0; transform: translateX(20px); }
+  to { opacity: 1; transform: translateX(0); }
+}
+
+/* Adaptation domain-specific pour la page profil */
+.medicine-profile input:focus,
+.medicine-profile select:focus {
+  border-color: var(--medicine-color);
+  box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.15);
+}
+
+.law-profile input:focus,
+.law-profile select:focus {
+  border-color: var(--law-color);
+  box-shadow: 0 0 0 3px rgba(142, 68, 173, 0.15);
+}
+
+.medicine-profile .btn-primary {
+  background-color: var(--medicine-color);
+}
+
+.law-profile .btn-primary {
+  background-color: var(--law-color);
+}
+
+/* Styles de bouton améliorés pour la page profil */
+.btn-icon {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+/* Styles responsive pour profil */
+@media (max-width: 768px) {
   .form-row {
-    display: flex;
-    gap: var(--spacing-md);
+    flex-direction: column;
   }
   
-  .form-row .form-group {
-    flex: 1;
+  .profile-tabs {
+    overflow-x: auto;
+    white-space: nowrap;
+    padding-bottom: var(--spacing-xs);
   }
-  
-  label {
-    display: block;
-    margin-bottom: var(--spacing-xs);
-    font-weight: 500;
-    color: var(--text-color);
-    font-size: 14px;
-  }
-  
-  input[type="text"],
-  input[type="email"],
-  input[type="password"],
-  input[type="number"],
-  select,
-  textarea {
-    width: 100%;
-    padding: 12px 14px;
-    border: 1px solid var(--border-color);
-    border-radius: var(--border-radius);
-    font-size: 15px;
-    background-color: var(--card-bg);
-    color: var(--text-color);
-    transition: all 0.3s ease;
-  }
-  
-  input:focus,
-  select:focus,
-  textarea:focus {
-    outline: none;
-    border-color: var(--primary-color);
-    box-shadow: 0 0 0 3px rgba(44, 123, 229, 0.15);
-  }
-  
-  input.input-error {
-    border-color: var(--error-color);
-  }
-  
-  input.input-error:focus {
-    box-shadow: 0 0 0 3px rgba(230, 55, 87, 0.15);
-  }
-  
-  .error-message {
-    color: var(--error-color);
-    font-size: 13px;
-    margin-top: 4px;
-  }
-  
-  /* Styles pour cases à cocher et boutons radio */
-  input[type="checkbox"],
-  input[type="radio"] {
-    margin-right: var(--spacing-xs);
-  }
-  
-  /* ------------------------ QCM CREATION ------------------------ */
-  .create-qcm-form {
-    max-width: 900px;
-    margin: 0 auto;
-    background-color: var(--card-bg);
-    border-radius: var(--border-radius);
-    box-shadow: var(--shadow-sm);
-    padding: var(--spacing-lg);
-    border: 1px solid var(--border-color);
-  }
-  
-  .form-header {
-    margin-bottom: var(--spacing-lg);
-    padding-bottom: var(--spacing-md);
-    border-bottom: 1px solid var(--border-color);
-  }
-  
-  .form-header h2 {
-    font-size: 22px;
-    color: var(--secondary-color);
-    margin-bottom: var(--spacing-xs);
-  }
-  
-  .form-header p {
-    color: var(--text-color);
-    opacity: 0.7;
-  }
-  
-  .questions-section {
-    margin: var(--spacing-xl) 0;
-  }
-  
-  .section-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: var(--spacing-md);
-  }
-  
-  .question-item {
-    background-color: rgba(44, 123, 229, 0.03);
-    border-radius: var(--border-radius);
-    padding: var(--spacing-lg);
-    margin-bottom: var(--spacing-md);
-    border: 1px solid rgba(44, 123, 229, 0.1);
-    transition: box-shadow 0.3s ease;
-  }
-  
-  .question-item:hover {
-    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.04);
-  }
-  
-  .question-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: var(--spacing-md);
-    padding-bottom: var(--spacing-sm);
-    border-bottom: 1px solid rgba(44, 123, 229, 0.1);
-  }
-  
-  .question-header h3 {
-    font-size: 18px;
-    color: var(--secondary-color);
-  }
-  
-  .btn-remove-question {
-    background-color: rgba(231, 76, 60, 0.1);
-    color: var(--error-color);
-    border: none;
-    padding: 6px 12px;
-    border-radius: var(--border-radius);
-    cursor: pointer;
-    font-size: 14px;
-    font-weight: 500;
-    transition: all 0.2s ease;
-  }
-  
-  .btn-remove-question:hover {
-    background-color: rgba(231, 76, 60, 0.2);
-  }
-  
-  .choices-container {
-    margin-top: var(--spacing-md);
-  }
-  
-  .choice-item {
-    display: flex;
-    align-items: center;
-    margin-bottom: var(--spacing-sm);
-    background-color: white;
-    padding: 10px;
-    border-radius: var(--border-radius);
-    border: 1px solid var(--border-color);
-  }
-  
-  .choice-item label {
-    display: flex;
-    align-items: center;
-    width: 100%;
-    cursor: pointer;
-    margin-bottom: 0;
-  }
-  
-  .choice-item input[type="radio"] {
-    margin-right: var(--spacing-sm);
-  }
-  
-  .choice-item input[type="text"] {
-    margin-left: var(--spacing-sm);
-    flex: 1;
-    border: 1px solid transparent;
-    background-color: transparent;
-    padding: 8px;
-  }
-  
-  .choice-item input[type="text"]:focus {
-    border-color: var(--border-color);
-    background-color: white;
-  }
-  
-  .form-actions {
-    display: flex;
-    justify-content: flex-end;
-    gap: var(--spacing-md);
-    margin-top: var(--spacing-xl);
-  }
-  
-  /* Spécificités pour la médecine et le droit */
-  .medicine-form .question-item {
-    border-left: 3px solid var(--medicine-color);
-  }
-  
-  .law-form .question-item {
-    border-left: 3px solid var(--law-color);
-  }
-  
-  /* ------------------------ PROFIL UTILISATEUR ------------------------ */
-  .profile-avatar-section {
-    text-align: center;
-    margin-bottom: 20px;
-  }
-  
-  .profile-avatar {
-    width: 120px;
-    height: 120px;
-    border-radius: 50%;
-    margin: 0 auto 10px;
-    background-color: var(--border-color);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 40px;
-    font-weight: bold;
-    color: var(--text-color);
-    overflow: hidden;
-  }
-  
-  .profile-avatar img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    border-radius: 50%;
-  }
-  
-  .avatar-options {
-    display: flex;
-    justify-content: center;
-    gap: 16px;
-    margin-top: 10px;
-  }
-  
-  .avatar-option {
-    border: 2px solid transparent;
-    border-radius: 8px;
-    cursor: pointer;
-    padding: 5px;
-    transition: border-color 0.3s;
-    width: 60px;
-    height: 60px;
-  }
-  
-  .avatar-option img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    border-radius: 8px;
-  }
-  
-  .avatar-option.selected {
-    border-color: var(--primary-color);
-  }
-  
-  /* Historique des tests */
-  .test-history {
-    margin-top: 30px;
-    border-top: 1px solid var(--border-color);
-    padding-top: 20px;
-  }
-  
-  .test-history h3 {
-    margin-bottom: 10px;
-    color: var(--secondary-color);
-  }
-  
-  .test-history ul {
-    list-style: none;
-    padding-left: 0;
-  }
-  
-  .test-history li {
-    padding: 8px 12px;
-    background-color: var(--card-bg);
-    border: 1px solid var(--border-color);
-    border-radius: var(--border-radius);
-    margin-bottom: 8px;
-    font-size: 14px;
-  }
-  
+}

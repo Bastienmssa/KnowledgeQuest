@@ -496,3 +496,333 @@ ul {
     background-color: rgba(255, 255, 255, 0.12);
     color: white;
 }
+
+/* Ajouts pour style ANKI dans main.css */
+
+/* Variables supplémentaires pour le style ANKI */
+:root {
+    --light-bg: #f8fafc;
+    --text-light: #64748b;
+    --input-hover-bg: #edf2f9;
+  }
+  
+  /* Amélioration des boutons pour style ANKI */
+  .btn-primary {
+    border-radius: 8px;
+    font-weight: 600;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+  }
+  
+  .btn-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 12px rgba(44, 123, 229, 0.2);
+  }
+  
+  .btn-secondary:hover {
+    transform: translateY(-2px);
+  }
+  
+  /* Animations ANKI */
+  @keyframes flip {
+    0% { transform: rotateY(0deg); }
+    100% { transform: rotateY(180deg); }
+  }
+  
+  @keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+  }
+  
+  /* Correct support for custom radio buttons */
+  input[type="radio"] {
+    accent-color: var(--primary-color);
+  }
+  
+  /* Meilleur support pour les éléments non natifs */
+  .choice input[type="radio"]:focus {
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.25);
+  }
+  
+  /* État d'erreur amélioré */
+  .error-state {
+    padding: 20px;
+    text-align: center;
+    color: var(--error-color);
+    background-color: rgba(230, 55, 87, 0.05);
+    border-radius: 8px;
+    border: 1px solid rgba(230, 55, 87, 0.2);
+    margin: 20px 0;
+  }
+
+  /* Ajouts pour améliorer les graphiques */
+:root {
+    /* Couleurs supplémentaires pour les graphiques */
+    --chart-blue: #3498db;
+    --chart-green: #2ecc71;
+    --chart-purple: #9b59b6;
+    --chart-orange: #e67e22;
+    --chart-red: #e74c3c;
+    --chart-yellow: #f1c40f;
+    --chart-gray: #95a5a6;
+    
+    /* Couleurs des sujets médicaux */
+    --anatomy-color: #3498db;
+    --physiology-color: #16a085;
+    --pathology-color: #8e44ad;
+    --pharmacology-color: #e67e22;
+    
+    /* Couleurs des sujets juridiques */
+    --civil-law-color: #8e44ad;
+    --criminal-law-color: #c0392b;
+    --constitutional-color: #2c3e50;
+    --international-color: #27ae60;
+  }
+  
+  /* Amélioration des graphiques */
+  canvas {
+    max-width: 100%;
+  }
+  
+  /* Badges d'évaluation */
+  .score-badge {
+    padding: 5px 12px;
+    border-radius: 20px;
+    font-size: 13px;
+    font-weight: 600;
+    display: inline-flex;
+    align-items: center;
+  }
+  
+  .score-badge.high {
+    background-color: rgba(46, 204, 113, 0.15);
+    color: #27ae60;
+  }
+  
+  .score-badge.medium {
+    background-color: rgba(241, 196, 15, 0.15);
+    color: #d35400;
+  }
+  
+  .score-badge.low {
+    background-color: rgba(231, 76, 60, 0.15);
+    color: #c0392b;
+  }
+  
+  .score-badge:before {
+    content: '';
+    display: inline-block;
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    margin-right: 8px;
+  }
+  
+  .score-badge.high:before {
+    background-color: #27ae60;
+  }
+  
+  .score-badge.medium:before {
+    background-color: #d35400;
+  }
+  
+  .score-badge.low:before {
+    background-color: #c0392b;
+  }
+  
+  /* Animation douce au chargement de la page */
+  @keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
+  
+  .main-content {
+    animation: fadeIn 0.5s ease-in-out;
+  }
+  
+  /* Hover pour les cartes et conteneurs */
+  .card:hover, 
+  .chart-container:hover, 
+  .stat-card:hover {
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
+    transform: translateY(-5px);
+  }
+
+/* Ajouts pour améliorer le tableau de bord */
+
+/* Variables spécifiques pour le tableau de bord */
+:root {
+    /* Couleurs de progression pour médecine */
+    --anatomy-color: #3498db;
+    --physiology-color: #16a085;
+    --pathology-color: #8e44ad;
+    --pharmacology-color: #e67e22;
+    
+    /* Couleurs pour droit */
+    --civil-law-color: #8e44ad;
+    --criminal-law-color: #c0392b;
+    --constitutional-color: #2c3e50;
+    --international-color: #27ae60;
+    
+    /* Nouveaux statuts */
+    --high-score-color: #27ae60;
+    --medium-score-color: #f39c12;
+    --low-score-color: #e74c3c;
+  }
+  
+  /* Scores améliorés avec code couleur */
+  .score-100 {
+    color: #27ae60 !important;
+    background-color: rgba(39, 174, 96, 0.1) !important;
+  }
+  
+  .score-80 {
+    color: #3498db !important;
+    background-color: rgba(52, 152, 219, 0.1) !important;
+  }
+  
+  .score-60 {
+    color: #f39c12 !important; 
+    background-color: rgba(243, 156, 18, 0.1) !important;
+  }
+  
+  .score-40 {
+    color: #e67e22 !important;
+    background-color: rgba(230, 126, 34, 0.1) !important;
+  }
+  
+  .score-20 {
+    color: #e74c3c !important;
+    background-color: rgba(231, 76, 60, 0.1) !important;
+  }
+  
+  /* Animation pour les charts */
+  @keyframes chartFadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
+  
+  canvas {
+    animation: chartFadeIn 0.8s ease-in;
+  }
+  
+  /* Indicateurs visuels */
+  .trend-indicator {
+    display: inline-flex;
+    align-items: center;
+    padding: 4px 8px;
+    border-radius: 4px;
+    font-size: 12px;
+    font-weight: 600;
+  }
+  
+  .trend-indicator.positive {
+    background-color: rgba(39, 174, 96, 0.1);
+    color: #27ae60;
+  }
+  
+  .trend-indicator.positive::before {
+    content: '↑';
+    margin-right: 4px;
+  }
+  
+  .trend-indicator.negative {
+    background-color: rgba(231, 76, 60, 0.1);
+    color: #e74c3c;
+  }
+  
+  .trend-indicator.negative::before {
+    content: '↓';
+    margin-right: 4px;
+  }
+  
+  /* Amélioration des cartes pour les domaines spécifiques */
+  .medicine-themed .card, 
+  .medicine-themed .stat-card::before {
+    border-color: rgba(52, 152, 219, 0.3);
+  }
+  
+  .law-themed .card, 
+  .law-themed .stat-card::before {
+    border-color: rgba(155, 89, 182, 0.3);
+  }
+  
+  /* Style de date plus lisible */
+  .date-display {
+    font-family: 'Roboto Mono', monospace;
+    font-size: 13px;
+    color: #64748b;
+  }
+  
+  /* Effets de survol améliorés */
+  .interactive-item {
+    transition: all 0.3s cubic-bezier(0.165, 0.84, 0.44, 1);
+  }
+  
+  .interactive-item:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+  }
+
+  /* Notifications */
+.notification {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    padding: 15px 20px;
+    background-color: white;
+    border-radius: var(--border-radius);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    z-index: 9999;
+    max-width: 400px;
+    transform: translateY(-20px);
+    opacity: 0;
+    transition: all 0.3s ease;
+  }
+  
+  .notification.visible {
+    transform: translateY(0);
+    opacity: 1;
+  }
+  
+  .notification-icon {
+    font-size: 20px;
+  }
+  
+  .notification-message {
+    flex: 1;
+    margin: 0;
+  }
+  
+  .notification-close {
+    background: none;
+    border: none;
+    font-size: 20px;
+    cursor: pointer;
+    color: var(--text-light);
+    opacity: 0.7;
+    transition: opacity 0.2s ease;
+  }
+  
+  .notification-close:hover {
+    opacity: 1;
+  }
+  
+  .notification-success {
+    border-left: 4px solid var(--success-color);
+  }
+  
+  .notification-error {
+    border-left: 4px solid var(--error-color);
+  }
+  
+  .notification-warning {
+    border-left: 4px solid var(--warning-color);
+  }
+  
+  .notification-info {
+    border-left: 4px solid var(--primary-color);
+  }

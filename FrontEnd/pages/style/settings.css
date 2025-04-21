@@ -1,9 +1,10 @@
-/* settings.css - Styles spécifiques à la page des paramètres */
+/* settings.css - Styles améliorés pour la page des paramètres */
 
 .settings-container {
     max-width: 900px;
     margin: 0 auto;
     padding: var(--spacing-xl) var(--spacing-lg);
+    animation: fadeIn 0.5s ease-in-out;
 }
 
 .page-title {
@@ -11,16 +12,31 @@
     font-weight: 700;
     color: var(--secondary-color);
     margin-bottom: var(--spacing-lg);
+    border-bottom: 2px solid var(--border-color);
+    padding-bottom: var(--spacing-md);
 }
 
 .settings-messages {
     margin-bottom: var(--spacing-lg);
+    min-height: 30px;
 }
 
+/* Amélioration des onglets de paramètres */
 .settings-tabs {
     display: flex;
     margin-bottom: var(--spacing-lg);
     border-bottom: 1px solid var(--border-color);
+    position: relative;
+}
+
+.settings-tabs:after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--border-color) 20%, var(--border-color) 80%, transparent);
 }
 
 .tab-btn {
@@ -35,21 +51,52 @@
     color: var(--text-color);
     opacity: 0.7;
     transition: all 0.3s ease;
+    position: relative;
+}
+
+.tab-btn:after {
+    content: '';
+    position: absolute;
+    bottom: -2px;
+    left: 50%;
+    width: 0;
+    height: 2px;
+    background-color: var(--primary-color);
+    transition: all 0.3s ease;
+    transform: translateX(-50%);
+    z-index: 1;
 }
 
 .tab-btn.active {
     opacity: 1;
-    border-bottom-color: var(--primary-color);
+    color: var(--primary-color);
 }
 
+.tab-btn.active:after {
+    width: 80%;
+}
+
+.tab-btn:hover {
+    opacity: 0.9;
+    background-color: rgba(0, 0, 0, 0.02);
+}
+
+/* Maintien de la structure des onglets pour la navigation */
 .settings-tab-content {
     display: none;
 }
 
 .settings-tab-content.active {
     display: block;
+    animation: fadeIn 0.4s ease-out;
 }
 
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+/* Sections de paramètres améliorées */
 .settings-section {
     background-color: var(--card-bg);
     border-radius: var(--border-radius);
@@ -57,25 +104,46 @@
     border: 1px solid var(--border-color);
     padding: var(--spacing-lg);
     margin-bottom: var(--spacing-lg);
+    transition: box-shadow 0.3s ease, transform 0.2s ease;
+    position: relative;
+    overflow: hidden;
+}
+
+.settings-section:hover {
+    box-shadow: var(--shadow-md);
+    transform: translateY(-2px);
 }
 
 .settings-section h2 {
     font-size: 20px;
     font-weight: 600;
     color: var(--secondary-color);
-    margin-bottom: var(--spacing-md);
+    margin-bottom: var(--spacing-lg);
+    display: flex;
+    align-items: center;
 }
 
+/* Éléments de paramètres individuels */
 .setting-item {
     display: flex;
     justify-content: space-between;
     align-items: center;
     padding: var(--spacing-md) 0;
     border-bottom: 1px solid var(--border-color);
+    transition: background-color 0.2s ease;
 }
 
 .setting-item:last-child {
     border-bottom: none;
+}
+
+.setting-item:hover {
+    background-color: rgba(0, 0, 0, 0.01);
+}
+
+.setting-info {
+    flex: 1;
+    padding-right: var(--spacing-lg);
 }
 
 .setting-info h3 {
@@ -89,18 +157,22 @@
     font-size: 14px;
     color: var(--text-color);
     opacity: 0.7;
+    line-height: 1.5;
 }
 
 .setting-control {
+    min-width: 100px;
     display: flex;
     align-items: center;
+    justify-content: flex-end;
 }
 
+/* Interrupteurs à bascule améliorés */
 .toggle-switch {
     display: inline-block;
     position: relative;
-    width: 40px;
-    height: 20px;
+    width: 46px;
+    height: 24px;
 }
 
 .toggle-switch input {
@@ -114,21 +186,22 @@
     right: 0;
     bottom: 0;
     background-color: var(--border-color);
-    border-radius: 20px;
-    transition: 0.4s;
+    border-radius: 24px;
+    transition: 0.4s cubic-bezier(0.68, -0.55, 0.27, 1.55);
     cursor: pointer;
 }
 
 .toggle-slider::before {
     content: "";
     position: absolute;
-    width: 16px;
-    height: 16px;
-    left: 2px;
-    bottom: 2px;
+    width: 18px;
+    height: 18px;
+    left: 3px;
+    bottom: 3px;
     background-color: white;
     border-radius: 50%;
-    transition: 0.4s;
+    transition: 0.4s cubic-bezier(0.68, -0.55, 0.27, 1.55);
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.15);
 }
 
 .toggle-switch input:checked + .toggle-slider {
@@ -136,13 +209,20 @@
 }
 
 .toggle-switch input:checked + .toggle-slider::before {
-    transform: translateX(20px);
+    transform: translateX(22px);
 }
 
+.toggle-switch input:focus + .toggle-slider {
+    box-shadow: 0 0 1px var(--primary-color);
+}
+
+/* Sélecteur de thème amélioré */
 .theme-selector {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
-    gap: var(--spacing-sm);
+    gap: var(--spacing-md);
+    width: 100%;
+    max-width: 300px;
 }
 
 .theme-option {
@@ -152,51 +232,245 @@
     cursor: pointer;
 }
 
+.theme-option input[type="radio"] {
+    position: absolute;
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
 .theme-preview {
-    width: 60px;
-    height: 60px;
-    border-radius: 8px;
+    width: 70px;
+    height: 70px;
+    border-radius: 12px;
     display: flex;
     align-items: center;
     justify-content: center;
     font-size: 14px;
     font-weight: 600;
     color: white;
-    transition: transform 0.2s ease;
+    transition: all 0.3s cubic-bezier(0.165, 0.84, 0.44, 1);
+    border: 2px solid transparent;
+    box-shadow: var(--shadow-sm);
+    margin-bottom: var(--spacing-xs);
 }
 
 .theme-preview.medicine-theme {
-    background-color: var(--medicine-color);
+    background: linear-gradient(135deg, var(--medicine-color), #2980b9);
 }
 
 .theme-preview.law-theme {
-    background-color: var(--law-color);
+    background: linear-gradient(135deg, var(--law-color), #7d3c98);
 }
 
 .theme-preview.neutral-theme {
-    background-color: var(--secondary-color);
+    background: linear-gradient(135deg, var(--secondary-color), #1a2942);
 }
 
 .theme-option input[type="radio"]:checked + .theme-preview {
-    transform: scale(1.1);
-    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+    transform: scale(1.05);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+    border: 2px solid white;
+    outline: 2px solid var(--primary-color);
 }
 
-.settings-actions {
-    display: flex;
-    justify-content: flex-end;
-    margin-top: var(--spacing-lg);
+.theme-option:hover .theme-preview {
+    transform: translateY(-3px);
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
 }
 
+/* Sélecteurs et entrées améliorés */
+.setting-control select,
+.setting-control input[type="number"] {
+    padding: 8px 12px;
+    border-radius: var(--border-radius);
+    border: 1px solid var(--border-color);
+    background-color: white;
+    font-size: 14px;
+    color: var(--text-color);
+    min-width: 150px;
+    transition: all 0.2s ease;
+}
+
+.setting-control select:hover,
+.setting-control input[type="number"]:hover {
+    border-color: #d2ddec;
+    background-color: var(--input-hover-bg);
+}
+
+.setting-control select:focus,
+.setting-control input[type="number"]:focus {
+    outline: none;
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 3px rgba(44, 123, 229, 0.2);
+}
+
+/* Zone de danger améliorée */
 .danger-zone {
     border-top: 3px solid var(--error-color);
+    position: relative;
+}
+
+.danger-zone:before {
+    content: '⚠️';
+    position: absolute;
+    top: -15px;
+    right: 20px;
+    background: var(--card-bg);
+    padding: 5px 10px;
+    border-radius: 20px;
+    font-size: 16px;
+    border: 1px solid var(--border-color);
 }
 
 .danger-zone h2 {
     color: var(--error-color);
 }
 
-.danger-zone .btn-danger:hover {
-    background-color: #c0392b;
-    box-shadow: 0 4px 6px rgba(230, 55, 87, 0.3);
+/* Boutons d'actions améliorés */
+.settings-actions {
+    display: flex;
+    justify-content: flex-end;
+    margin-top: var(--spacing-lg);
+    padding-top: var(--spacing-lg);
+    border-top: 1px solid var(--border-color);
+}
+
+.btn-primary,
+.btn-secondary,
+.btn-danger {
+    padding: 10px 20px;
+    border-radius: var(--border-radius);
+    font-weight: 600;
+    font-size: 14px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: var(--shadow-sm);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.btn-primary {
+    background-color: var(--primary-color);
+    color: white;
+    border: none;
+}
+
+.btn-secondary {
+    background-color: white;
+    color: var(--primary-color);
+    border: 1px solid var(--border-color);
+}
+
+.btn-danger {
+    background-color: white;
+    color: var(--error-color);
+    border: 1px solid var(--error-color);
+}
+
+.btn-danger:hover {
+    background-color: var(--error-color);
+    color: white;
+}
+
+.btn-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 10px rgba(44, 123, 229, 0.3);
+}
+
+/* Mode sombre */
+body.dark-mode .settings-section {
+    background-color: var(--card-bg);
+    border-color: rgba(255, 255, 255, 0.1);
+}
+
+body.dark-mode .toggle-slider {
+    background-color: #2c3e50;
+}
+
+body.dark-mode .setting-item {
+    border-color: rgba(255, 255, 255, 0.1);
+}
+
+body.dark-mode .tab-btn {
+    color: rgba(255, 255, 255, 0.7);
+}
+
+body.dark-mode .tab-btn.active {
+    color: white;
+}
+
+body.dark-mode .setting-control select,
+body.dark-mode .setting-control input[type="number"] {
+    background-color: var(--card-bg);
+    border-color: rgba(255, 255, 255, 0.2);
+    color: white;
+}
+
+/* Animation du bouton d'enregistrement */
+@keyframes savePulse {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.05); }
+    100% { transform: scale(1); }
+}
+
+.btn-primary:active {
+    animation: savePulse 0.5s ease-in-out;
+}
+
+/* Thèmes spécifiques */
+.medicine-themed .tab-btn.active {
+    color: var(--medicine-color);
+}
+
+.medicine-themed .tab-btn.active:after {
+    background-color: var(--medicine-color);
+}
+
+.medicine-themed .toggle-switch input:checked + .toggle-slider {
+    background-color: var(--medicine-color);
+}
+
+.law-themed .tab-btn.active {
+    color: var(--law-color);
+}
+
+.law-themed .tab-btn.active:after {
+    background-color: var(--law-color);
+}
+
+.law-themed .toggle-switch input:checked + .toggle-slider {
+    background-color: var(--law-color);
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+    .setting-item {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+    
+    .setting-control {
+        margin-top: var(--spacing-md);
+        width: 100%;
+        justify-content: flex-start;
+    }
+    
+    .theme-selector {
+        max-width: 100%;
+    }
+    
+    .settings-section {
+        padding: var(--spacing-md);
+    }
+    
+    .settings-tabs {
+        flex-wrap: wrap;
+    }
+    
+    .tab-btn {
+        padding: var(--spacing-sm) var(--spacing-md);
+        font-size: 14px;
+    }
 }

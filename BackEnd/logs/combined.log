@@ -117,3 +117,15 @@
 2025-04-20 23:07:46 error: ❌ Erreur getSessionById : Cast to ObjectId failed for value "user" (type string) at path "_id" for model "Session"
 2025-04-20 23:07:49 error: ❌ Erreur getSessionById : Cast to ObjectId failed for value "user" (type string) at path "_id" for model "Session"
 2025-04-20 23:08:09 error: ❌ Erreur getSessionById : Cast to ObjectId failed for value "user" (type string) at path "_id" for model "Session"
+2025-04-21 17:14:36 error: ❌ Erreur getSessionById : Cast to ObjectId failed for value "user" (type string) at path "_id" for model "Session"
+2025-04-21 17:17:39 error: ❌ Erreur getSessionById : Cast to ObjectId failed for value "user" (type string) at path "_id" for model "Session"
+2025-04-21 17:17:43 error: ❌ Erreur getSessionById : Cast to ObjectId failed for value "user" (type string) at path "_id" for model "Session"
+2025-04-21 17:25:55 error: ❌ Erreur getSessionById : Cast to ObjectId failed for value "user" (type string) at path "_id" for model "Session"
+2025-04-21 17:29:00 info: ✅ Session enregistrée : user=680282e9ab372974164e674a, sessionId=6806643cdea652d008c5647a, score=100, durée=1s
+2025-04-21 17:29:08 error: ❌ Erreur getSessionById : Cast to ObjectId failed for value "user" (type string) at path "_id" for model "Session"
+2025-04-21 17:29:16 info: ✅ Session enregistrée : user=680282e9ab372974164e674a, sessionId=6806644cdea652d008c56528, score=100, durée=1s
+2025-04-21 17:29:27 info: ✅ Session enregistrée : user=680282e9ab372974164e674a, sessionId=68066457dea652d008c5657a, score=100, durée=2s
+2025-04-21 17:29:35 info: ✅ Session enregistrée : user=680282e9ab372974164e674a, sessionId=6806645fdea652d008c565ce, score=100, durée=1s
+2025-04-21 17:30:27 error: Erreur updatePassword: Illegal arguments: string, undefined
+2025-04-21 17:45:52 error: ❌ Erreur getSessionById : Cast to ObjectId failed for value "user" (type string) at path "_id" for model "Session"
+2025-04-21 17:47:45 error: ❌ Erreur getSessionById : Cast to ObjectId failed for value "user" (type string) at path "_id" for model "Session"

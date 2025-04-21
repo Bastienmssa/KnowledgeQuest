@@ -1,20 +1,27 @@
 /* auth.css - Styles améliorés pour l'authentification */
 
 :root {
-    /* Couleurs spécifiques à l'authentification */
+    /* Couleurs principales améliorées */
     --auth-sidebar-bg: linear-gradient(135deg, #1e3a5f 0%, #2c7be5 100%);
+    --medicine-accent: rgba(52, 152, 219, 0.8);
+    --law-accent: rgba(142, 68, 173, 0.8);
     --input-bg: #f9fbfd;
     --input-border: #e3ebf6;
     --input-focus-border: #95aac9;
     --input-focus-shadow: rgba(44, 123, 229, 0.1);
+    --error-color: #e63757;
+    --success-color: #00d97e;
 }
 
-/* Page d'authentification - design premium et épuré */
+/* Structure améliorée de la page d'authentification */
 .auth-container {
     display: flex;
     min-height: 100vh;
+    overflow: hidden;
+    position: relative;
 }
 
+/* Sidebar avec animation subtile */
 .auth-sidebar {
     flex: 1;
     background: var(--auth-sidebar-bg);
@@ -38,45 +45,75 @@
     background-size: cover;
     opacity: 0.05;
     z-index: 0;
+    animation: pulse 8s infinite alternate;
 }
 
+@keyframes pulse {
+    0% { opacity: 0.03; }
+    100% { opacity: 0.07; }
+}
+
+/* Contenu de la sidebar amélioré */
 .auth-sidebar-content {
     max-width: 400px;
     text-align: center;
     position: relative;
     z-index: 1;
+    animation: fadeIn 0.8s ease-out;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
 }
 
 .auth-sidebar .logo {
     max-width: 400px;
     margin-bottom: var(--spacing-lg);
     display: block;
-    filter: drop-shadow(0 2px 5px rgba(0, 0, 0, 0.3));
+    filter: drop-shadow(0 2px 8px rgba(0, 0, 0, 0.3));
+    transition: transform 0.3s ease;
+}
+
+.auth-sidebar .logo:hover {
+    transform: scale(1.02);
 }
 
 .auth-sidebar h2 {
-    font-size: 28px;
+    font-size: 30px;
     margin-bottom: var(--spacing-md);
     font-weight: 700;
     line-height: 1.3;
+    letter-spacing: -0.5px;
 }
 
 .auth-sidebar p {
     opacity: 0.9;
     line-height: 1.6;
     font-size: 16px;
+    margin-bottom: 0;
 }
 
+/* Contenu principal amélioré */
 .auth-content {
     flex: 1;
     display: flex;
     flex-direction: column;
     padding: var(--spacing-xl);
     background-color: var(--bg-color);
+    position: relative;
+    z-index: 1;
 }
 
+/* Header plus visible */
 .auth-header {
     margin-bottom: var(--spacing-lg);
+    animation: slideIn 0.5s ease-out;
+}
+
+@keyframes slideIn {
+    from { opacity: 0; transform: translateX(-10px); }
+    to { opacity: 1; transform: translateX(0); }
 }
 
 .back-link {
@@ -84,17 +121,22 @@
     align-items: center;
     color: var(--text-color);
     font-weight: 500;
-    transition: transform 0.2s ease;
+    transition: all 0.2s ease;
+    padding: 6px 12px;
+    border-radius: 4px;
 }
 
 .back-link:hover {
     transform: translateX(-3px);
+    background-color: rgba(0, 0, 0, 0.03);
 }
 
 .back-link .icon {
     margin-right: var(--spacing-xs);
+    font-weight: bold;
 }
 
+/* Conteneur de formulaire amélioré */
 .auth-form-container {
     flex: 1;
     display: flex;
@@ -103,12 +145,45 @@
     max-width: 480px;
     margin: 0 auto;
     background-color: var(--card-bg);
-    border-radius: var(--border-radius);
-    box-shadow: var(--shadow-md);
+    border-radius: 12px;
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.08);
     padding: var(--spacing-xl);
     border: 1px solid var(--border-color);
+    position: relative;
+    animation: fadeUp 0.6s ease-out;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
+.auth-form-container:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.12);
+}
+
+@keyframes fadeUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* Styles spécifiques aux domaines */
+.auth-form-container.medicine {
+    border-top: 4px solid var(--medicine-color);
+}
+
+.auth-form-container.law {
+    border-top: 4px solid var(--law-color);
+}
+
+/* Titre de formulaire amélioré */
+.auth-form-container h2 {
+    margin-bottom: var(--spacing-lg);
+    font-size: 24px;
+    color: var(--secondary-color);
+    text-align: center;
+    font-weight: 700;
+    letter-spacing: -0.5px;
+}
+
+/* Onglets améliorés */
 .auth-tabs {
     display: flex;
     margin-bottom: var(--spacing-lg);
@@ -134,25 +209,20 @@
     border-bottom-color: var(--primary-color);
 }
 
-.tab-content {
-    display: block;
-}
-
-.tab-content.hidden {
-    display: none;
-}
-
-.auth-form h2 {
-    margin-bottom: var(--spacing-lg);
-    font-size: 24px;
-    color: var(--secondary-color);
-    text-align: center;
-}
-
-/* Styles améliorés pour les champs de saisie - plus épurés et professionnels */
+/* Champs de formulaire améliorés */
 .form-group {
     margin-bottom: 24px;
     position: relative;
+}
+
+.form-row {
+    display: flex;
+    gap: 15px;
+    margin-bottom: 0;
+}
+
+.form-row .form-group {
+    flex: 1;
 }
 
 .auth-form label {
@@ -185,59 +255,53 @@
     border-color: var(--input-focus-border);
     box-shadow: 0 0 0 4px var(--input-focus-shadow);
     background-color: white;
+    transform: translateY(-1px);
 }
 
-/* Style flottant pour les labels (optionnel) */
-.float-label {
-    position: relative;
+/* Meilleur affichage pour select */
+.auth-form select {
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%2395aac9' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 16px center;
+    padding-right: 40px;
 }
 
-.float-label label {
-    position: absolute;
-    top: 14px;
-    left: 16px;
-    font-size: 15px;
-    color: #95aac9;
-    pointer-events: none;
-    transition: all 0.2s ease;
+/* Notifications améliorées */
+.auth-messages {
+    margin-bottom: 20px;
 }
 
-.float-label input:focus ~ label,
-.float-label input:not(:placeholder-shown) ~ label {
-    top: -8px;
-    left: 12px;
-    font-size: 12px;
-    background-color: white;
-    padding: 0 4px;
-    color: var(--primary-color);
+.notification {
+    padding: 12px 15px;
+    margin-bottom: 15px;
+    border-radius: 8px;
+    font-size: 14px;
+    display: flex;
+    align-items: center;
+    animation: slideDown 0.3s ease-out;
 }
 
-.float-label input {
-    padding: 14px 16px;
+@keyframes slideDown {
+    from { opacity: 0; transform: translateY(-10px); }
+    to { opacity: 1; transform: translateY(0); }
 }
 
-.auth-form .input-icon {
-    position: relative;
+.notification.success {
+    background-color: rgba(0, 217, 126, 0.1);
+    border-left: 3px solid var(--success-color);
+    color: #00ae64;
 }
 
-.auth-form .input-icon input {
-    padding-left: 44px;
+.notification.error {
+    background-color: rgba(230, 55, 87, 0.1);
+    border-left: 3px solid var(--error-color);
+    color: #d92b49;
 }
 
-.auth-form .input-icon .icon {
-    position: absolute;
-    left: 16px;
-    top: 50%;
-    transform: translateY(-50%);
-    color: #95aac9;
-    font-size: 18px;
-}
-
-.auth-form .input-icon input:focus ~ .icon {
-    color: var(--primary-color);
-}
-
-/* Termes et conditions plus élégants */
+/* Termes et conditions améliorés */
 .terms {
     display: flex;
     align-items: flex-start;
@@ -286,13 +350,26 @@
     color: var(--primary-color);
     text-decoration: none;
     font-weight: 500;
+    position: relative;
 }
 
-.terms label a:hover {
-    text-decoration: underline;
+.terms label a:after {
+    content: '';
+    position: absolute;
+    bottom: -1px;
+    left: 0;
+    right: 0;
+    height: 1px;
+    background-color: var(--primary-color);
+    transform: scaleX(0);
+    transition: transform 0.3s ease;
 }
 
-/* Bouton de soumission amélioré */
+.terms label a:hover:after {
+    transform: scaleX(1);
+}
+
+/* Bouton amélioré */
 .btn-primary {
     display: inline-flex;
     align-items: center;
@@ -308,6 +385,19 @@
     width: 100%;
     border: none;
     box-shadow: 0 4px 10px rgba(44, 123, 229, 0.25);
+    position: relative;
+    overflow: hidden;
+}
+
+.btn-primary:before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+    transition: all 0.6s ease;
 }
 
 .btn-primary:hover {
@@ -316,15 +406,16 @@
     box-shadow: 0 6px 15px rgba(44, 123, 229, 0.3);
 }
 
+.btn-primary:hover:before {
+    left: 100%;
+}
+
 .btn-primary:active {
     transform: translateY(0);
     box-shadow: 0 2px 5px rgba(44, 123, 229, 0.2);
 }
 
-.btn-block {
-    width: 100%;
-}
-
+/* Spinner amélioré */
 .spinner {
     display: inline-block;
     width: 20px;
@@ -336,8 +427,83 @@
     margin-right: var(--spacing-xs);
 }
 
+.spinner.active {
+    display: inline-block;
+}
+
 @keyframes spin {
     to { transform: rotate(360deg); }
+}
+
+/* Séparateur plus élégant */
+.social-login {
+    margin-top: var(--spacing-lg);
+}
+
+.separator {
+    display: flex;
+    align-items: center;
+    text-align: center;
+    color: #95aac9;
+    margin: var(--spacing-md) 0;
+}
+
+.separator::before,
+.separator::after {
+    content: '';
+    flex: 1;
+    border-bottom: 1px solid var(--input-border);
+}
+
+.separator span {
+    padding: 0 var(--spacing-sm);
+    font-size: 14px;
+    font-weight: 500;
+}
+
+/* Boutons sociaux améliorés */
+.btn-social {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: var(--spacing-md);
+    border: 1px solid var(--input-border);
+    border-radius: 8px;
+    background: white;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
+    margin-bottom: 10px;
+}
+
+.btn-social:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.08);
+    border-color: #d2ddec;
+}
+
+.btn-social img {
+    width: 22px;
+    height: 22px;
+    margin-right: 10px;
+}
+
+.btn-social span {
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--text-color);
+}
+
+.btn-social.google:hover {
+    border-color: #ea4335;
+}
+
+.btn-social.microsoft:hover {
+    border-color: #00a4ef;
+}
+
+.btn-social.apple:hover {
+    border-color: #555;
 }
 
 /* Actions dans le formulaire */
@@ -396,107 +562,42 @@
     font-weight: 500;
     text-decoration: none;
     transition: all 0.2s ease;
+    position: relative;
 }
 
-.forgot-password:hover {
-    text-decoration: underline;
-    color: #1a68d1;
-}
-
-/* Séparateur plus élégant */
-.social-login {
-    margin-top: var(--spacing-lg);
-}
-
-.separator {
-    display: flex;
-    align-items: center;
-    text-align: center;
-    color: #95aac9;
-    margin: var(--spacing-md) 0;
-}
-
-.separator::before,
-.separator::after {
+.forgot-password:after {
     content: '';
-    flex: 1;
-    border-bottom: 1px solid var(--input-border);
+    position: absolute;
+    bottom: -1px;
+    left: 0;
+    right: 0;
+    height: 1px;
+    background-color: var(--primary-color);
+    transform: scaleX(0);
+    transition: transform 0.3s ease;
 }
 
-.separator span {
-    padding: 0 var(--spacing-sm);
-    font-size: 14px;
-    font-weight: 500;
+.forgot-password:hover:after {
+    transform: scaleX(1);
 }
 
-/* Boutons sociaux plus élégants */
-.social-buttons {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: var(--spacing-sm);
-    margin-top: var(--spacing-md);
+/* Médecine et droit - couleurs spécifiques */
+.medicine-theme .auth-sidebar {
+    background: linear-gradient(135deg, #1e3a5f 0%, #3498db 100%);
 }
 
-.btn-social {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: var(--spacing-md);
-    border: 1px solid var(--input-border);
-    border-radius: var(--border-radius);
-    background: white;
-    cursor: pointer;
-    transition: all 0.2s ease;
-    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
+.law-theme .auth-sidebar {
+    background: linear-gradient(135deg, #2c3e50 0%, #8e44ad 100%);
 }
 
-.btn-social:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.08);
-    border-color: #d2ddec;
+.medicine-theme .btn-primary {
+    background-color: var(--medicine-color);
+    box-shadow: 0 4px 10px rgba(52, 152, 219, 0.25);
 }
 
-.btn-social img {
-    width: 22px;
-    height: 22px;
-}
-
-.btn-social.google:hover {
-    border-color: #ea4335;
-}
-
-.btn-social.microsoft:hover {
-    border-color: #00a4ef;
-}
-
-.btn-social.apple:hover {
-    border-color: #555;
-}
-
-.social-login .continue-with {
-    display: block;
-    text-align: center;
-    margin-bottom: var(--spacing-md);
-    font-size: 14px;
-    color: var(--text-color);
-}
-
-/* Liens d'action en bas de formulaire */
-.auth-links {
-    text-align: center;
-    margin-top: var(--spacing-lg);
-    font-size: 14px;
-    color: var(--text-color);
-}
-
-.auth-links a {
-    color: var(--primary-color);
-    font-weight: 500;
-    text-decoration: none;
-}
-
-.auth-links a:hover {
-    text-decoration: underline;
+.law-theme .btn-primary {
+    background-color: var(--law-color);
+    box-shadow: 0 4px 10px rgba(142, 68, 173, 0.25);
 }
 
 /* Adaptation pour mobile */
@@ -506,17 +607,38 @@
     }
     
     .auth-sidebar {
-        min-height: 200px;
+        min-height: 220px;
     }
     
     .auth-content {
         padding: var(--spacing-md);
+    }
+    
+    .auth-sidebar .logo {
+        max-width: 200px;
+        margin: 0 auto var(--spacing-md);
+    }
+    
+    .auth-sidebar h2 {
+        font-size: 22px;
+        margin-bottom: var(--spacing-sm);
+    }
+    
+    .auth-sidebar p {
+        font-size: 14px;
     }
 }
 
 @media (max-width: 576px) {
     .auth-form-container {
         padding: var(--spacing-md);
+        margin: 0;
+        width: 100%;
+    }
+    
+    .form-row {
+        flex-direction: column;
+        gap: 0;
     }
     
     .social-buttons {
@@ -525,25 +647,12 @@
     }
     
     .btn-social {
-        justify-content: flex-start;
+        justify-content: center;
         padding: 12px;
     }
-    
-    .btn-social span {
-        margin-left: var(--spacing-sm);
-    }
 }
 
-/* Spécifique au domaine d'étude */
-.auth-form-container.medicine {
-    border-top: 4px solid var(--medicine-color);
-}
-
-.auth-form-container.law {
-    border-top: 4px solid var(--law-color);
-}
-
-/* Animation pour les erreurs de validation */
+/* Animation pour erreurs de validation */
 @keyframes shake {
     0%, 100% { transform: translateX(0); }
     10%, 30%, 50%, 70%, 90% { transform: translateX(-5px); }
@@ -569,11 +678,34 @@
     font-size: 12px;
 }
 
-/* Style pour le conteneur du bouton Google */
-.google-button-container {
-    width: 100%;
-    display: flex;
-    justify-content: center;
-    margin: 10px 0;
-    min-height: 40px;
-  }
+/* Ajout d'une subtile animation de fond */
+.auth-content::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: radial-gradient(circle at 50% 50%, rgba(44, 123, 229, 0.02) 0%, transparent 70%);
+    z-index: -1;
+}
+
+/* Styles spécifiques pour les domaines */
+.domain-badge {
+    display: inline-block;
+    padding: 3px 10px;
+    border-radius: 12px;
+    font-size: 12px;
+    font-weight: 600;
+    margin-top: 10px;
+}
+
+.domain-badge.medicine {
+    background-color: rgba(52, 152, 219, 0.1);
+    color: #3498db;
+}
+
+.domain-badge.law {
+    background-color: rgba(142, 68, 173, 0.1);
+    color: #8e44ad;
+}
