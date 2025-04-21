@@ -1,4 +1,4 @@
-/* stats.css - Styles spécifiques à la page des statistiques */
+/* 🔍 stats.css - Styles statistiques Knowledge Quest */
 
 .stats-page {
     max-width: 1200px;
@@ -7,114 +7,68 @@
 }
 
 .page-title {
-    font-size: 28px;
+    font-size: 32px;
     font-weight: 700;
     color: var(--secondary-color);
     margin-bottom: var(--spacing-lg);
 }
 
-.stats-filters {
-    background-color: var(--card-bg);
-    border-radius: var(--border-radius);
-    box-shadow: var(--shadow-sm);
-    border: 1px solid var(--border-color);
-    padding: var(--spacing-lg);
-    margin-bottom: var(--spacing-xl);
-}
-
-.filter-form {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    gap: var(--spacing-md);
-}
-
-.filter-group {
-    flex: 1;
-}
-
-.filter-group label {
-    font-size: 14px;
-    color: var(--text-color);
-    opacity: 0.8;
-    margin-bottom: var(--spacing-xs);
-}
-
-.filter-group select {
-    width: 100%;
-}
-
-.filter-actions {
-    display: flex;
-    align-items: center;
-    gap: var(--spacing-md);
-}
-
 .stats-container {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
     gap: var(--spacing-lg);
-    margin-bottom: var(--spacing-xl);
 }
 
-.stats-overview {
-    background-color: var(--card-bg);
-    border-radius: var(--border-radius);
-    box-shadow: var(--shadow-sm);
-    border: 1px solid var(--border-color);
-    padding: var(--spacing-lg);
+.stats-summary {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: var(--spacing-lg);
+    margin-bottom: var(--spacing-xl);
 }
 
 .stat-card {
-    display: flex;
-    flex-direction: column;
-    padding: var(--spacing-md) 0;
-}
-
-.stat-card:not(:last-child) {
-    border-bottom: 1px solid var(--border-color);
-}
-
-.stat-card h3 {
-    font-size: 16px;
-    font-weight: 600;
-    color: var(--text-color);
-    opacity: 0.8;
-    margin-bottom: var(--spacing-xs);
-}
-
-.stat-value {
-    font-size: 24px;
-    font-weight: 700;
-    color: var(--primary-color);
-}
-
-.stat-trend {
-    font-size: 14px;
-    font-weight: 500;
-}
-
-.stat-trend.positive {
-    color: var(--success-color);
-}
-
-.stat-trend.negative {
-    color: var(--error-color);
-}
-
-.stats-charts {
     background-color: var(--card-bg);
     border-radius: var(--border-radius);
     box-shadow: var(--shadow-sm);
+    padding: var(--spacing-md);
+    text-align: center;
     border: 1px solid var(--border-color);
-    padding: var(--spacing-lg);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.stat-card:hover {
+    transform: translateY(-3px);
+    box-shadow: var(--shadow-md);
+}
+
+.stat-value {
+    font-size: 28px;
+    font-weight: 700;
+    color: var(--primary-color);
+    margin-bottom: var(--spacing-xs);
+}
+
+.stat-label {
+    font-size: 14px;
+    color: var(--text-color);
+    opacity: 0.7;
+}
+
+.stats-charts {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
-    gap: var(--spacing-lg);
+    grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+    gap: var(--spacing-xl);
+    margin-bottom: var(--spacing-xl);
 }
 
 .chart-container {
+    background-color: var(--card-bg);
+    padding: var(--spacing-lg);
+    border-radius: var(--border-radius);
+    border: 1px solid var(--border-color);
+    box-shadow: var(--shadow-sm);
     position: relative;
+    overflow-x: auto;
 }
 
 .chart-container h3 {
@@ -124,185 +78,90 @@
     margin-bottom: var(--spacing-md);
 }
 
-.chart-legend {
-    display: flex;
-    justify-content: center;
-    margin-top: var(--spacing-md);
-}
-
-.legend-item {
-    display: flex;
-    align-items: center;
-    margin: 0 var(--spacing-sm);
-}
-
-.legend-color {
-    width: 12px;
-    height: 12px;
-    border-radius: 2px;
-    margin-right: var(--spacing-xs);
-}
-
-.legend-text {
-    font-size: 14px;
-    color: var(--text-color);
-    opacity: 0.8;
-}
-
-.stats-detailed {
-    margin-top: var(--spacing-xl);
-}
-
-.stats-detailed h3 {
-    font-size: 20px;
-    font-weight: 600;
-    color: var(--secondary-color);
-    margin-bottom: var(--spacing-md);
-}
-
-.performance-table-container {
-    background-color: var(--card-bg);
-    border-radius: var(--border-radius);
-    box-shadow: var(--shadow-sm);
-    border: 1px solid var(--border-color);
-    padding: var(--spacing-lg);
-}
-
-.performance-table {
+.sessions-table {
     width: 100%;
     border-collapse: collapse;
+    margin-top: var(--spacing-lg);
 }
 
-.performance-table th,
-.performance-table td {
+.sessions-table th,
+.sessions-table td {
     padding: var(--spacing-sm) var(--spacing-md);
     text-align: left;
     border-bottom: 1px solid var(--border-color);
-}
-
-.performance-table th {
     font-size: 14px;
+}
+
+.sessions-table th {
+    color: var(--secondary-color);
     font-weight: 600;
-    color: var(--text-color);
-    opacity: 0.8;
 }
 
-.performance-table td {
-    font-size: 15px;
+.sessions-table td {
     color: var(--text-color);
 }
 
-.trend-positive {
+.score.excellent {
     color: var(--success-color);
 }
-
-.trend-negative {
+.score.good {
+    color: var(--medicine-color);
+}
+.score.average {
+    color: var(--warning-color);
+}
+.score.poor {
     color: var(--error-color);
 }
 
-.btn-small {
-    font-size: 14px;
-    padding: 6px 12px;
-}
-
-.btn-highlight {
-    background-color: rgba(231, 76, 60, 0.1);
-    color: var(--error-color);
-}
-
-.btn-highlight:hover {
-    background-color: rgba(231, 76, 60, 0.2);
-}
-
-.stats-recommendations {
-    margin-top: var(--spacing-xl);
-}
-
-.stats-recommendations h3 {
-    font-size: 20px;
-    font-weight: 600;
-    color: var(--secondary-color);
-    margin-bottom: var(--spacing-md);
-}
-
-.recommendations-list {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-    gap: var(--spacing-lg);
-}
-
-.recommendation-item {
+.empty-state {
     background-color: var(--card-bg);
+    padding: var(--spacing-xl);
+    text-align: center;
+    border: 1px solid var(--border-color);
     border-radius: var(--border-radius);
     box-shadow: var(--shadow-sm);
-    border: 1px solid var(--border-color);
-    padding: var(--spacing-lg);
+}
+
+.stats-filters {
     display: flex;
-    align-items: center;
-}
-
-.recommendation-icon {
-    font-size: 32px;
-    margin-right: var(--spacing-md);
-    width: 50px;
-    height: 50px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    border-radius: 50%;
-    flex-shrink: 0;
-}
-
-.recommendation-icon.test {
-    background-color: rgba(52, 152, 219, 0.1);
-    color: var(--primary-color);
-}
-
-.recommendation-icon.upload {
-    background-color: rgba(46, 204, 113, 0.1);
-    color: var(--success-color);
-}
-
-.recommendation-icon.create {
-    background-color: rgba(142, 68, 173, 0.1);
-    color: var(--law-color);
-}
-
-.recommendation-content h4 {
-    font-size: 16px;
-    font-weight: 600;
-    color: var(--secondary-color);
-    margin-bottom: var(--spacing-xs);
-}
-
-.recommendation-content p {
-    font-size: 14px;
-    color: var(--text-color);
-    opacity: 0.8;
-    margin-bottom: var(--spacing-md);
-}
-
-.export-section {
-    margin-top: var(--spacing-xl);
-    text-align: center;
-}
-
-.export-section h3 {
-    font-size: 20px;
-    font-weight: 600;
-    color: var(--secondary-color);
-    margin-bottom: var(--spacing-md);
-}
-
-.export-section p {
-    font-size: 14px;
-    color: var(--text-color);
-    opacity: 0.8;
+    justify-content: flex-end;
     margin-bottom: var(--spacing-lg);
 }
 
-.export-actions {
-    display: flex;
-    justify-content: center;
-    gap: var(--spacing-md);
+#time-filter {
+    padding: 8px 12px;
+    font-size: 14px;
+    border-radius: var(--border-radius);
+    border: 1px solid var(--border-color);
+    background-color: var(--card-bg);
+    color: var(--text-color);
+    cursor: pointer;
+}
+
+/* 🎓 Spécial étudiants médecine/droit */
+.subject-color-medicine {
+    color: var(--medicine-color);
+}
+
+.subject-color-law {
+    color: var(--law-color);
+}
+
+@media (max-width: 768px) {
+    .stats-summary {
+        grid-template-columns: 1fr 1fr;
+    }
+
+    .stats-charts {
+        grid-template-columns: 1fr;
+    }
+
+    .stat-value {
+        font-size: 22px;
+    }
+
+    .chart-container h3 {
+        font-size: 16px;
+    }
 }

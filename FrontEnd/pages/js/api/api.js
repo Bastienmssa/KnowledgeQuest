@@ -13,7 +13,6 @@ function getAuthHeaders() {
 async function apiRequest(endpoint, options = {}) {
   const url = `${API_BASE_URL}${endpoint}`;
   const headers = {
-    'Content-Type': 'application/json',
     ...getAuthHeaders(),
     ...(options.headers || {})
   };
@@ -23,7 +22,8 @@ async function apiRequest(endpoint, options = {}) {
     headers
   };
 
-  if (config.body && typeof config.body === 'object') {
+  if (!options.skipJson && config.body && typeof config.body === 'object' && !(config.body instanceof FormData)) {
+    headers['Content-Type'] = 'application/json';
     config.body = JSON.stringify(config.body);
   }
 
@@ -46,11 +46,36 @@ async function apiRequest(endpoint, options = {}) {
 
 const api = {
   auth: {
-    register: (userData) => apiRequest('/auth/register', { method: 'POST', body: userData }),
-    login: (credentials) => apiRequest('/auth/login', { method: 'POST', body: credentials }),
+    register: (userData) =>
+      apiRequest('/auth/register', { method: 'POST', body: userData }),
+    login: (credentials) =>
+      apiRequest('/auth/login', { method: 'POST', body: credentials }),
     getProfile: () => apiRequest('/auth/me'),
-    updateProfile: (profileData) => apiRequest('/auth/update-profile', { method: 'PUT', body: profileData }),
-    updateDomain: (domainData) => apiRequest('/auth/update-domain', { method: 'PUT', body: domainData })
+    updateProfile: (profileData) =>
+      apiRequest('/auth/update-profile', { method: 'PUT', body: profileData }),
+    updatePassword: (data) =>
+      apiRequest('/auth/update-password', { method: 'PUT', body: data }),
+    updateDomain: (domainData) =>
+      apiRequest('/auth/update-domain', { method: 'PUT', body: domainData }),
+    googleAuth: (googleToken) =>
+      apiRequest('/auth/google', { method: 'POST', body: { token: googleToken } })
+  },
+
+  user: {
+    updateProfile: (profileData) =>
+      apiRequest('/users/profile', { method: 'PUT', body: profileData }),
+
+    updatePassword: (data) =>
+      apiRequest('/users/password', {
+        method: 'PUT',
+        body: data // must be { currentPassword, newPassword }
+      }),
+
+    getTestHistory: () =>
+      apiRequest('/users/test-history'),
+
+    getProfile: () =>
+      apiRequest('/users/me')
   },
 
   qcm: {

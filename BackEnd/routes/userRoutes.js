@@ -5,16 +5,20 @@ const {
   getMe,
   updateProfile,
   updateDomain,
+  updatePassword,
+  getTestHistory,
   getAllUsers
 } = require('../controllers/userController');
 const { protect } = require('../middleware/auth');
 
-// Routes utilisateurs protégées
+// 📌 Routes utilisateur authentifié
 router.get('/me', protect, getMe);
-router.put('/me', protect, updateProfile);
-router.put('/me/domain', protect, updateDomain);
+router.put('/profile', protect, updateProfile);
+router.put('/domain', protect, updateDomain);
+router.put('/password', protect, updatePassword);
+router.get('/test-history', protect, getTestHistory);
 
-// Route admin pour voir tous les utilisateurs (à sécuriser plus tard)
+// 🔒 Routes admin
 router.get('/all', protect, getAllUsers);
 
 module.exports = router;

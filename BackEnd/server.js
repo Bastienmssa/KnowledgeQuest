@@ -21,7 +21,7 @@ app.use(express.json());
 app.use(compression());
 app.use(morgan('dev'));
 
-// Logger personnalisé (optionnel)
+// Logger personnalisé
 app.use((req, res, next) => {
   console.log(`[${new Date().toISOString()}] ${req.method} ${req.url}`);
   next();
@@ -31,6 +31,9 @@ app.use((req, res, next) => {
 mongoose.connect(process.env.MONGODB_URI, {})
   .then(() => console.log('✅ Connexion à MongoDB réussie'))
   .catch(err => console.error('❌ Erreur de connexion MongoDB:', err));
+
+// Servir les avatars de profil
+app.use('/uploads', express.static(path.join(__dirname, 'uploads'))); 
 
 // Importer les routes
 const authRoutes = require('./routes/authRoutes');

@@ -12,13 +12,18 @@ const StatsSchema = new mongoose.Schema({
         type: Date,
         default: Date.now
       },
-      score: Number
+      score: {
+        type: Number,
+        required: true
+      }
     }
   ],
   averageScore: {
     type: Number,
     default: 0
   }
+}, {
+  timestamps: true
 });
 
 module.exports = mongoose.model('Stats', StatsSchema);

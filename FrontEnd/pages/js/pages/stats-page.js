@@ -1,16 +1,12 @@
 // js/pages/stats-page.js
-/**
- * Gestionnaire pour la page de statistiques
- */
 import { auth } from '../utils/auth.js';
 import { statsService } from '../services/stats-service.js';
 import { showNotification } from '../components/notification.js';
 import { initCharts, updateCharts } from '../utils/charts.js';
 
 export async function initStatsPage() {
-  console.log("Initialisation de la page de statistiques...");
+  console.log("📊 Initialisation de la page de statistiques...");
 
-  // 🔐 Redirection si l'utilisateur n'est pas connecté
   if (!auth.isLoggedIn) {
     window.location.href = 'login.html';
     return;
@@ -21,32 +17,28 @@ export async function initStatsPage() {
 
     if (stats && stats.scoresHistory?.length > 0) {
       displayStats(stats);
-      initCharts(stats); // Génère les graphiques
+      initCharts(stats);
     } else {
-      displayEmptyState(); // Aucun test passé
+      displayEmptyState();
     }
   } catch (error) {
-    console.error('Erreur:', error);
+    console.error('❌ Erreur lors du chargement des statistiques:', error);
     showNotification('Erreur lors du chargement des statistiques', 'error');
   }
 }
 
 function displayStats(stats) {
-  const statsContainer = document.querySelector('.stats-container');
-  if (!statsContainer) return;
+  const container = document.querySelector('.stats-container');
+  if (!container) return;
 
   const sessionCount = stats.scoresHistory?.length || 0;
   const averageScore = stats.averageScore || 0;
 
-  let highestScore = 0;
-  let lowestScore = 100;
+  const scores = stats.scoresHistory.map(s => s.score);
+  const highestScore = Math.max(...scores, 0);
+  const lowestScore = Math.min(...scores, 100);
 
-  stats.scoresHistory.forEach(session => {
-    if (session.score > highestScore) highestScore = session.score;
-    if (session.score < lowestScore) lowestScore = session.score;
-  });
-
-  statsContainer.innerHTML = `
+  container.innerHTML = `
     <div class="stats-header">
       <h2>Vos statistiques</h2>
       <div class="stats-filters">
@@ -83,7 +75,7 @@ function displayStats(stats) {
         <canvas id="scores-chart"></canvas>
       </div>
       <div class="chart-container">
-        <h3>Répartition des scores</h3>
+        <h3>Répartition par matière</h3>
         <canvas id="distribution-chart"></canvas>
       </div>
     </div>
@@ -94,12 +86,9 @@ function displayStats(stats) {
     </div>
   `;
 
-  const timeFilter = document.getElementById('time-filter');
-  if (timeFilter) {
-    timeFilter.addEventListener('change', () => {
-      updateCharts(stats, timeFilter.value);
-    });
-  }
+  document.getElementById('time-filter')?.addEventListener('change', (e) => {
+    updateCharts(stats, e.target.value);
+  });
 }
 
 function renderSessionsTable(sessions) {
@@ -107,7 +96,7 @@ function renderSessionsTable(sessions) {
     return '<p>Aucune session récente</p>';
   }
 
-  const recent = sessions.slice().reverse().slice(0, 5);
+  const lastSessions = sessions.slice().reverse().slice(0, 5);
 
   return `
     <table class="sessions-table">
@@ -119,13 +108,11 @@ function renderSessionsTable(sessions) {
         </tr>
       </thead>
       <tbody>
-        ${recent.map(session => `
+        ${lastSessions.map(s => `
           <tr>
-            <td>${new Date(session.date).toLocaleDateString()}</td>
-            <td class="score ${getScoreClass(session.score)}">${session.score}%</td>
-            <td>
-              <a href="results.html?sessionId=${session._id}" class="btn-small">Voir</a>
-            </td>
+            <td>${new Date(s.date).toLocaleDateString()}</td>
+            <td class="score ${getScoreClass(s.score)}">${s.score}%</td>
+            <td><a href="results.html?sessionId=${s._id}" class="btn-small">Voir</a></td>
           </tr>
         `).join('')}
       </tbody>
@@ -134,13 +121,13 @@ function renderSessionsTable(sessions) {
 }
 
 function displayEmptyState() {
-  const statsContainer = document.querySelector('.stats-container');
-  if (!statsContainer) return;
+  const container = document.querySelector('.stats-container');
+  if (!container) return;
 
-  statsContainer.innerHTML = `
+  container.innerHTML = `
     <div class="empty-state">
       <h2>Aucune statistique disponible</h2>
-      <p>Complétez des tests pour voir apparaître vos statistiques.</p>
+      <p>Commencez à passer des tests pour voir vos progrès.</p>
       <a href="take-test.html" class="btn-primary">Commencer un test</a>
     </div>
   `;

@@ -5,9 +5,17 @@ export const sessionService = {
   async createSession(sessionData) {
     try {
       const response = await api.session.create(sessionData);
-      return response.data;
+      const sessionId = response?.data?.sessionId;
+
+      if (!sessionId) {
+        console.error("❌ Réponse backend invalide :", response);
+        throw new Error("Session ID non reçu du backend");
+      }
+
+      console.log("✅ Session créée avec ID :", sessionId);
+      return { sessionId };
     } catch (error) {
-      console.error('Error creating session:', error);
+      console.error('❌ Erreur lors de la création de la session:', error);
       throw error;
     }
   },
@@ -15,52 +23,51 @@ export const sessionService = {
   async getSessionById(id) {
     try {
       const response = await api.session.getById(id);
+      if (!response?.data) throw new Error("Données session non disponibles");
+
+      console.log("📄 Session récupérée :", response.data);
       return response.data;
     } catch (error) {
-      console.error(`Error fetching session ${id}:`, error);
+      console.error(`❌ Erreur lors de la récupération de la session ${id}:`, error);
       throw error;
     }
   },
 
-  async getUserSessions() {
+  async getUserSessions(userId = '') {
     try {
-      const response = await api.session.getUserSessions();
+      const response = await api.session.getUserSessions(userId); // Ajout de userId vide par défaut
       return response.data;
     } catch (error) {
-      console.error('Error fetching user sessions:', error);
+      console.error('❌ Erreur lors de la récupération des sessions utilisateur:', error);
       throw error;
     }
   },
 
   calculateScore(answers, qcm) {
-    if (!answers || !qcm || !qcm.questions) {
-      return 0;
+    if (!answers || !qcm || !Array.isArray(qcm.questions)) {
+      return { score: 0, questionsAnswered: [] };
     }
 
     let correctAnswers = 0;
-    const questionsAnswered = [];
+    const questionsAnswered = qcm.questions.map((question, i) => {
+      const userIndex = answers[i];
+      const userAnswer = userIndex !== null && userIndex !== undefined
+        ? question.choices[userIndex]
+        : null;
 
-    qcm.questions.forEach((question, index) => {
-      const userAnswer = answers[index];
       const isCorrect = userAnswer === question.correctAnswer;
+      if (isCorrect) correctAnswers++;
 
-      if (isCorrect) {
-        correctAnswers++;
-      }
-
-      questionsAnswered.push({
+      return {
         question: question.question,
         userAnswer,
+        correctAnswer: question.correctAnswer,
         isCorrect
-      });
+      };
     });
 
-    const score = (correctAnswers / qcm.questions.length) * 100;
-
-    return {
-      score,
-      questionsAnswered
-    };
+    const score = Math.round((correctAnswers / qcm.questions.length) * 100);
+    return { score, questionsAnswered };
   }
 };
 

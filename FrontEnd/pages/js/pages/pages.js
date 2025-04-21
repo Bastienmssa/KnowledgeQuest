@@ -11,8 +11,8 @@ import { initUploadPage } from './upload-page.js';
 import { initResultsPage } from './results-page.js';
 import { initProfilePage } from './profile-page.js';
 import { initSettingsPage } from './settings-page.js';
-import { initRegisterPage } from './register-page.js';
-import { initLoginPage } from './login-page.js';
+// import { initRegisterPage } from './register-page.js';
+// import { initLoginPage } from './login-page.js';
 import { initHomePage } from './home-page.js'; // à créer si tu veux gérer home.html dynamiquement
 
 /**

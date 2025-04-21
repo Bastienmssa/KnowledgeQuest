@@ -1,85 +1,105 @@
-// controllers/userController.js
 const User = require('../models/User');
-const { generateToken } = require('./authController');
+const bcrypt = require('bcryptjs');
+const logger = require('../utils/logger');
 
-// Récupérer le profil de l'utilisateur connecté
+// 🔐 Récupérer les infos du profil connecté
 exports.getMe = async (req, res) => {
   try {
     const user = await User.findById(req.user.id).select('-passwordHash');
-    if (!user) {
-      return res.status(404).json({ success: false, message: 'Utilisateur non trouvé' });
-    }
-    res.status(200).json({ success: true, user });
-  } catch (error) {
-    res.status(500).json({ success: false, message: 'Erreur serveur', error: error.message });
+    if (!user) return res.status(404).json({ success: false, message: 'Utilisateur non trouvé' });
+
+    res.status(200).json({ success: true, data: user });
+  } catch (err) {
+    logger.error(`Erreur getMe: ${err.message}`);
+    res.status(500).json({ success: false, message: 'Erreur serveur', error: err.message });
   }
 };
 
-// Mettre à jour le profil (nom, domaine, etc.)
+// 🔄 Mettre à jour les informations personnelles
 exports.updateProfile = async (req, res) => {
   try {
-    const { name, domain } = req.body;
-    const updateData = {};
-    if (name) updateData.name = name;
-    if (domain) updateData.domain = domain;
+    const { name, email, domain, avatar } = req.body;
+    const user = await User.findById(req.user.id);
+    if (!user) return res.status(404).json({ success: false, message: 'Utilisateur non trouvé' });
 
-    const user = await User.findByIdAndUpdate(req.user.id, updateData, { new: true });
-    if (!user) {
-      return res.status(404).json({ success: false, message: 'Utilisateur non trouvé' });
+    if (name) user.name = name;
+    if (email) user.email = email;
+    if (domain) user.domain = domain;
+    if (avatar && ['homme.png', 'fille.png'].includes(avatar)) {
+      user.avatar = avatar;
     }
 
-    res.status(200).json({
-      success: true,
-      user: {
-        id: user._id,
-        name: user.name,
-        email: user.email,
-        domain: user.domain
-      }
-    });
-  } catch (error) {
-    res.status(500).json({ success: false, message: 'Erreur lors de la mise à jour', error: error.message });
+    await user.save();
+    res.status(200).json({ success: true, data: user });
+  } catch (err) {
+    logger.error(`Erreur updateProfile: ${err.message}`);
+    res.status(500).json({ success: false, message: 'Erreur mise à jour profil', error: err.message });
   }
 };
 
-// Mise à jour spécifique du domaine
+// 🔐 Changer le mot de passe
+exports.updatePassword = async (req, res) => {
+  try {
+    const { currentPassword, newPassword } = req.body;
+    const user = await User.findById(req.user.id);
+
+    if (!user) return res.status(404).json({ success: false, message: 'Utilisateur non trouvé' });
+
+    const isMatch = await bcrypt.compare(currentPassword, user.passwordHash);
+    if (!isMatch) {
+      return res.status(403).json({ success: false, message: 'Mot de passe actuel incorrect' });
+    }
+
+    user.passwordHash = await bcrypt.hash(newPassword, 10);
+    await user.save();
+
+    res.status(200).json({ success: true, message: 'Mot de passe mis à jour' });
+  } catch (err) {
+    logger.error(`Erreur updatePassword: ${err.message}`);
+    res.status(500).json({ success: false, message: 'Erreur mise à jour mot de passe', error: err.message });
+  }
+};
+
+// 🧠 Récupérer l'historique des tests
+exports.getTestHistory = async (req, res) => {
+  try {
+    const user = await User.findById(req.user.id).select('scoresHistory');
+    if (!user) return res.status(404).json({ success: false, message: 'Utilisateur non trouvé' });
+
+    res.status(200).json({ success: true, data: user.scoresHistory || [] });
+  } catch (err) {
+    logger.error(`Erreur getTestHistory: ${err.message}`);
+    res.status(500).json({ success: false, message: 'Erreur chargement historique', error: err.message });
+  }
+};
+
+// 🔄 Mettre à jour uniquement le domaine
 exports.updateDomain = async (req, res) => {
   try {
     const { domain } = req.body;
 
     if (!domain || !['Médecine', 'Droit'].includes(domain)) {
-      return res.status(400).json({ success: false, message: 'Domaine invalide ou manquant' });
+      return res.status(400).json({ success: false, message: 'Domaine invalide' });
     }
 
-    const user = await User.findByIdAndUpdate(req.user.id, { domain }, { new: true });
-    if (!user) {
-      return res.status(404).json({ success: false, message: 'Utilisateur non trouvé' });
-    }
+    const user = await User.findById(req.user.id);
+    user.domain = domain;
+    await user.save();
 
-    res.status(200).json({
-      success: true,
-      user: {
-        id: user._id,
-        name: user.name,
-        email: user.email,
-        domain: user.domain
-      }
-    });
-  } catch (error) {
-    res.status(500).json({ success: false, message: 'Erreur de mise à jour du domaine', error: error.message });
+    res.status(200).json({ success: true, data: user });
+  } catch (err) {
+    logger.error(`Erreur updateDomain: ${err.message}`);
+    res.status(500).json({ success: false, message: 'Erreur mise à jour domaine', error: err.message });
   }
 };
 
-// Récupérer tous les utilisateurs (admin uniquement)
-exports.getAllUsers = async (req, res) => {
+// 🔒 Admin : liste des utilisateurs
+exports.getAllUsers = async (_req, res) => {
   try {
     const users = await User.find().select('-passwordHash');
-    res.status(200).json({
-      success: true,
-      count: users.length,
-      users
-    });
-  } catch (error) {
-    res.status(500).json({ success: false, message: 'Erreur serveur', error: error.message });
+    res.status(200).json({ success: true, count: users.length, data: users });
+  } catch (err) {
+    logger.error(`Erreur getAllUsers: ${err.message}`);
+    res.status(500).json({ success: false, message: 'Erreur serveur', error: err.message });
   }
 };

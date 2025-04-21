@@ -1,121 +1,122 @@
 /* results.css - Résultats du test */
 
 .results-header {
-    text-align: center;
-    margin-bottom: 2rem;
-  }
-  
-  .results-header h2 {
-    font-size: 2rem;
-    color: #2c3e50;
-  }
-  
-  .session-date {
-    font-size: 0.9rem;
-    color: #888;
-  }
-  
-  .score-summary {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    margin-bottom: 2rem;
-    flex-wrap: wrap;
-    gap: 2rem;
-  }
-  
-  .score-card {
-    width: 120px;
-    height: 120px;
-    border-radius: 50%;
-    background: #ecf0f1;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    font-weight: bold;
-    font-size: 1.5rem;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-  }
-  
-  .score-card.excellent {
-    background-color: #2ecc71;
-    color: white;
-  }
-  
-  .score-card.good {
-    background-color: #27ae60;
-    color: white;
-  }
-  
-  .score-card.average {
-    background-color: #f39c12;
-    color: white;
-  }
-  
-  .score-card.poor {
-    background-color: #e74c3c;
-    color: white;
-  }
-  
-  .score-label {
-    font-size: 0.9rem;
-    text-align: center;
-  }
-  
-  .score-details {
-    text-align: center;
-    font-size: 1.1rem;
-    color: #333;
-  }
-  
-  .question-review {
-    margin-top: 2rem;
-  }
-  
-  .question-item {
-    border-left: 4px solid transparent;
-    padding: 1rem;
-    margin-bottom: 1.2rem;
-    background: #f9f9f9;
-    border-radius: 8px;
-  }
-  
-  .question-item.correct {
-    border-color: #2ecc71;
-  }
-  
-  .question-item.incorrect {
-    border-color: #e74c3c;
-    background: #fff6f6;
-  }
-  
-  .question-header {
-    display: flex;
-    justify-content: space-between;
-    font-weight: bold;
-    margin-bottom: 0.5rem;
-  }
-  
-  .question-text {
-    font-size: 1rem;
-    margin-bottom: 0.5rem;
-  }
-  
-  .user-answer,
-  .correct-answer {
-    font-size: 0.95rem;
-    margin-bottom: 0.2rem;
-    color: #555;
-  }
-  
-  .results-actions {
-    margin-top: 2rem;
-    text-align: center;
-  }
-  
-  .results-actions .btn-primary,
-  .results-actions .btn-secondary {
-    margin: 0 0.5rem;
-  }
-  
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+.results-header h2 {
+  font-size: 2rem;
+  color: #2c3e50;
+}
+
+.session-date {
+  font-size: 0.9rem;
+  color: #888;
+}
+
+.score-summary {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 2rem;
+  flex-wrap: wrap;
+  gap: 2rem;
+}
+
+.score-card {
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  background: #ecf0f1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  font-weight: bold;
+  font-size: 1.5rem;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.score-card.excellent { background-color: #2ecc71; color: white; }
+.score-card.good      { background-color: #27ae60; color: white; }
+.score-card.average   { background-color: #f39c12; color: white; }
+.score-card.poor      { background-color: #e74c3c; color: white; }
+
+.score-label {
+  font-size: 0.9rem;
+  text-align: center;
+}
+
+.score-details {
+  text-align: center;
+  font-size: 1.1rem;
+  color: #333;
+}
+
+.results-actions {
+  margin-top: 2rem;
+  text-align: center;
+}
+
+.results-actions .btn-primary,
+.results-actions .btn-secondary {
+  margin: 0.5rem;
+}
+
+.question-review {
+  margin-top: 2rem;
+}
+
+.question-item {
+  border-left: 4px solid transparent;
+  padding: 1rem;
+  margin-bottom: 1.2rem;
+  background: #f9f9f9;
+  border-radius: 8px;
+  transition: all 0.3s ease;
+}
+
+.question-item.correct {
+  border-color: #2ecc71;
+  background-color: #ecfdf5;
+}
+
+.question-item.incorrect {
+  border-color: #e74c3c;
+  background-color: #fff6f6;
+}
+
+.question-header {
+  display: flex;
+  justify-content: space-between;
+  font-weight: bold;
+  margin-bottom: 0.5rem;
+}
+
+.question-text {
+  font-size: 1.05rem;
+  color: #34495e;
+  margin-bottom: 0.5rem;
+}
+
+.user-answer,
+.correct-answer {
+  font-size: 0.95rem;
+  margin-bottom: 0.3rem;
+}
+
+.user-answer .text-success {
+  color: #2ecc71;
+  font-weight: 600;
+}
+
+.user-answer .text-danger {
+  color: #e74c3c;
+  font-weight: 600;
+}
+
+.correct-answer .text-success {
+  color: #2ecc71;
+  font-weight: 600;
+}

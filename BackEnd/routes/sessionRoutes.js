@@ -3,16 +3,16 @@ const router = express.Router();
 const { protect } = require('../middleware/auth');
 const sessionController = require('../controllers/sessionController');
 
-// Protéger toutes les routes
+// Toutes les routes sont protégées
 router.use(protect);
 
-// Routes pour les sessions
-router.route('/')
-  .post(sessionController.createSession);
+// ➕ Créer une session (test QCM passé)
+router.post('/', sessionController.createSession);
 
-router.route('/:id')
-  .get(sessionController.getSessionById);
+// 📄 Voir une session spécifique
+router.get('/:id', sessionController.getSessionById);
 
+// 📋 Voir toutes les sessions de l'utilisateur connecté OU de l'utilisateur donné (si admin)
 router.get('/user/:userId?', sessionController.getUserSessions);
 
 module.exports = router;

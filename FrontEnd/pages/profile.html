@@ -10,7 +10,6 @@
 </head>
 <body>
   <div class="app-container">
-    <!-- Navigation latérale -->
     <nav class="sidebar">
       <div class="sidebar-toggle">
         <button id="toggle-sidebar"><span class="toggle-icon">◀</span></button>
@@ -29,9 +28,7 @@
       </ul>
       <div class="sidebar-footer">
         <a href="profile.html" class="user-info">
-          <div class="user-avatar">
-            <div class="initials-avatar">JS</div>
-          </div>
+          <div class="user-avatar"><div class="initials-avatar">JS</div></div>
           <div class="user-details">
             <p id="sidebar-user-name">Utilisateur</p>
             <span id="sidebar-user-domain" class="domain-badge">Domaine</span>
@@ -46,7 +43,6 @@
       </div>
     </nav>
 
-    <!-- Contenu principal -->
     <main class="main-content">
       <div class="profile-container">
         <h1 class="page-title">Mon profil</h1>
@@ -54,46 +50,73 @@
         <div class="profile-header">
           <div class="profile-avatar-section">
             <div id="profile-avatar" class="profile-avatar">
-              <div class="initials-avatar">JS</div>
+              <img id="profile-avatar-image" src="images/avatars/homme.png" alt="Avatar" />
             </div>
-            <button id="avatar-upload" class="btn-secondary">Modifier la photo</button>
-            <input type="file" id="avatar-input" accept="image/*" hidden />
+            <label for="avatar-select">Choisir un avatar</label>
+            <select id="avatar-select" name="avatar">
+              <option value="homme.png">Avatar Homme</option>
+              <option value="fille.png">Avatar Fille</option>
+            </select>
           </div>
 
           <div class="profile-info">
             <h2 id="profile-name">Nom Prénom</h2>
             <p id="profile-email">email@example.com</p>
             <div class="profile-details">
-              <p id="profile-domain" class="domain-info">
-                <span class="icon">🎓</span>
-                <span class="domain-text">Domaine</span>
-              </p>
-              <p id="profile-join-date" class="join-date">
-                <span class="icon">📅</span>
-                <span class="join-date-text">Membre depuis le ...</span>
-              </p>
+              <p class="domain-info"><span class="icon">🎓</span> <span class="domain-text">Domaine</span></p>
+              <p class="join-date"><span class="icon">📅</span> <span class="join-date-text">Membre depuis le ...</span></p>
             </div>
             <div class="profile-stats">
-              <div class="stat-item">
-                <span class="stat-number" id="stat-tests">-</span>
-                <span class="stat-label">Tests complétés</span>
-              </div>
-              <div class="stat-item">
-                <span class="stat-number" id="stat-qcms">-</span>
-                <span class="stat-label">QCM créés</span>
-              </div>
-              <div class="stat-item">
-                <span class="stat-number" id="stat-score">-</span>
-                <span class="stat-label">Score moyen</span>
-              </div>
+              <div class="stat-item"><span class="stat-number" id="stat-tests">-</span><span class="stat-label">Tests complétés</span></div>
+              <div class="stat-item"><span class="stat-number" id="stat-qcms">-</span><span class="stat-label">QCM créés</span></div>
+              <div class="stat-item"><span class="stat-number" id="stat-score">-</span><span class="stat-label">Score moyen</span></div>
             </div>
           </div>
         </div>
 
-        <!-- Contenu dynamique des tabs (inchangé) -->
-        <div id="profile-tabs-content">
-          <!-- Ces contenus sont chargés via profile-page.js -->
+        <!-- Onglets -->
+        <div class="profile-tabs">
+          <button class="profile-tab-btn active" data-tab="infos">🔧 Modifier le profil</button>
+          <button class="profile-tab-btn" data-tab="password">🔐 Changer le mot de passe</button>
+          <button class="profile-tab-btn" data-tab="history">🕘 Historique</button>
         </div>
+
+        <div class="profile-tab-content" id="infos-content">
+          <form id="personal-info-form" class="profile-form">
+            <div class="form-row">
+              <input type="text" id="profile-firstname" name="profileFirstname" placeholder="Prénom" required />
+              <input type="text" id="profile-lastname" name="profileLastname" placeholder="Nom" required />
+            </div>
+            <input type="email" id="profile-email-input" name="email" placeholder="Email" required />
+            <select id="profile-domain-input" name="domain" required>
+              <option value="">Choisir un domaine</option>
+              <option value="Médecine">Médecine</option>
+              <option value="Droit">Droit</option>
+            </select>
+            <select id="avatar-select" name="avatar">
+              <option value="homme.png">Avatar Homme</option>
+              <option value="fille.png">Avatar Fille</option>
+            </select>
+            <button type="submit" class="btn-primary">💾 Enregistrer</button>
+          </form>
+        </div>
+
+        <div class="profile-tab-content" id="password-content" style="display:none;">
+          <form id="password-form" class="profile-form">
+            <input type="password" id="current-password" placeholder="Mot de passe actuel" required />
+            <input type="password" id="new-password" placeholder="Nouveau mot de passe" required />
+            <button type="submit" class="btn-primary">🔐 Modifier</button>
+          </form>
+        </div>
+        
+
+        <div class="profile-tab-content" id="history-content" style="display:none;">
+          <div id="history-list" class="test-history">
+            <p>Chargement de l'historique...</p>
+          </div>
+        </div>
+
+        <div class="profile-messages"></div>
       </div>
     </main>
   </div>

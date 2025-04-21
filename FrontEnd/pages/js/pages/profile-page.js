@@ -1,12 +1,9 @@
-/**
- * Gestionnaire pour la page de profil
- */
 import { auth } from '../utils/auth.js';
-import { KnowledgeQuestAPI } from '../api/api.js';
+import api from '../api/api.js';
 import { showMessage } from '../components/component.js';
 
 export function initProfilePage() {
-  console.log("Initialisation de la page de profil...");
+  console.log("✅ Initialisation de la page de profil...");
 
   if (!auth.isLoggedIn) {
     window.location.href = 'login.html';
@@ -15,132 +12,154 @@ export function initProfilePage() {
 
   displayUserProfile();
   setupProfileForms();
+  setupAvatarSelector();
+  loadTestHistory();
+  loadUserStats();
   initProfileTabs();
 }
 
 function displayUserProfile() {
-  if (!auth.user) return;
+  const user = auth.user;
+  if (!user) return;
 
-  const name = auth.user.name || '-';
-  const email = auth.user.email || '-';
-  const domain = auth.user.domain || '-';
-  const createdAt = auth.user.createdAt || null;
+  const { name, email, domain, avatar = 'homme.png', createdAt } = user;
 
-  // Avatar & Infos principales
-  const initials = getInitials(name);
-  const avatarElem = document.querySelector('#profile-avatar .initials-avatar');
-  if (avatarElem) avatarElem.textContent = initials;
+  document.getElementById('profile-name').textContent = name;
+  document.getElementById('profile-email').textContent = email;
+  document.querySelector('.domain-text').textContent = domain;
 
-  const nameElem = document.getElementById('profile-name');
-  const emailElem = document.getElementById('profile-email');
-  const domainText = document.querySelector('#profile-domain .domain-text');
-  const joinDateText = document.querySelector('#profile-join-date .join-date-text');
-
-  if (nameElem) nameElem.textContent = name;
-  if (emailElem) emailElem.textContent = email;
-  if (domainText) domainText.textContent = domain;
-
-  if (joinDateText && createdAt) {
+  const joinDateElem = document.querySelector('.join-date-text');
+  if (createdAt && joinDateElem) {
     const date = new Date(createdAt);
-    joinDateText.textContent = `Membre depuis le ${date.toLocaleDateString('fr-FR', {
-      year: 'numeric',
-      month: 'long',
-      day: 'numeric',
+    joinDateElem.textContent = `Membre depuis le ${date.toLocaleDateString('fr-FR', {
+      year: 'numeric', month: 'long', day: 'numeric'
     })}`;
   }
 
-  // Statistiques (score, QCM, tests)
-  KnowledgeQuestAPI.stats.getUserStats().then(stats => {
-    document.getElementById("stat-tests").textContent = stats?.scoresHistory?.length || 0;
-    document.getElementById("stat-qcms").textContent = stats?.qcmCount || 0;
-    document.getElementById("stat-score").textContent = `${Math.round(stats?.averageScore || 0)}%`;
-  }).catch(() => {
-    console.warn("Impossible de charger les statistiques.");
-  });
+  const avatarElem = document.getElementById('profile-avatar-image');
+  if (avatarElem) avatarElem.src = `images/avatars/${avatar}`;
 
-  // Pré-remplir formulaire
-  const nameSplit = name.split(' ');
-  const firstName = nameSplit[0];
-  const lastName = nameSplit.slice(1).join(' ');
-
-  document.getElementById('profile-firstname')?.setAttribute('value', firstName);
-  document.getElementById('profile-lastname')?.setAttribute('value', lastName);
-  document.getElementById('profile-email-input')?.setAttribute('value', email);
+  document.getElementById('profile-firstname').value = name.split(' ')[0];
+  document.getElementById('profile-lastname').value = name.split(' ').slice(1).join(' ');
+  document.getElementById('profile-email-input').value = email;
 
   const domainSelect = document.getElementById('profile-domain-input');
   if (domainSelect) {
-    Array.from(domainSelect.options).forEach(option => {
-      option.selected = (option.value === domain);
+    [...domainSelect.options].forEach(opt => {
+      opt.selected = (opt.value === domain);
     });
   }
-}
 
-function getInitials(name) {
-  return name
-    .split(' ')
-    .map(part => part.charAt(0))
-    .join('')
-    .toUpperCase();
+  const avatarSelect = document.getElementById('avatar-select');
+  if (avatarSelect) {
+    avatarSelect.value = avatar;
+  }
 }
 
 function setupProfileForms() {
   const profileForm = document.getElementById('personal-info-form');
   const passwordForm = document.getElementById('password-form');
 
-  // 🧾 Modifier infos personnelles
   if (profileForm) {
     profileForm.addEventListener('submit', async (e) => {
       e.preventDefault();
 
-      const name = `${profileForm.profileFirstname.value} ${profileForm.profileLastname.value}`;
-      const email = profileForm.email.value;
+      const name = `${profileForm.profileFirstname.value.trim()} ${profileForm.profileLastname.value.trim()}`;
+      const email = profileForm.email.value.trim();
       const domain = profileForm.domain.value;
+      const avatar = profileForm.avatar.value;
 
       try {
-        const response = await KnowledgeQuestAPI.user.updateProfile({ name, email, domain });
+        const response = await api.user.updateProfile({ name, email, domain, avatar });
 
         if (response.success) {
-          auth.user = { ...auth.user, name, email, domain };
-          localStorage.setItem("user", JSON.stringify(auth.user));
-          showMessage(document.querySelector('.profile-messages'), 'Profil mis à jour avec succès', 'success');
+          const updatedUser = { ...auth.user, name, email, domain, avatar };
+          localStorage.setItem('user', JSON.stringify(updatedUser));
+          showMessage(document.querySelector('.profile-messages'), '✅ Profil mis à jour', 'success');
           displayUserProfile();
         } else {
-          showMessage(document.querySelector('.profile-messages'), response.message || 'Erreur lors de la mise à jour', 'error');
+          showMessage(document.querySelector('.profile-messages'), response.message || 'Erreur', 'error');
         }
       } catch (err) {
         console.error(err);
-        showMessage(document.querySelector('.profile-messages'), 'Erreur lors de la mise à jour du profil', 'error');
-      }
-    });
-  }
-
-  // 🔐 Changer le mot de passe
-  if (passwordForm) {
-    passwordForm.addEventListener('submit', async (e) => {
-      e.preventDefault();
-
-      const currentPassword = passwordForm.currentPassword.value;
-      const newPassword = passwordForm.newPassword.value;
-      const confirmPassword = passwordForm.confirmPassword.value;
-
-      if (newPassword !== confirmPassword) {
-        showMessage(document.querySelector('.profile-messages'), 'Les mots de passe ne correspondent pas', 'error');
-        return;
-      }
-
-      try {
-        const res = await KnowledgeQuestAPI.user.updatePassword(currentPassword, newPassword);
-        if (res.success) {
-          showMessage(document.querySelector('.profile-messages'), 'Mot de passe mis à jour avec succès', 'success');
-          passwordForm.reset();
-        } else {
-          showMessage(document.querySelector('.profile-messages'), res.message || 'Erreur lors du changement', 'error');
-        }
-      } catch (err) {
         showMessage(document.querySelector('.profile-messages'), 'Erreur serveur', 'error');
       }
     });
   }
+
+  if (passwordForm) {
+    passwordForm.addEventListener('submit', async (e) => {
+      e.preventDefault();
+  
+      const currentPassword = document.getElementById('current-password').value.trim();
+      const newPassword = document.getElementById('new-password').value.trim();
+  
+      if (!currentPassword || !newPassword) {
+        showMessage(document.querySelector('.profile-messages'), 'Tous les champs sont requis.', 'error');
+        return;
+      }
+  
+      try {
+        const res = await api.user.updatePassword({ currentPassword, newPassword });
+        if (res.success) {
+          showMessage(document.querySelector('.profile-messages'), '✅ Mot de passe mis à jour', 'success');
+          passwordForm.reset();
+        } else {
+          showMessage(document.querySelector('.profile-messages'), res.message || 'Erreur', 'error');
+        }
+      } catch (err) {
+        showMessage(document.querySelector('.profile-messages'), err.message || 'Erreur serveur', 'error');
+      }
+    });
+  }
+}
+
+function setupAvatarSelector() {
+  const avatarSelect = document.getElementById('avatar-select');
+  const avatarPreview = document.getElementById('profile-avatar-image');
+  if (!avatarSelect || !avatarPreview) return;
+
+  avatarSelect.addEventListener('change', () => {
+    const selected = avatarSelect.value;
+    avatarPreview.src = `images/avatars/${selected}`;
+  });
+}
+
+function loadTestHistory() {
+  const historyList = document.getElementById('history-list');
+  if (!historyList) return;
+
+  api.user.getTestHistory().then(res => {
+    historyList.innerHTML = '';
+
+    if (!res.success || !res.data?.length) {
+      historyList.innerHTML = `<p>Aucun test trouvé.</p>`;
+      return;
+    }
+
+    res.data.forEach(test => {
+      const div = document.createElement('div');
+      div.className = 'test-entry';
+      div.innerHTML = `
+        <p><strong>QCM :</strong> ${test.qcmTitle}</p>
+        <p><strong>Score :</strong> ${test.score}%</p>
+        <p><strong>Date :</strong> ${new Date(test.date).toLocaleDateString('fr-FR')}</p>
+      `;
+      historyList.appendChild(div);
+    });
+  }).catch(() => {
+    historyList.innerHTML = `<p>Erreur lors du chargement de l’historique.</p>`;
+  });
+}
+
+function loadUserStats() {
+  api.stats.getUserStats().then(stats => {
+    document.getElementById("stat-tests").textContent = stats?.scoresHistory?.length || 0;
+    document.getElementById("stat-qcms").textContent = stats?.qcmCount || 0;
+    document.getElementById("stat-score").textContent = `${Math.round(stats?.averageScore || 0)}%`;
+  }).catch(() => {
+    console.warn("❌ Impossible de charger les statistiques.");
+  });
 }
 
 function initProfileTabs() {
@@ -150,7 +169,7 @@ function initProfileTabs() {
   buttons.forEach(btn => {
     btn.addEventListener('click', () => {
       buttons.forEach(b => b.classList.remove('active'));
-      contents.forEach(c => c.style.display = 'none');
+      contents.forEach(c => (c.style.display = 'none'));
 
       btn.classList.add('active');
       const target = btn.dataset.tab;
@@ -158,8 +177,7 @@ function initProfileTabs() {
     });
   });
 
-  // Onglet actif par défaut
-  if (buttons.length > 0) buttons[0].click();
+  if (buttons.length) buttons[0].click();
 }
 
 document.addEventListener('DOMContentLoaded', initProfilePage);

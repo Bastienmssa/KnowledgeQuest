@@ -1,6 +1,3 @@
-/**
- * Gestionnaire pour la page de résultats
- */
 import { auth } from '../utils/auth.js';
 import { sessionService } from '../services/session-service.js';
 import { showNotification } from '../components/notification.js';
@@ -30,28 +27,30 @@ async function loadSessionResults(sessionId) {
   try {
     const session = await sessionService.getSessionById(sessionId);
 
-    if (!session) {
+    if (!session || !session.questionsAnswered) {
       container.innerHTML = getErrorTemplate('Session introuvable', 'Aucune session ne correspond à cet identifiant.');
       return;
     }
 
     const correct = session.questionsAnswered.filter(q => q.isCorrect).length;
     const total = session.questionsAnswered.length;
+    const score = session.score ?? 0;
+    const duration = session.duration ?? 0;
 
     container.innerHTML = `
       <div class="results-header">
         <h2>Résultats du test</h2>
-        <p class="session-date">Réalisé le ${new Date(session.createdAt).toLocaleDateString()}</p>
+        <p class="session-date">Réalisé le ${new Date(session.createdAt).toLocaleDateString('fr-FR')}</p>
       </div>
 
       <div class="score-summary">
-        <div class="score-card ${getScoreClass(session.score)}">
-          <div class="score">${session.score}%</div>
-          <div class="score-label">${getScoreLabel(session.score)}</div>
+        <div class="score-card ${getScoreClass(score)}">
+          <div class="score">${score}%</div>
+          <div class="score-label">${getScoreLabel(score)}</div>
         </div>
         <div class="score-details">
           <p><strong>${correct}</strong> / ${total} bonnes réponses</p>
-          <p>Durée : ${Math.floor(session.duration / 60)}min ${session.duration % 60}s</p>
+          <p>Durée : ${Math.floor(duration / 60)}min ${duration % 60}s</p>
         </div>
       </div>
 
@@ -71,23 +70,33 @@ async function loadSessionResults(sessionId) {
               <span>Question ${i + 1}</span>
               <span class="question-status">${q.isCorrect ? '✓ Correct' : '✗ Incorrect'}</span>
             </div>
-            <p class="question-text">${q.question}</p>
-            <p class="user-answer"><strong>Votre réponse :</strong> ${q.userAnswer || '<em>Aucune</em>'}</p>
-            ${!q.isCorrect ? `<p class="correct-answer"><strong>Bonne réponse :</strong> ${q.correctAnswer}</p>` : ''}
+            <p class="question-text">${q.question || 'Question non disponible'}</p>
+            <p class="user-answer">
+              <strong>Votre réponse :</strong> 
+              <span class="${q.isCorrect ? 'text-success' : 'text-danger'}">
+                ${q.userAnswer !== null && q.userAnswer !== undefined && q.userAnswer !== ''
+                  ? q.userAnswer
+                  : '<em>Aucune</em>'}
+              </span>
+            </p>
+            <p class="correct-answer">
+              <strong>Bonne réponse :</strong> 
+              <span class="text-success">${q.correctAnswer || 'Non définie'}</span>
+            </p>
           </div>
         `).join('')}
       </div>
     `;
 
-    // Actions
-    document.getElementById('btn-export-pdf').addEventListener('click', () => window.print());
+    // Boutons d'action
+    document.getElementById('btn-export-pdf')?.addEventListener('click', () => window.print());
 
-    document.getElementById('btn-share').addEventListener('click', () => {
+    document.getElementById('btn-share')?.addEventListener('click', () => {
       navigator.clipboard.writeText(window.location.href)
         .then(() => showNotification("Lien copié dans le presse-papiers !", "success"));
     });
 
-    document.getElementById('btn-errors-only').addEventListener('click', () => {
+    document.getElementById('btn-errors-only')?.addEventListener('click', () => {
       document.querySelectorAll('.question-item').forEach(item => {
         item.style.display = item.dataset.correct === 'false' ? 'block' : 'none';
       });

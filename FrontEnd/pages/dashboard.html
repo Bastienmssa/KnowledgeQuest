@@ -6,10 +6,12 @@
   <title>Tableau de bord | Knowledge Quest</title>
   <link rel="stylesheet" href="style/main.css" />
   <link rel="stylesheet" href="style/dashboard.css" />
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 <body>
   <div class="app-container">
-    <!-- Navigation latérale -->
+
+    <!-- Barre latérale -->
     <nav class="sidebar">
       <div class="sidebar-toggle">
         <button id="toggle-sidebar"><span class="toggle-icon">◀</span></button>
@@ -68,7 +70,7 @@
           <div class="stat-card">
             <h3>Tendance de progression</h3>
             <div class="mini-chart">
-              <canvas id="mini-progress-chart"></canvas>
+              <canvas id="mini-progress-chart" height="100"></canvas>
             </div>
             <p class="stat-trend positive">En constante amélioration</p>
           </div>

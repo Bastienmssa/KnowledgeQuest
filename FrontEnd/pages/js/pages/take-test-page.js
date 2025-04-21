@@ -1,7 +1,3 @@
-// js/pages/take-test-page.js
-/**
- * Gestionnaire pour la page de test QCM
- */
 import { auth } from '../utils/auth.js';
 import { qcmService } from '../services/qcm-service.js';
 import { sessionService } from '../services/session-service.js';
@@ -47,14 +43,7 @@ async function loadQcmSelection() {
       </div>
     `;
   } catch (err) {
-    console.error(err);
-    container.innerHTML = `
-      <div class="error-state">
-        <h2>Erreur</h2>
-        <p>Impossible de charger les QCM. Réessayez.</p>
-        <button class="btn-primary" onclick="location.reload()">Réessayer</button>
-      </div>
-    `;
+    container.innerHTML = `<div class="error-state">Erreur de chargement des QCM.</div>`;
   }
 }
 
@@ -71,14 +60,7 @@ async function loadAndStartTest(qcmId) {
 
     startTest(qcm, container);
   } catch (err) {
-    console.error(err);
-    container.innerHTML = `
-      <div class="error-state">
-        <h2>Erreur</h2>
-        <p>QCM non disponible.</p>
-        <a href="take-test.html" class="btn-primary">Retour</a>
-      </div>
-    `;
+    container.innerHTML = `<p>Impossible de charger ce QCM.</p>`;
   }
 }
 
@@ -87,11 +69,9 @@ function startTest(qcm, container) {
   const userAnswers = Array(qcm.questions.length).fill(null);
   const startTime = new Date();
 
-  // Timer affiché en haut
   let timerInterval;
   const timerEl = document.createElement('div');
   timerEl.className = 'test-timer';
-  timerEl.textContent = '⏱ Temps écoulé : 00:00';
   container.prepend(timerEl);
 
   function updateTimer() {
@@ -155,13 +135,7 @@ function startTest(qcm, container) {
     questionEl.querySelectorAll('input[type="radio"]').forEach(input => {
       input.addEventListener('change', () => {
         userAnswers[index] = parseInt(input.value);
-
-        // Mode révision : afficher la correction immédiate
-        const isCorrect = question.choices[parseInt(input.value)] === question.correctAnswer;
-        if (!isCorrect) {
-          showNotification(`❌ Mauvaise réponse. La bonne réponse est : "${question.correctAnswer}"`, 'warning');
-        }
-        saveProgress(); // sauvegarde auto
+        saveProgress();
       });
     });
   }
@@ -201,11 +175,12 @@ function startTest(qcm, container) {
 
     const results = qcm.questions.map((q, i) => {
       const selected = userAnswers[i];
+      const answerText = selected !== null ? q.choices[selected] : null;
       return {
         question: q.question,
-        userAnswer: selected !== null ? q.choices[selected] : null,
+        userAnswer: answerText,
         correctAnswer: q.correctAnswer,
-        isCorrect: q.choices[selected] === q.correctAnswer
+        isCorrect: answerText === q.correctAnswer
       };
     });
 
@@ -213,21 +188,23 @@ function startTest(qcm, container) {
     const duration = Math.floor((new Date() - startTime) / 1000);
 
     try {
-      const session = await sessionService.createSession({
+      const response = await sessionService.createSession({
         qcmId: qcm._id,
         score,
         duration,
         questionsAnswered: results
       });
 
-      window.location.href = `results.html?sessionId=${session._id}`;
+      const sessionId = response.sessionId;
+      if (!sessionId) throw new Error("Session ID non reçu du backend");
+
+      window.location.href = `results.html?sessionId=${sessionId}`;
     } catch (err) {
       console.error(err);
-      showNotification("Erreur lors de l'enregistrement", 'error');
+      showNotification("Erreur lors de l'enregistrement de la session", 'error');
     }
   }
 
-  // Reprise automatique ?
   const saved = localStorage.getItem(`qcm-progress-${qcm._id}`);
   if (saved) {
     const restore = confirm("⚠️ Une tentative précédente de ce QCM a été trouvée. Reprendre ?");
