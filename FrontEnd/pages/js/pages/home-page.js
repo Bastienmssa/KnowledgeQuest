@@ -1,6 +1,6 @@
 // js/pages/home-page.js
 import { auth } from '../utils/auth.js';
-import { sessionService } from '../services/session-service.js';
+import { statsService } from '../services/stats-service.js';
 import { showNotification } from '../components/notification.js';
 
 export async function initHomePage() {
@@ -11,43 +11,58 @@ export async function initHomePage() {
 
   const user = auth.user;
   if (user) {
-    document.getElementById('user-first-name').textContent = user.name.split(' ')[0];
+    const nameEl = document.getElementById('user-first-name');
+    if (nameEl) nameEl.textContent = user.name.split(' ')[0];
   }
 
   try {
-    const stats = await sessionService.getUserStats(); // get average score, etc.
-    const sessions = await sessionService.getUserSessions({ limit: 3 });
+    const stats = await statsService.getUserStats(); // ✅ récupère score + sessions
 
-    if (stats?.averageScore) {
+    // Affichage de la progression moyenne
+    if (stats?.averageScore !== undefined) {
       const progress = Math.round(stats.averageScore);
       const progressCircle = document.querySelector('.progress-circle');
-      progressCircle.dataset.progress = progress;
-      progressCircle.innerHTML = `<span>${progress}%</span>`;
+      const progressText = document.getElementById('progress-score');
+
+      if (progressCircle && progressText) {
+        progressCircle.dataset.progress = progress;
+        progressText.textContent = `${progress}%`;
+        progressCircle.addEventListener('click', () => {
+          window.location.href = 'stats.html';
+        });
+        progressCircle.style.cursor = 'pointer';
+        progressCircle.title = 'Voir mes statistiques';
+      }
     }
 
+    // Affichage de l’activité récente
     const container = document.getElementById('recent-activity');
-    container.innerHTML = '';
+    if (!container) return;
 
-    if (sessions.length === 0) {
+    const history = stats?.scoresHistory || [];
+
+    container.innerHTML = '';
+    if (history.length === 0) {
       container.innerHTML = '<p>Aucune activité récente pour le moment.</p>';
     } else {
-      sessions.forEach(session => {
+      history.slice().reverse().slice(0, 3).forEach(session => {
         const item = document.createElement('div');
         item.className = 'timeline-item';
         item.innerHTML = `
           <div class="timeline-icon">✅</div>
           <div class="timeline-content">
-            <h4>Test : ${session.qcm?.title || 'QCM'}</h4>
-            <p>Score : ${session.score}% - ${new Date(session.createdAt).toLocaleDateString()}</p>
+            <h4>Test : ${session.qcmTitle || 'QCM'}</h4>
+            <p>Score : ${session.score}% - ${new Date(session.date).toLocaleDateString('fr-FR')}</p>
             <a href="results.html?sessionId=${session._id}" class="btn-small">Voir les résultats</a>
           </div>
         `;
         container.appendChild(item);
       });
     }
+
   } catch (error) {
     console.error('Erreur:', error);
-    showNotification('Erreur lors du chargement des données de l\'accueil', 'error');
+    showNotification("Erreur lors du chargement des données de l'accueil", 'error');
   }
 }
 

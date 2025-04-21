@@ -85,7 +85,6 @@ export const auth = {
       const avatarElement = document.querySelector('.initials-avatar');
       if (avatarElement) avatarElement.textContent = avatarInitials;
 
-      // Appliquer le thème de domaine sur le body
       document.body.setAttribute('data-domain', user.domain);
     }
   },

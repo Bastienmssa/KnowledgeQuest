@@ -3,7 +3,7 @@
 import { statsService } from '../services/stats-service.js';
 
 export function initCharts(stats) {
-  console.log("Initialisation des graphiques...");
+  console.log("📈 Initialisation des graphiques complets...");
 
   ensureChartJsLoaded().then(() => {
     const chartData = statsService.formatChartData(stats);
@@ -17,12 +17,17 @@ export function initCharts(stats) {
     if (subjectChartElement) {
       initSubjectDistributionChart(subjectChartElement, chartData.subjectPerformance);
     }
+
+    const miniCanvas = document.getElementById('mini-progress-chart');
+    if (miniCanvas) {
+      const miniData = statsService.getLastMonthScores(stats);
+      initMiniChart(miniCanvas, miniData);
+    }
   });
 }
 
 function ensureChartJsLoaded() {
   if (window.Chart) return Promise.resolve();
-
   return new Promise((resolve, reject) => {
     const script = document.createElement('script');
     script.src = 'https://cdn.jsdelivr.net/npm/chart.js';
@@ -49,33 +54,7 @@ function initScoreEvolutionChart(canvas, data) {
         fill: true
       }]
     },
-    options: {
-      responsive: true,
-      plugins: {
-        legend: { display: false },
-        tooltip: {
-          callbacks: {
-            label: context => `${context.parsed.y} %`
-          }
-        }
-      },
-      scales: {
-        y: {
-          beginAtZero: true,
-          max: 100,
-          title: {
-            display: true,
-            text: 'Score (%)'
-          }
-        },
-        x: {
-          title: {
-            display: true,
-            text: 'Date'
-          }
-        }
-      }
-    }
+    options: getLineChartOptions('Date', 'Score (%)')
   });
 }
 
@@ -134,24 +113,59 @@ function initSubjectDistributionChart(canvas, data) {
   });
 }
 
-export function updateCharts(stats, timeFilter) {
-  console.log("Mise à jour des graphiques avec filtre :", timeFilter);
-  const chartInstances = Chart.instances || Object.values(Chart.registry?.instances || {});
+function initMiniChart(canvas, data) {
+  new Chart(canvas, {
+    type: 'line',
+    data: {
+      labels: data.labels,
+      datasets: [{
+        label: 'Progression',
+        data: data.data,
+        borderColor: 'rgba(52, 152, 219, 1)',
+        backgroundColor: 'rgba(52, 152, 219, 0.1)',
+        tension: 0.4,
+        fill: true
+      }]
+    },
+    options: getLineChartOptions('Date', 'Score (%)')
+  });
+}
 
+function getLineChartOptions(xLabel, yLabel) {
+  return {
+    responsive: true,
+    plugins: {
+      legend: { display: false },
+      tooltip: {
+        callbacks: {
+          label: context => `${context.parsed.y} %`
+        }
+      }
+    },
+    scales: {
+      y: {
+        beginAtZero: true,
+        max: 100,
+        ticks: { stepSize: 20 },
+        title: { display: true, text: yLabel }
+      },
+      x: {
+        title: { display: true, text: xLabel }
+      }
+    }
+  };
+}
+
+export function updateCharts(stats, timeFilter) {
+  const chartInstances = Chart.instances || Object.values(Chart.registry?.instances || {});
   chartInstances.forEach(chart => {
     if (chart.canvas.id === 'scores-chart') {
       let data;
       switch (timeFilter) {
-        case 'month':
-          data = statsService.getLastMonthScores(stats);
-          break;
-        case 'week':
-          data = statsService.getLastWeekScores(stats);
-          break;
-        default:
-          data = statsService.formatChartData(stats).scoreEvolution;
+        case 'month': data = statsService.getLastMonthScores(stats); break;
+        case 'week': data = statsService.getLastWeekScores(stats); break;
+        default: data = statsService.formatChartData(stats).scoreEvolution;
       }
-
       chart.data.labels = data.labels;
       chart.data.datasets[0].data = data.data;
       chart.update();

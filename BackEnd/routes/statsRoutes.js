@@ -6,8 +6,8 @@ const statsController = require('../controllers/statsController');
 // Protéger toutes les routes
 router.use(protect);
 
-// Routes pour les statistiques
-router.get('/:userId?', statsController.getUserStats);
-router.get('/aggregated/data', statsController.getAggregatedStats);
+// Routes statistiques principales
+router.get('/:userId?', statsController.getUserStats);             // statistiques de l'utilisateur
+router.get('/aggregated/data', statsController.getAggregatedStats); // tendances globales
 
 module.exports = router;

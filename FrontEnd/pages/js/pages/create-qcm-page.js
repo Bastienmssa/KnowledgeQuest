@@ -252,3 +252,4 @@ function updateQuestionIndices(container) {
     item.querySelector('h3').textContent = `Question ${index + 1}`;
   });
 }
+export { initCreateQcmPage }; 

@@ -1,13 +1,33 @@
 const mongoose = require('mongoose');
+const { Schema } = mongoose;
 
-const SessionSchema = new mongoose.Schema({
+const answeredSchema = new Schema({
+  question: {
+    type: String,
+    default: 'Question non disponible'
+  },
+  userAnswer: {
+    type: String,
+    default: '<Aucune>'
+  },
+  correctAnswer: {
+    type: String,
+    default: 'Non définie'
+  },
+  isCorrect: {
+    type: Boolean,
+    default: false
+  }
+});
+
+const sessionSchema = new Schema({
   userId: {
-    type: mongoose.Schema.Types.ObjectId,
+    type: Schema.Types.ObjectId,
     ref: 'User',
     required: true
   },
   qcmId: {
-    type: mongoose.Schema.Types.ObjectId,
+    type: Schema.Types.ObjectId,
     ref: 'Qcm',
     required: true
   },
@@ -15,17 +35,13 @@ const SessionSchema = new mongoose.Schema({
     type: Number,
     required: true
   },
-  questionsAnswered: [
-    {
-      question: String,
-      userAnswer: String,
-      isCorrect: Boolean
-    }
-  ],
-  createdAt: {
-    type: Date,
-    default: Date.now
-  }
+  duration: {
+    type: Number, // Durée en secondes
+    required: true
+  },
+  questionsAnswered: [answeredSchema]
+}, {
+  timestamps: true
 });
 
-module.exports = mongoose.model('Session', SessionSchema);
+module.exports = mongoose.model('Session', sessionSchema);
