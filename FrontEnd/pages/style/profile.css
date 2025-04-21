@@ -1,0 +1,264 @@
+/* profile.css - Styles améliorés pour la page profil */
+
+/* Container principal */
+.profile-container {
+    max-width: 850px;
+    margin: 0 auto;
+    animation: fadeInUp 0.4s ease-out;
+  }
+  
+  .page-title {
+    margin-bottom: var(--spacing-lg);
+    font-size: 28px;
+    color: var(--secondary-color);
+    position: relative;
+    padding-left: 36px;
+  }
+  
+  .page-title:before {
+    content: "👤";
+    position: absolute;
+    left: 0;
+    top: 0;
+    font-size: 28px;
+  }
+  
+  /* Section header du profil avec avatar */
+  .profile-header {
+    display: flex;
+    gap: var(--spacing-xl);
+    margin-bottom: var(--spacing-xl);
+    background-color: var(--card-bg);
+    border-radius: var(--border-radius);
+    box-shadow: var(--shadow-sm);
+    padding: var(--spacing-lg);
+    border: 1px solid var(--border-color);
+    transition: all 0.3s ease;
+  }
+  
+  .profile-header:hover {
+    box-shadow: var(--shadow-md);
+    transform: translateY(-3px);
+  }
+  
+  /* Avatar et section info */
+  .profile-avatar-section {
+    text-align: center;
+    margin-bottom: var(--spacing-md);
+  }
+  
+  .profile-avatar {
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    margin: 0 auto var(--spacing-sm);
+    background-color: var(--light-bg);
+    border: 4px solid var(--border-color);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 36px;
+    color: var(--secondary-color);
+    overflow: hidden;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  }
+  
+  .profile-avatar:hover {
+    transform: scale(1.05);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+  }
+  
+  .profile-avatar img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+  
+  .profile-info {
+    flex: 1;
+  }
+  
+  .profile-info h2 {
+    font-size: 24px;
+    color: var(--secondary-color);
+    margin-bottom: 5px;
+  }
+  
+  .profile-info p {
+    color: var(--text-light);
+    margin-bottom: var(--spacing-md);
+  }
+  
+  .profile-details {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--spacing-md);
+    margin-bottom: var(--spacing-md);
+  }
+  
+  .profile-details p {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin: 0;
+    font-size: 14px;
+  }
+  
+  .domain-info .icon, .join-date .icon {
+    font-size: 18px;
+    opacity: 0.8;
+  }
+  
+  .domain-text {
+    color: var(--medicine-color);
+    font-weight: 500;
+  }
+  
+  .law-profile .domain-text {
+    color: var(--law-color);
+  }
+  
+  /* Stats de profil */
+  .profile-stats {
+    display: flex;
+    gap: var(--spacing-md);
+    margin-top: var(--spacing-md);
+  }
+  
+  .stat-item {
+    background-color: var(--light-bg);
+    padding: var(--spacing-md);
+    border-radius: var(--border-radius);
+    min-width: 100px;
+    text-align: center;
+    transition: all 0.2s ease;
+  }
+  
+  .stat-item:hover {
+    transform: translateY(-3px);
+    box-shadow: var(--shadow-sm);
+  }
+  
+  .stat-number {
+    display: block;
+    font-size: 24px;
+    font-weight: 700;
+    color: var(--primary-color);
+    margin-bottom: 4px;
+  }
+  
+  .stat-label {
+    font-size: 12px;
+    color: var(--text-light);
+  }
+  
+  /* Onglets du profil */
+  .profile-tabs {
+    display: flex;
+    gap: 2px;
+    margin-bottom: var(--spacing-md);
+    border-bottom: 1px solid var(--border-color);
+  }
+  
+  .profile-tab-btn {
+    padding: var(--spacing-md) var(--spacing-lg);
+    background: none;
+    border: none;
+    border-bottom: 3px solid transparent;
+    cursor: pointer;
+    font-weight: 500;
+    color: var(--text-light);
+    transition: all 0.2s ease;
+  }
+  
+  .profile-tab-btn:hover {
+    color: var(--primary-color);
+  }
+  
+  .profile-tab-btn.active {
+    color: var(--primary-color);
+    border-bottom-color: var(--primary-color);
+  }
+  
+  /* Contenu des onglets */
+  .profile-tab-content {
+    background-color: var(--card-bg);
+    border-radius: var(--border-radius);
+    box-shadow: var(--shadow-sm);
+    padding: var(--spacing-lg);
+    border: 1px solid var(--border-color);
+    animation: fadeIn 0.3s ease;
+  }
+  
+  /* Historique des tests */
+  .test-history {
+    margin-top: var(--spacing-md);
+  }
+  
+  .history-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: var(--spacing-md);
+    border-bottom: 1px solid var(--border-color);
+    transition: all 0.2s ease;
+  }
+  
+  .history-item:hover {
+    background-color: var(--light-bg);
+  }
+  
+  .history-item:last-child {
+    border-bottom: none;
+  }
+  
+  .history-date {
+    color: var(--text-light);
+    font-size: 14px;
+  }
+  
+  .history-score {
+    font-weight: 600;
+  }
+  
+  .medicine-profile .history-score.high {
+    color: var(--medicine-color);
+  }
+  
+  .law-profile .history-score.high {
+    color: var(--law-color);
+  }
+  
+  /* Message de notifications */
+  .profile-messages {
+    margin-top: var(--spacing-md);
+  }
+  
+  /* Animations */
+  @keyframes fadeInUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  
+  @keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
+  
+  /* Media queries pour responsive */
+  @media (max-width: 768px) {
+    .profile-header {
+      flex-direction: column;
+    }
+    
+    .profile-tabs {
+      overflow-x: auto;
+      white-space: nowrap;
+      padding-bottom: var(--spacing-xs);
+    }
+    
+    .profile-stats {
+      flex-direction: column;
+    }
+  }
