@@ -1,10 +1,8 @@
 const User = require('../models/User');
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcryptjs');
-const { OAuth2Client } = require('google-auth-library');
 const axios = require('axios');
-
-const googleClient = new OAuth2Client(process.env.GOOGLE_CLIENT_ID);
+const admin = require('../firebaseAdmin'); // 🔥 Firebase Admin pour Google Auth
 
 // Générer un token JWT
 const generateToken = (id) => {
@@ -24,7 +22,7 @@ exports.register = async (req, res) => {
     const user = new User({
       name,
       email,
-      passwordHash: password, // laisser le hash au middleware Mongoose
+      passwordHash: password,
       domain
     });
 
@@ -55,7 +53,6 @@ exports.login = async (req, res) => {
     const { email, password } = req.body;
 
     const user = await User.findOne({ email }).select('+passwordHash');
-
     if (!user) {
       return res.status(401).json({ success: false, message: 'Email ou mot de passe incorrect' });
     }
@@ -84,140 +81,48 @@ exports.login = async (req, res) => {
   }
 };
 
-// ========== GOOGLE AUTH ==========
+// ========== GOOGLE AUTH avec Firebase ==========
 exports.googleAuth = async (req, res) => {
   try {
-    const { token } = req.body;
+    const { token, domain } = req.body;
 
-    const ticket = await googleClient.verifyIdToken({
-      idToken: token,
-      audience: process.env.GOOGLE_CLIENT_ID
-    });
-
-    const payload = ticket.getPayload();
-    const { name, email, picture } = payload;
-
-    let user = await User.findOne({ email });
-
-    if (!user) {
-      user = new User({
-        name,
-        email,
-        passwordHash: Math.random().toString(36).slice(-8),
-        domain: 'Médecine',
-        picture
-      });
-      await user.save();
+    if (!token || !domain) {
+      return res.status(400).json({ success: false, message: "Token ou domaine manquant." });
     }
 
-    const jwtToken = generateToken(user._id);
+    const decodedToken = await admin.auth().verifyIdToken(token);
+    const { name, email } = decodedToken;
 
-    res.status(200).json({
+    if (!email || !name) {
+      return res.status(400).json({ success: false, message: "Informations utilisateur incomplètes." });
+    }
+
+    const existingUser = await User.findOne({ email });
+    if (existingUser) {
+      return res.status(200).json({ success: false, message: "Utilisateur déjà existant." });
+    }
+
+    const user = new User({
+      name,
+      email,
+      passwordHash: "password123456789",
+      domain
+    });
+
+    await user.save();
+
+    res.status(201).json({
       success: true,
-      user: {
-        id: user._id,
-        name: user.name,
-        email: user.email,
-        domain: user.domain,
-        picture: user.picture
-      },
-      token: jwtToken,
-      needsProfileCompletion: !user.domain
-    });
-  } catch (error) {
-    console.error('Erreur Google Auth:', error);
-    res.status(500).json({ success: false, message: 'Erreur Google Auth', error: error.message });
-  }
-};
-
-// ========== MICROSOFT AUTH ==========
-exports.microsoftAuth = async (req, res) => {
-  try {
-    const { accessToken } = req.body;
-
-    const graphResponse = await axios.get('https://graph.microsoft.com/v1.0/me', {
-      headers: { Authorization: `Bearer ${accessToken}` }
-    });
-
-    const { displayName, mail, userPrincipalName } = graphResponse.data;
-    const email = mail || userPrincipalName;
-
-    if (!email) {
-      return res.status(400).json({ success: false, message: 'Email introuvable via Microsoft' });
-    }
-
-    let user = await User.findOne({ email });
-
-    if (!user) {
-      user = new User({
-        name: displayName,
-        email,
-        passwordHash: Math.random().toString(36).slice(-8),
-        domain: 'Médecine'
-      });
-      await user.save();
-    }
-
-    const jwtToken = generateToken(user._id);
-
-    res.status(200).json({
-      success: true,
+      message: "Utilisateur Google créé avec succès.",
       user: {
         id: user._id,
         name: user.name,
         email: user.email,
         domain: user.domain
-      },
-      token: jwtToken,
-      needsProfileCompletion: !user.domain
+      }
     });
   } catch (error) {
-    console.error('Erreur Microsoft Auth:', error);
-    res.status(500).json({ success: false, message: 'Erreur Microsoft Auth', error: error.message });
-  }
-};
-
-// ========== APPLE AUTH ==========
-exports.appleAuth = async (req, res) => {
-  try {
-    const { id_token, user: appleUser } = req.body;
-
-    const decodedToken = jwt.decode(id_token);
-    const email = decodedToken?.email;
-
-    if (!email) {
-      return res.status(400).json({ success: false, message: 'Email introuvable via Apple' });
-    }
-
-    const name = appleUser?.name || `Utilisateur ${Math.floor(Math.random() * 10000)}`;
-
-    let user = await User.findOne({ email });
-
-    if (!user) {
-      user = new User({
-        name,
-        email,
-        passwordHash: Math.random().toString(36).slice(-8),
-        domain: 'Médecine'
-      });
-      await user.save();
-    }
-
-    const jwtToken = generateToken(user._id);
-
-    res.status(200).json({
-      success: true,
-      user: {
-        id: user._id,
-        name: user.name,
-        email: user.email,
-        domain: user.domain
-      },
-      token: jwtToken,
-      needsProfileCompletion: !user.domain
-    });
-  } catch (error) {
-    console.error('Erreur Apple Auth:', error);
-    res.status(500).json({ success: false, message: 'Erreur Apple Auth', error: error.message });
+    console.error("Erreur Firebase Google Auth:", error);
+    res.status(500).json({ success: false, message: "Erreur Google Firebase Auth", error: error.message });
   }
 };

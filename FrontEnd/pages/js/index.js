@@ -6,10 +6,10 @@
 import { initializeApp } from './app.js';
 import { setupComponents } from './components/component.js';
 import { setupPages } from './pages/pages.js';
-import { setupAPI } from './api/api.js';
+import api from './api/api.js';
 import { auth } from './utils/auth.js';
 import { router } from './utils/router.js';
-import { applyStylePreferences } from './utils/style.js'; // Ajout important
+import { initStyles  } from './utils/style.js'; // Ajout important
 
 document.addEventListener('DOMContentLoaded', init);
 
@@ -20,7 +20,7 @@ function init() {
   auth.checkAuth();
 
   // Appliquer le thème / style utilisateur
-  applyStylePreferences(); // Appliquer les préférences de style
+  initStyles(); // Appliquer les préférences de style
 
   // Initialiser les composants
   setupComponents();

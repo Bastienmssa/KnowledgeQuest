@@ -1,4 +1,3 @@
-// routes/authRoutes.js
 const express = require('express');
 const router = express.Router();
 const userController = require('../controllers/userController');
@@ -6,14 +5,11 @@ const authController = require('../controllers/authController');
 const { protect } = require('../middleware/auth');
 
 // Routes d'authentification standard
-router.post('/register', authController.register); // Vérifiez que cette fonction existe
-router.post('/login', authController.login); // Vérifiez que cette fonction existe
-//router.get('/me', protect, authController.getMe);
+router.post('/register', authController.register);
+router.post('/login', authController.login);
 
-// Routes d'authentification sociale
-// router.post('/google', userController.googleAuth);
-// router.post('/microsoft', userController.microsoftAuth);
-// router.post('/apple', userController.appleAuth);
+// Route Google OAuth avec Firebase Admin
+router.post('/google', authController.googleAuth);
 
 // Routes de gestion de profil (protégées)
 router.put('/update-profile', protect, userController.updateProfile);
