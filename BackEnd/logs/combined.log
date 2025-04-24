@@ -129,3 +129,16 @@
 2025-04-21 17:30:27 error: Erreur updatePassword: Illegal arguments: string, undefined
 2025-04-21 17:45:52 error: ❌ Erreur getSessionById : Cast to ObjectId failed for value "user" (type string) at path "_id" for model "Session"
 2025-04-21 17:47:45 error: ❌ Erreur getSessionById : Cast to ObjectId failed for value "user" (type string) at path "_id" for model "Session"
+2025-04-24 10:14:51 info: ✅ Session enregistrée : user=680282e9ab372974164e674a, sessionId=6809f2fba31069492fa37905, score=100, durée=3s
+2025-04-24 10:53:41 info: ✅ Session enregistrée : user=680282e9ab372974164e674a, sessionId=6809fc15dc5f63b70f9d960c, score=0, durée=2s
+2025-04-24 11:51:35 info: ✅ Session enregistrée : user=680282e9ab372974164e674a, sessionId=680a09a7dc5f63b70f9db0b6, score=100, durée=22s
+2025-04-24 11:56:35 info: ✅ Session enregistrée : user=680282e9ab372974164e674a, sessionId=680a0ad3dc5f63b70f9db324, score=100, durée=4s
+2025-04-24 11:57:19 info: ✅ Session enregistrée : user=680282e9ab372974164e674a, sessionId=680a0affdc5f63b70f9db4dd, score=100, durée=11s
+2025-04-24 12:01:55 info: ✅ Session enregistrée : user=680282e9ab372974164e674a, sessionId=680a0c13dc5f63b70f9db7d7, score=0, durée=14s
+2025-04-24 12:09:39 info: ✅ Session enregistrée : user=680282e9ab372974164e674a, sessionId=680a0de3dc5f63b70f9db93e, score=100, durée=15s
+2025-04-24 12:22:44 info: ✅ Session enregistrée : user=680282e9ab372974164e674a, sessionId=680a10f4dc5f63b70f9dbe9c, score=100, durée=10s
+2025-04-24 12:23:45 info: ✅ Session enregistrée : user=680282e9ab372974164e674a, sessionId=680a1131dc5f63b70f9dc0e5, score=100, durée=2s
+2025-04-24 19:23:00 info: ✅ Session enregistrée : user=680282e9ab372974164e674a, sessionId=680a73730ab52f360266e330, score=100, durée=3s
+2025-04-24 19:23:17 info: ✅ Session enregistrée : user=680282e9ab372974164e674a, sessionId=680a73850ab52f360266e606, score=100, durée=1s
+2025-04-24 21:17:31 info: ✅ Session enregistrée : user=680282e9ab372974164e674a, sessionId=680a8e4bcef6df5ba99523fe, score=100, durée=2s
+2025-04-24 21:22:47 info: ✅ Session enregistrée : user=680282e9ab372974164e674a, sessionId=680a8f87cef6df5ba9952aba, score=100, durée=6s
