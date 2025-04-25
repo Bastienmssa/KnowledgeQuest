@@ -12,7 +12,8 @@ router.post('/login', authController.login); // Vérifiez que cette fonction exi
 
 // Routes d'authentification sociale
 router.post('/google', authController.googleAuth);
-// router.post('/microsoft', userController.microsoftAuth);
+router.get('/microsoft', authController.microsoftRedirect); // Redirige vers Microsoft login
+router.get('/microsoft/callback', authController.microsoftCallback); // Callback après login
 // router.post('/apple', userController.appleAuth);
 
 // Routes de gestion de profil (protégées)

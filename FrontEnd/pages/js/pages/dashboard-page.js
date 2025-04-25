@@ -5,10 +5,26 @@ import { qcmService } from '../services/qcm-service.js';
 import { statsService } from '../services/stats-service.js';
 import { showNotification } from '../components/notification.js';
 
+// ➕ Nouveau : extraire le token de l'URL s'il existe
+const params = new URLSearchParams(window.location.search);
+const tokenFromUrl = params.get('token');
+
+if (tokenFromUrl) {
+  console.log("✅ Token reçu via URL, sauvegarde dans localStorage");
+  localStorage.setItem("token", tokenFromUrl);
+
+  // Nettoyer l'URL pour éviter d'afficher le token
+  window.history.replaceState({}, document.title, "dashboard.html");
+}
+
+// Lancer l'init au chargement de la page
+document.addEventListener('DOMContentLoaded', initDashboardPage);
+
 export async function initDashboardPage() {
   console.log("📊 Initialisation du tableau de bord...");
 
   if (!auth.isLoggedIn) {
+    console.log("🔐 Utilisateur non connecté, redirection vers login.html");
     window.location.href = 'login.html';
     return;
   }
@@ -57,15 +73,9 @@ async function displayMiniChart(stats) {
 
   // Tenter de récupérer/détruire toute instance existante
   try {
-    // 1) Par élément
     let existing = Chart.getChart(canvas);
-    // 2) Ou par id
-    if (!existing) {
-      existing = Chart.getChart('mini-progress-chart');
-    }
-    if (existing) {
-      existing.destroy();
-    }
+    if (!existing) existing = Chart.getChart('mini-progress-chart');
+    if (existing) existing.destroy();
   } catch (cleanupErr) {
     console.warn("Aucune ancienne instance à détruire :", cleanupErr);
   }
@@ -168,6 +178,3 @@ function displayRecentQcms(qcms) {
 
   container.innerHTML = cards;
 }
-
-// Lancer l'init au chargement de la page
-document.addEventListener('DOMContentLoaded', initDashboardPage);

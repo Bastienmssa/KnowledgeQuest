@@ -16,7 +16,7 @@ export function initRegisterPage() {
   const form = document.getElementById('register-form');
   const googleBtn = document.getElementById('google-register');
 
-  // 👉 Gestion du formulaire classique
+  // Formulaire classique
   if (form) {
     form.onsubmit = async (e) => {
       e.preventDefault();
@@ -62,18 +62,12 @@ export function initRegisterPage() {
     };
   }
 
-  // 👉 Connexion Google avec Firebase
+  // Connexion Google
   if (googleBtn) {
     googleBtn.addEventListener('click', async () => {
       try {
-        console.log("🔁 Tentative d'authentification Google...");
         const { token, user } = await signInWithGooglePopup();
-
-        console.log("✅ Utilisateur Google connecté :", user);
-        console.log("🧩 Token Firebase récupéré :", token);
-
-        const domain = document.getElementById('register-domain')?.value || "Médecine";
-        console.log("🎓 Domaine sélectionné :", domain);
+        const domain = document.getElementById('register-domain')?.value || 'Médecine';
 
         const res = await fetch("http://localhost:5000/api/auth/google", {
           method: "POST",
@@ -82,8 +76,6 @@ export function initRegisterPage() {
         });
 
         const data = await res.json();
-
-        console.log("🔄 Réponse serveur :", data);
 
         if (res.ok && data.token) {
           localStorage.setItem("token", data.token);
@@ -98,4 +90,15 @@ export function initRegisterPage() {
       }
     });
   }
+
+  // Connexion Microsoft
+  const microsoftBtn = document.getElementById('microsoft-register');
+  if (microsoftBtn) {
+    microsoftBtn.addEventListener('click', () => {
+      const domain = document.getElementById("register-domain")?.value || "Médecine";
+      window.location.href = `http://localhost:5000/api/auth/microsoft?state=${encodeURIComponent(domain)}`;
+    });
+  }
+
+  
 }

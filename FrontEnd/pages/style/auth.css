@@ -802,3 +802,49 @@
     background-color: rgba(142, 68, 173, 0.2);
     transform: translateY(-2px);
 }
+
+
+/* Bouton Microsoft identique à Google, avec couleurs adaptées */
+.btn-social.microsoft {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 14px 18px;
+    background-color: white;
+    border: 1px solid #e0e0e0;
+    border-radius: 12px;
+    box-shadow: 0 3px 8px rgba(0, 0, 0, 0.08);
+    transition: all 0.3s ease;
+    font-weight: 500;
+    width: 100%;
+    color: #444;
+    position: relative;
+    overflow: hidden;
+}
+
+.btn-social.microsoft::before {
+    content: '';
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    background: linear-gradient(45deg, rgba(0, 120, 215, 0.05), rgba(242, 80, 34, 0.05), rgba(127, 186, 0, 0.05), rgba(0, 164, 239, 0.05));
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.btn-social.microsoft:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
+    border-color: #ccc;
+}
+
+.btn-social.microsoft:hover::before {
+    opacity: 1;
+}
+
+.btn-social.microsoft:active {
+    transform: translateY(-1px);
+    box-shadow: 0 3px 8px rgba(0, 0, 0, 0.05);
+}
