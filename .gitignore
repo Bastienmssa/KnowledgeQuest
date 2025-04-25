@@ -1,7 +1,3 @@
-# --- FICHIERS SENSIBLES ---
-.env
-config/firebaseServiceAccount.json
-
 # --- DÉPENDANCES ---
 node_modules/
 
@@ -17,3 +13,6 @@ logs/
 # --- OUTPUTS (optionnel) ---
 dist/
 build/
+
+# Secrets sensibles
+BackEnd/config/firebaseServiceAccount.json
