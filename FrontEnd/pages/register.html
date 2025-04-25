@@ -7,17 +7,6 @@
   <link rel="stylesheet" href="style/main.css" />
   <link rel="stylesheet" href="style/auth.css" />
   <link rel="stylesheet" href="style/error.css" />
-
-  <!-- Scripts d'authentification tiers -->
-  <script src="https://apis.google.com/js/platform.js" async defer></script>
-  <script src="https://alcdn.msftauth.net/lib/1.4.4/js/msal.js"></script>
-  <script src="https://appleid.cdn-apple.com/appleauth/static/jsapi/appleid/1/en_US/appleid.auth.js"></script>
-
-  <meta name="google-signin-client_id" content="VOTRE_CLIENT_ID_GOOGLE" />
-  <meta name="apple-signin-client_id" content="VOTRE_CLIENT_ID_APPLE" />
-  <meta name="apple-signin-scope" content="name email" />
-  <meta name="apple-signin-redirect-uri" content="https://votre-domaine.com/callback" />
-  <meta name="apple-signin-use-popup" content="true" />
 </head>
 <body>
   <div class="auth-container">
@@ -31,13 +20,15 @@
 
     <div class="auth-content">
       <div class="auth-header">
-        <a href="index.html" class="back-link"><span class="icon">←</span> Retour à l'accueil</a>
+        <a href="index.html" class="back-link">
+          <span class="icon">←</span> Retour à l'accueil
+        </a>
       </div>
 
       <div class="auth-form-container">
-        <h2>Créez votre compte</h2>
+        <h2>Inscription</h2>
         <div class="auth-messages"></div>
-
+        
         <form id="register-form" class="auth-form" onsubmit="return false;">
           <div class="form-row">
             <div class="form-group">
@@ -49,22 +40,22 @@
               <input type="text" id="register-lastname" required />
             </div>
           </div>
-
+          
           <div class="form-group">
             <label for="register-email">Email</label>
             <input type="email" id="register-email" required />
           </div>
-
+          
           <div class="form-group">
             <label for="register-password">Mot de passe</label>
             <input type="password" id="register-password" required />
           </div>
-
+          
           <div class="form-group">
             <label for="register-confirm-password">Confirmer le mot de passe</label>
             <input type="password" id="register-confirm-password" required />
           </div>
-
+          
           <div class="form-group">
             <label for="register-domain">Domaine d'étude</label>
             <select id="register-domain" required>
@@ -73,134 +64,39 @@
               <option value="Droit">Droit</option>
             </select>
           </div>
-
+          
           <div class="terms">
             <input type="checkbox" id="terms" required />
             <label for="terms">
               J'accepte les <a href="#">conditions d'utilisation</a> et la <a href="#">politique de confidentialité</a>
             </label>
           </div>
-
+          
           <button type="submit" id="register-btn" class="btn-primary btn-block">
-            <span class="spinner"></span>
-            Créer un compte
+            <span class="spinner"></span> Créer un compte
           </button>
         </form>
-
+        
         <div class="social-login">
           <p class="separator"><span>ou s'inscrire avec</span></p>
-          <div class="social-buttons">
-            <button type="button" id="google-register" class="btn-social google">
-              <img src="images/icons/google.svg" alt="Google" />
-              <span>Continuer avec Google</span>
-            </button>
-            <button type="button" id="microsoft-register" class="btn-social microsoft">
-              <img src="images/icons/microsoft.png" alt="Microsoft" />
-              <span>Microsoft</span>
-            </button>
-            <button type="button" id="apple-register" class="btn-social apple">
-              <img src="images/icons/apple.svg" alt="Apple" />
-              <span>Apple</span>
-            </button>
-          </div>
+          <button type="button" id="google-register" class="btn-social google">
+            <img src="images/icons/google.svg" alt="Google" /> Continuer avec Google
+          </button>
         </div>
-
-        <div class="form-actions">
-          <a href="login.html" class="back-link">Retour à la connexion</a>
+        
+        <div class="form-actions mt-4">
+          <a href="login.html" class="login-link">Déjà un compte ? Se connecter</a>
         </div>
       </div>
     </div>
   </div>
 
-  <script type="module" src="js/index.js"></script>
-  <script>
+  <!-- Appel du JS -->
+  <script type="module">
+    import { initRegisterPage } from './js/pages/register-page.js';
     document.addEventListener('DOMContentLoaded', () => {
-      if (localStorage.getItem('token')) {
-        window.location.href = 'dashboard.html';
-        return;
-      }
-
-      const registerBtn = document.getElementById('register-btn');
-      const registerForm = document.getElementById('register-form');
-
-      if (registerBtn && registerForm) {
-        registerBtn.addEventListener('click', async () => {
-          const firstName = document.getElementById('register-firstname').value.trim();
-          const lastName = document.getElementById('register-lastname').value.trim();
-          const email = document.getElementById('register-email').value.trim();
-          const password = document.getElementById('register-password').value;
-          const confirmPassword = document.getElementById('register-confirm-password').value;
-          const domain = document.getElementById('register-domain').value;
-          const termsCheckbox = document.getElementById('terms');
-
-          if (!firstName || !lastName || !email || !password || !domain) {
-            showNotification('Veuillez remplir tous les champs obligatoires', 'error');
-            return;
-          }
-
-          if (password !== confirmPassword) {
-            showNotification('Les mots de passe ne correspondent pas', 'error');
-            return;
-          }
-
-          if (!termsCheckbox.checked) {
-            showNotification('Vous devez accepter les conditions d\'utilisation', 'error');
-            return;
-          }
-
-          const userData = {
-            name: `${firstName} ${lastName}`,
-            email,
-            password,
-            domain
-          };
-
-          try {
-            const spinner = registerBtn.querySelector('.spinner');
-            registerBtn.disabled = true;
-            if (spinner) spinner.classList.add('active');
-
-            const response = await fetch('http://localhost:5000/api/auth/register', {
-              method: 'POST',
-              headers: { 'Content-Type': 'application/json' },
-              body: JSON.stringify(userData)
-            });
-
-            const data = await response.json();
-
-            if (response.ok) {
-              showNotification('Compte créé avec succès !', 'success');
-              if (data.token) {
-                localStorage.setItem('token', data.token);
-                localStorage.setItem('user', JSON.stringify(data.user));
-                setTimeout(() => window.location.href = 'dashboard.html', 1500);
-              } else {
-                setTimeout(() => window.location.href = 'login.html', 1500);
-              }
-            } else {
-              showNotification(data.message || 'Erreur lors de l\'inscription', 'error');
-            }
-          } catch (error) {
-            showNotification('Erreur de connexion au serveur', 'error');
-            console.error('Erreur:', error);
-          } finally {
-            const spinner = registerBtn.querySelector('.spinner');
-            registerBtn.disabled = false;
-            if (spinner) spinner.classList.remove('active');
-          }
-        });
-      }
+      initRegisterPage();
     });
-
-    function showNotification(message, type) {
-      const container = document.querySelector('.auth-messages');
-      if (container) {
-        container.innerHTML = `<div class="notification ${type}">${message}</div>`;
-        setTimeout(() => container.innerHTML = '', 5000);
-      } else {
-        alert(message);
-      }
-    }
   </script>
 </body>
 </html>

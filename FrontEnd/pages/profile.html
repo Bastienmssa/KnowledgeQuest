@@ -1,3 +1,4 @@
+<!-- profile.html -->
 <!DOCTYPE html>
 <html lang="fr">
 <head>
@@ -25,11 +26,13 @@
         <li class="nav-item"><a href="upload-document.html">📄 Charger un document</a></li>
         <li class="nav-item"><a href="take-test.html">🎯 Passer un test</a></li>
         <li class="nav-item"><a href="stats.html">📈 Statistiques</a></li>
-        <li class="nav-item"><a href="settings.html">⚙️ Paramètres</a></li>
+        <li class="nav-item active"><a href="profile.html">👤 Profil</a></li>
       </ul>
       <div class="sidebar-footer">
         <a href="profile.html" class="user-info">
-          <div class="user-avatar"><div class="initials-avatar">JS</div></div>
+          <div class="user-avatar">
+            <div class="initials-avatar">JS</div>
+          </div>
           <div class="user-details">
             <p id="sidebar-user-name">Utilisateur</p>
             <span id="sidebar-user-domain" class="domain-badge">Domaine</span>
@@ -53,8 +56,8 @@
             <div id="profile-avatar" class="profile-avatar">
               <img id="profile-avatar-image" src="images/avatars/homme.png" alt="Avatar" />
             </div>
-            <label for="avatar-select">Choisir un avatar</label>
-            <select id="avatar-select" name="avatar">
+            <label for="avatar-select-header">Choisir un avatar</label>
+            <select id="avatar-select-header" name="avatar">
               <option value="homme.png">Avatar Homme</option>
               <option value="fille.png">Avatar Fille</option>
             </select>
@@ -65,12 +68,21 @@
             <p id="profile-email">email@example.com</p>
             <div class="profile-details">
               <p class="domain-info"><span class="icon">🎓</span> <span class="domain-text">Domaine</span></p>
-              <p class="join-date"><span class="icon">📅</span> <span class="join-date-text">Membre depuis le ...</span></p>
+              <p class="join-date"><span class="icon">📅</span> <span class="join-date-text">Membre depuis ...</span></p>
             </div>
             <div class="profile-stats">
-              <div class="stat-item"><span class="stat-number" id="stat-tests">-</span><span class="stat-label">Tests complétés</span></div>
-              <div class="stat-item"><span class="stat-number" id="stat-qcms">-</span><span class="stat-label">QCM créés</span></div>
-              <div class="stat-item"><span class="stat-number" id="stat-score">-</span><span class="stat-label">Score moyen</span></div>
+              <div class="stat-item">
+                <span class="stat-number" id="stat-tests">-</span>
+                <span class="stat-label">Tests complétés</span>
+              </div>
+              <div class="stat-item">
+                <span class="stat-number" id="stat-qcms">-</span>
+                <span class="stat-label">QCM créés</span>
+              </div>
+              <div class="stat-item">
+                <span class="stat-number" id="stat-score">-</span>
+                <span class="stat-label">Score moyen</span>
+              </div>
             </div>
           </div>
         </div>
@@ -82,6 +94,7 @@
           <button class="profile-tab-btn" data-tab="history">🕘 Historique</button>
         </div>
 
+        <!-- Contenu des onglets -->
         <div class="profile-tab-content" id="infos-content">
           <form id="personal-info-form" class="profile-form">
             <div class="form-row">
@@ -94,7 +107,8 @@
               <option value="Médecine">Médecine</option>
               <option value="Droit">Droit</option>
             </select>
-            <select id="avatar-select" name="avatar">
+            <label for="avatar-select-form">Avatar</label>
+            <select id="avatar-select-form" name="avatar">
               <option value="homme.png">Avatar Homme</option>
               <option value="fille.png">Avatar Fille</option>
             </select>
@@ -109,7 +123,6 @@
             <button type="submit" class="btn-primary">🔐 Modifier</button>
           </form>
         </div>
-        
 
         <div class="profile-tab-content" id="history-content" style="display:none;">
           <div id="history-list" class="test-history">

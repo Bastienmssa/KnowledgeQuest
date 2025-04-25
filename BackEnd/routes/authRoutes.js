@@ -11,7 +11,7 @@ router.post('/login', authController.login); // Vérifiez que cette fonction exi
 //router.get('/me', protect, authController.getMe);
 
 // Routes d'authentification sociale
-// router.post('/google', userController.googleAuth);
+router.post('/google', authController.googleAuth);
 // router.post('/microsoft', userController.microsoftAuth);
 // router.post('/apple', userController.appleAuth);
 

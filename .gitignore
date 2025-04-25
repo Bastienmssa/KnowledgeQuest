@@ -1,0 +1,19 @@
+# --- FICHIERS SENSIBLES ---
+.env
+config/firebaseServiceAccount.json
+
+# --- DÉPENDANCES ---
+node_modules/
+
+# --- FICHIERS SYSTÈME ---
+.DS_Store
+Thumbs.db
+.vscode/
+
+# --- LOGS ---
+*.log
+logs/
+
+# --- OUTPUTS (optionnel) ---
+dist/
+build/

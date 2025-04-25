@@ -1,10 +1,8 @@
 const User = require('../models/User');
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcryptjs');
-const { OAuth2Client } = require('google-auth-library');
 const axios = require('axios');
-
-const googleClient = new OAuth2Client(process.env.GOOGLE_CLIENT_ID);
+const admin = require('../utils/firebaseAdmin'); // 🔥 Firebase Admin intégré
 
 // Générer un token JWT
 const generateToken = (id) => {
@@ -24,7 +22,7 @@ exports.register = async (req, res) => {
     const user = new User({
       name,
       email,
-      passwordHash: password, // laisser le hash au middleware Mongoose
+      passwordHash: password,
       domain
     });
 
@@ -55,13 +53,7 @@ exports.login = async (req, res) => {
     const { email, password } = req.body;
 
     const user = await User.findOne({ email }).select('+passwordHash');
-
-    if (!user) {
-      return res.status(401).json({ success: false, message: 'Email ou mot de passe incorrect' });
-    }
-
-    const isMatch = await user.matchPassword(password);
-    if (!isMatch) {
+    if (!user || !(await user.matchPassword(password))) {
       return res.status(401).json({ success: false, message: 'Email ou mot de passe incorrect' });
     }
 
@@ -87,24 +79,24 @@ exports.login = async (req, res) => {
 // ========== GOOGLE AUTH ==========
 exports.googleAuth = async (req, res) => {
   try {
-    const { token } = req.body;
+    const { token, domain } = req.body;
 
-    const ticket = await googleClient.verifyIdToken({
-      idToken: token,
-      audience: process.env.GOOGLE_CLIENT_ID
-    });
+    // 🔐 Vérification du token via Firebase Admin SDK
+    const decoded = await admin.auth().verifyIdToken(token);
+    const { name, email, picture } = decoded;
 
-    const payload = ticket.getPayload();
-    const { name, email, picture } = payload;
+    if (!email) {
+      return res.status(400).json({ success: false, message: 'Email non trouvé dans le token' });
+    }
 
     let user = await User.findOne({ email });
 
     if (!user) {
       user = new User({
-        name,
+        name: name || 'Utilisateur Google',
         email,
         passwordHash: Math.random().toString(36).slice(-8),
-        domain: 'Médecine',
+        domain: domain || 'Médecine',
         picture
       });
       await user.save();
@@ -217,7 +209,13 @@ exports.appleAuth = async (req, res) => {
       needsProfileCompletion: !user.domain
     });
   } catch (error) {
-    console.error('Erreur Apple Auth:', error);
-    res.status(500).json({ success: false, message: 'Erreur Apple Auth', error: error.message });
+    console.error('🔥 Erreur Google Auth:', error); // ne masque rien
+    return res.status(500).json({
+      success: false,
+      message: 'Erreur Google Auth',
+      error: error.message,
+      stack: error.stack
+    });
   }
+  
 };

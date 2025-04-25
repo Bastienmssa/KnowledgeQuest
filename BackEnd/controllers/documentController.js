@@ -1,8 +1,13 @@
 // controllers/documentController.js
-const multer = require('multer');
-const path = require('path');
+const Document = require('../models/Document');
 const fs = require('fs');
+const path = require('path');
+const pdf = require('pdf-parse');
+const multer = require('multer');
 const logger = require('../utils/logger');
+const OpenAI = require('openai');
+//const openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
+
 
 // Configuration de multer pour le stockage des fichiers
 const storage = multer.diskStorage({
@@ -47,42 +52,80 @@ exports.uploadDocument = upload.single('document');
 
 // Contrôleur pour traiter le téléchargement
 exports.processUpload = async (req, res) => {
-    try {
-      if (!req.file) {
-        return res.status(400).json({
-          success: false,
-          message: 'Aucun fichier n\'a été téléchargé'
-        });
-      }
-      
-      // Créer une entrée de document dans la base de données
-      const document = new Document({
-        filename: req.file.filename,
-        originalName: req.file.originalname,
-        path: req.file.path,
-        mimetype: req.file.mimetype,
-        size: req.file.size,
-        userId: req.user.id
-      });
-      
-      await document.save();
-      
-      // Ici, vous pourriez intégrer l'appel à l'API d'IA pour analyser le document
-      
-      res.status(200).json({
-        success: true,
-        message: 'Document téléchargé avec succès',
-        data: document
-      });
-    } catch (error) {
-      logger.error(`Erreur lors du traitement du document: ${error.message}`);
-      res.status(500).json({
-        success: false,
-        message: 'Erreur lors du traitement du document',
-        error: error.message
-      });
+  try {
+    if (!req.file) {
+      return res.status(400).json({ success: false, message: 'Aucun fichier téléchargé.' });
     }
-  };
+
+    // 1️ Créer l’entrée en base
+    const document = await Document.create({
+      filename:     req.file.filename,
+      originalName: req.file.originalname,
+      path:         req.file.path,
+      mimetype:     req.file.mimetype,
+      size:         req.file.size,
+      userId:       req.user.id
+    });
+
+    // 2️ Lire le PDF et en extraire le texte
+    const buffer = fs.readFileSync(document.path);
+    const { text: extractedText } = await pdf(buffer);
+
+    await document.save();
+
+    // 3️ Configurer l’API OpenAI
+    // (Déjà fait au début du fichier avec le module OpenAI)
+
+    // 4️ Préparer le prompt
+    const prompt = `
+      Extrait du document "${document.originalName}" :
+      ${extractedText}
+
+      Génère-moi un QCM de 5 questions avec 4 choix chacune.
+      Répond uniquement en JSON :
+      {
+        "questions": [
+          { "question":"...", "choices":["…","…","…","…"], "correctAnswerIndex":2 },
+          …
+        ]
+      }
+    `;
+
+    // 5️ Appel à OpenAI
+    const aiResponse = await openai.chat.completions.create({
+      model: 'gpt-4o-mini',
+      messages: [
+        { role: 'system', content: 'Tu es un générateur de QCM.' },
+        { role: 'user',   content: prompt }
+      ]
+    });
+
+    let raw = aiResponse.choices[0].message.content.trim();
+    if (raw.startsWith('```'))
+      {
+        raw = raw.replace(/^```(?:json)?\r?\n/, '').replace(/```$/, '');
+      }
+
+    // 6️ Parser la réponse JSON
+    const aiJson = JSON.parse(raw);
+    // 7️ (Optionnel) enregistrer le QCM via votre logique existante…
+    //    – Soit vous redirigez vers votre /api/qcms/generate,
+    //    – Soit vous appelez Qcm.create() ici directement.
+
+    // Pour l’instant on renvoie juste l’extraction et la recette IA :
+    res.status(201).json({
+      success: true,
+      document,
+      extractedText: extractedText.slice(0, 200) + '…',  // aperçu
+      aiJson
+    });
+
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ success: false, message: error.message });
+  }
+};
+
 
 // Télécharger un document généré
 exports.downloadDocument = async (req, res) => {

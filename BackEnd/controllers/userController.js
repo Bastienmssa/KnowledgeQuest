@@ -41,24 +41,38 @@ exports.updateProfile = async (req, res) => {
 exports.updatePassword = async (req, res) => {
   try {
     const { currentPassword, newPassword } = req.body;
-    const user = await User.findById(req.user.id);
-
-    if (!user) return res.status(404).json({ success: false, message: 'Utilisateur non trouvé' });
-
-    const isMatch = await bcrypt.compare(currentPassword, user.passwordHash);
-    if (!isMatch) {
-      return res.status(403).json({ success: false, message: 'Mot de passe actuel incorrect' });
+    // 👉 inclure le passwordHash
+    const user = await User.findById(req.user.id)
+                           .select('+passwordHash');
+    if (!user) {
+      return res
+        .status(404)
+        .json({ success: false, message: 'Utilisateur non trouvé' });
     }
 
+    // Vérifier l’ancien mot de passe
+    const isMatch = await bcrypt.compare(currentPassword, user.passwordHash);
+    if (!isMatch) {
+      return res
+        .status(403)
+        .json({ success: false, message: 'Mot de passe actuel incorrect' });
+    }
+
+    // Hash du nouveau mot de passe
     user.passwordHash = await bcrypt.hash(newPassword, 10);
     await user.save();
 
-    res.status(200).json({ success: true, message: 'Mot de passe mis à jour' });
+    res
+      .status(200)
+      .json({ success: true, message: 'Mot de passe mis à jour' });
   } catch (err) {
     logger.error(`Erreur updatePassword: ${err.message}`);
-    res.status(500).json({ success: false, message: 'Erreur mise à jour mot de passe', error: err.message });
+    res
+      .status(500)
+      .json({ success: false, message: 'Erreur mise à jour mot de passe', error: err.message });
   }
 };
+
 
 // 🧠 Récupérer l'historique des tests
 exports.getTestHistory = async (req, res) => {

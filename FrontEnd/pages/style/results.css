@@ -1,4 +1,4 @@
-/* results.css - Styles améliorés pour la page de résultats */
+/* results.css - Styles améliorés pour la page de résultats - spécial médecine et droit */
 
 .results-container {
   max-width: 900px;
@@ -7,20 +7,25 @@
   animation: fadeIn 0.5s ease-in-out;
 }
 
-/* En-tête des résultats */
+/* En-tête des résultats amélioré */
 .results-header {
   text-align: center;
   margin-bottom: var(--spacing-xl);
   position: relative;
+  padding-bottom: var(--spacing-md);
 }
 
 .results-header h2 {
-  font-size: 32px;
-  font-weight: 700;
-  color: var(--secondary-color);
+  font-size: 36px;
+  font-weight: 800;
   margin-bottom: var(--spacing-xs);
   position: relative;
   display: inline-block;
+  font-family: var(--heading-font, 'Playfair Display', serif);
+  background: linear-gradient(135deg, var(--secondary-color), var(--primary-color));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
 }
 
 .results-header h2::after {
@@ -31,8 +36,51 @@
   transform: translateX(-50%);
   width: 80px;
   height: 4px;
-  background-color: var(--primary-color);
+  background: linear-gradient(90deg, var(--primary-color), var(--secondary-color));
   border-radius: 2px;
+}
+
+.results-header.medicine h2 {
+  background: linear-gradient(135deg, #2574a9, #3498db);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.results-header.medicine h2::after {
+  background: linear-gradient(90deg, #3498db, #2574a9);
+}
+
+.results-header.law h2 {
+  background: linear-gradient(135deg, #6c3483, #8e44ad);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.results-header.law h2::after {
+  background: linear-gradient(90deg, #8e44ad, #6c3483);
+}
+
+.dark-mode .results-header h2 {
+  background: linear-gradient(135deg, #74c0fc, #4dabf7);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.dark-mode .results-header.medicine h2 {
+  background: linear-gradient(135deg, #74c0fc, #4dabf7);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.dark-mode .results-header.law h2 {
+  background: linear-gradient(135deg, #cc8de8, #ae7bc8);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
 }
 
 .session-date {
@@ -40,9 +88,18 @@
   color: var(--text-light);
   margin-top: var(--spacing-md);
   font-weight: 500;
+  display: inline-block;
+  padding: 6px 15px;
+  background-color: rgba(0, 0, 0, 0.03);
+  border-radius: 20px;
 }
 
-/* Carte de score améliorée */
+.dark-mode .session-date {
+  color: var(--dark-text-muted);
+  background-color: rgba(255, 255, 255, 0.05);
+}
+
+/* Carte de score améliorée avec animation */
 .score-summary {
   display: flex;
   justify-content: center;
@@ -53,64 +110,107 @@
 }
 
 .score-card {
-  width: 150px;
-  height: 150px;
+  width: 180px;
+  height: 180px;
   border-radius: 50%;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.12);
-  transition: all 0.3s ease;
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.15);
+  transition: all 0.3s cubic-bezier(0.165, 0.84, 0.44, 1);
   position: relative;
-  animation: pulseIn 0.6s cubic-bezier(0.26, 0.53, 0.74, 1.48);
+  animation: scoreReveal 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+  opacity: 0;
+  transform: scale(0.5);
+  background-size: 200% 200%;
 }
 
-@keyframes pulseIn {
-  0% { transform: scale(0.8); opacity: 0; }
-  70% { transform: scale(1.05); }
+.dark-mode .score-card {
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.3);
+}
+
+@keyframes scoreReveal {
+  0% { transform: scale(0.5); opacity: 0; }
+  60% { transform: scale(1.1); }
   100% { transform: scale(1); opacity: 1; }
 }
 
 .score-card:hover {
   transform: scale(1.05);
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
+}
+
+.dark-mode .score-card:hover {
+  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.4);
 }
 
 .score {
-  font-size: 42px;
-  font-weight: 700;
+  font-size: 48px;
+  font-weight: 800;
   line-height: 1;
   margin-bottom: 5px;
+  text-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
 }
 
 .score-label {
   font-size: 16px;
   font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
 }
 
-/* Classes de score avec gradient et animation */
+/* Classes de score avec gradient animé */
 .score-card.excellent {
-  background: linear-gradient(135deg, #2ecc71, #27ae60);
+  background: linear-gradient(-45deg, #2ecc71, #27ae60, #2ecc71, #27ae60);
+  background-size: 400% 400%;
   color: white;
+  animation: gradientBG 10s ease infinite, scoreReveal 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
 }
 
 .score-card.good {
-  background: linear-gradient(135deg, #3498db, #2980b9);
+  background: linear-gradient(-45deg, #3498db, #2980b9, #3498db, #2980b9);
+  background-size: 400% 400%;
   color: white;
+  animation: gradientBG 10s ease infinite, scoreReveal 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
 }
 
 .score-card.average {
-  background: linear-gradient(135deg, #f39c12, #e67e22);
+  background: linear-gradient(-45deg, #f39c12, #e67e22, #f39c12, #e67e22);
+  background-size: 400% 400%;
   color: white;
+  animation: gradientBG 10s ease infinite, scoreReveal 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
 }
 
 .score-card.poor {
-  background: linear-gradient(135deg, #e74c3c, #c0392b);
+  background: linear-gradient(-45deg, #e74c3c, #c0392b, #e74c3c, #c0392b);
+  background-size: 400% 400%;
   color: white;
+  animation: gradientBG 10s ease infinite, scoreReveal 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
 }
 
-/* Détails du score */
+/* Cartes adaptées aux domaines */
+.score-card.medicine {
+  background: linear-gradient(-45deg, #3498db, #2574a9, #3498db, #2574a9);
+  background-size: 400% 400%;
+  color: white;
+  animation: gradientBG 10s ease infinite, scoreReveal 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+}
+
+.score-card.law {
+  background: linear-gradient(-45deg, #8e44ad, #6c3483, #8e44ad, #6c3483);
+  background-size: 400% 400%;
+  color: white;
+  animation: gradientBG 10s ease infinite, scoreReveal 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+}
+
+@keyframes gradientBG {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+/* Détails du score améliorés */
 .score-details {
   display: flex;
   flex-direction: column;
@@ -121,12 +221,40 @@
   padding: var(--spacing-lg);
   border-radius: var(--border-radius);
   box-shadow: var(--shadow-sm);
-  min-width: 250px;
+  min-width: 280px;
   border-left: 4px solid var(--primary-color);
+  transition: all 0.3s ease;
+}
+
+.score-details:hover {
+  box-shadow: var(--shadow-md);
+  transform: translateY(-3px);
+}
+
+.dark-mode .score-details {
+  background-color: var(--dark-card-bg);
+  box-shadow: var(--dark-shadow);
+  border-left-color: var(--primary-color);
+  color: var(--dark-text-color);
+}
+
+.dark-mode .score-details:hover {
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.3);
+  background-color: var(--dark-card-hover);
 }
 
 .score-details p {
   margin: 0;
+  padding: 5px 0;
+  border-bottom: 1px dashed rgba(0, 0, 0, 0.05);
+}
+
+.dark-mode .score-details p {
+  border-bottom-color: rgba(255, 255, 255, 0.05);
+}
+
+.score-details p:last-child {
+  border-bottom: none;
 }
 
 .score-details p strong {
@@ -134,7 +262,11 @@
   font-weight: 600;
 }
 
-/* Boutons d'action */
+.dark-mode .score-details p strong {
+  color: #a2b6d3;
+}
+
+/* Boutons d'action améliorés */
 .results-actions {
   display: flex;
   flex-wrap: wrap;
@@ -145,28 +277,92 @@
 
 .results-actions .btn-primary,
 .results-actions .btn-secondary {
-  padding: 10px 16px;
+  padding: 14px 26px;
   display: flex;
   align-items: center;
-  gap: 8px;
-  font-weight: 600;
-  min-width: 120px;
+  gap: 10px;
+  font-weight: 700;
+  min-width: 160px;
   justify-content: center;
-  transition: all 0.3s ease;
+  transition: all 0.3s cubic-bezier(0.165, 0.84, 0.44, 1);
+  border-radius: 30px;
+  letter-spacing: 0.5px;
+  position: relative;
+  overflow: hidden;
 }
 
 .results-actions .btn-primary:hover,
 .results-actions .btn-secondary:hover {
-  transform: translateY(-3px);
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  transform: translateY(-5px);
+  box-shadow: 0 8px 15px rgba(0, 0, 0, 0.1);
+}
+
+.dark-mode .results-actions .btn-primary:hover,
+.dark-mode .results-actions .btn-secondary:hover {
+  box-shadow: 0 8px 15px rgba(0, 0, 0, 0.3);
+}
+
+.results-actions .btn-primary:after,
+.results-actions .btn-secondary:after {
+  content: "";
+  background: rgba(255, 255, 255, 0.1);
+  position: absolute;
+  top: -50%;
+  left: -60%;
+  width: 200%;
+  height: 200%;
+  transform: rotate(30deg);
+  transition: all 0.6s cubic-bezier(0.165, 0.84, 0.44, 1);
+  opacity: 0;
+}
+
+.results-actions .btn-primary:hover:after,
+.results-actions .btn-secondary:hover:after {
+  opacity: 1;
+  left: -30%;
+}
+
+.results-actions .btn-primary {
+  background-color: var(--primary-color);
+  color: white;
+  box-shadow: 0 6px 12px rgba(44, 123, 229, 0.25);
+  border: none;
 }
 
 .results-actions .btn-secondary {
   background-color: var(--bg-color);
   border: 1px solid var(--border-color);
+  color: var(--text-color);
 }
 
-/* Revue des questions */
+.dark-mode .results-actions .btn-secondary {
+  background-color: rgba(255, 255, 255, 0.05);
+  border-color: var(--dark-border-color);
+  color: var(--dark-text-color);
+}
+
+/* Boutons spécifiques avec icônes */
+.results-actions .btn-export:before {
+  content: '📄';
+}
+
+.results-actions .btn-share:before {
+  content: '🔗';
+}
+
+.results-actions .btn-review:before {
+  content: '🔍';
+}
+
+.results-actions .btn-new:before {
+  content: '🎯';
+}
+
+.results-actions .btn-dashboard:before {
+  content: '📊';
+}
+
+/* Revue des questions améliorée */
 .question-review {
   margin-top: var(--spacing-xl);
   background-color: var(--card-bg);
@@ -174,15 +370,28 @@
   box-shadow: var(--shadow-sm);
   padding: var(--spacing-lg);
   border: 1px solid var(--border-color);
+  transition: all 0.3s ease;
+}
+
+.dark-mode .question-review {
+  background-color: var(--dark-card-bg);
+  border-color: var(--dark-border-color);
+  box-shadow: var(--dark-shadow);
 }
 
 .question-review h3 {
-  font-size: 20px;
-  font-weight: 600;
+  font-size: 22px;
+  font-weight: 700;
   color: var(--secondary-color);
   margin-bottom: var(--spacing-lg);
   padding-bottom: var(--spacing-md);
   border-bottom: 1px solid var(--border-color);
+  font-family: var(--heading-font, 'Playfair Display', serif);
+}
+
+.dark-mode .question-review h3 {
+  color: #edf2f9;
+  border-bottom-color: var(--dark-border-color);
 }
 
 .question-item {
@@ -191,14 +400,65 @@
   margin-bottom: var(--spacing-md);
   background-color: rgba(0, 0, 0, 0.02);
   border-radius: var(--border-radius);
-  transition: all 0.3s ease;
+  transition: all 0.3s cubic-bezier(0.165, 0.84, 0.44, 1);
   position: relative;
   overflow: hidden;
+  opacity: 0;
+  transform: translateY(20px);
+  animation: fadeInUp 0.5s ease forwards;
+  animation-delay: calc(var(--i, 0) * 0.1s);
 }
 
 .question-item:hover {
   box-shadow: var(--shadow-sm);
-  transform: translateX(3px);
+  transform: translateX(5px);
+}
+
+.dark-mode .question-item {
+  background-color: rgba(255, 255, 255, 0.03);
+}
+
+.dark-mode .question-item:hover {
+  background-color: rgba(255, 255, 255, 0.05);
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+}
+
+@keyframes fadeInUp {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Styles de question par domaine */
+.question-item.medicine {
+  border-left-color: var(--medicine-color);
+  background-color: rgba(52, 152, 219, 0.05);
+}
+
+.question-item.medicine:before {
+  content: '⚕️';
+  position: absolute;
+  right: 15px;
+  top: 15px;
+  font-size: 24px;
+  opacity: 0.07;
+  transform: rotate(15deg);
+}
+
+.question-item.law {
+  border-left-color: var(--law-color);
+  background-color: rgba(142, 68, 173, 0.05);
+}
+
+.question-item.law:before {
+  content: '⚖️';
+  position: absolute;
+  right: 15px;
+  top: 15px;
+  font-size: 24px;
+  opacity: 0.07;
+  transform: rotate(15deg);
 }
 
 .question-item.correct {
@@ -206,9 +466,17 @@
   background-color: rgba(0, 217, 126, 0.05);
 }
 
+.dark-mode .question-item.correct {
+  background-color: rgba(0, 217, 126, 0.08);
+}
+
 .question-item.incorrect {
   border-color: var(--error-color);
   background-color: rgba(230, 55, 87, 0.05);
+}
+
+.dark-mode .question-item.incorrect {
+  background-color: rgba(230, 55, 87, 0.08);
 }
 
 .question-header {
@@ -224,9 +492,13 @@
   font-size: 15px;
 }
 
+.dark-mode .question-header span:first-child {
+  color: #a2b6d3;
+}
+
 .question-status {
   font-size: 14px;
-  padding: 4px 12px;
+  padding: 5px 14px;
   border-radius: 20px;
   font-weight: 600;
 }
@@ -234,11 +506,28 @@
 .correct .question-status {
   color: var(--success-color);
   background-color: rgba(0, 217, 126, 0.1);
+  animation: success-pulse 2s infinite;
+}
+
+@keyframes success-pulse {
+  0% { box-shadow: 0 0 0 0 rgba(0, 217, 126, 0.4); }
+  70% { box-shadow: 0 0 0 10px rgba(0, 217, 126, 0); }
+  100% { box-shadow: 0 0 0 0 rgba(0, 217, 126, 0); }
 }
 
 .incorrect .question-status {
   color: var(--error-color);
   background-color: rgba(230, 55, 87, 0.1);
+}
+
+.dark-mode .correct .question-status {
+  background-color: rgba(0, 217, 126, 0.15);
+  color: #51cf66;
+}
+
+.dark-mode .incorrect .question-status {
+  background-color: rgba(230, 55, 87, 0.15);
+  color: #ff6b6b;
 }
 
 .question-text {
@@ -249,6 +538,10 @@
   font-weight: 500;
 }
 
+.dark-mode .question-text {
+  color: var(--dark-text-color);
+}
+
 .user-answer,
 .correct-answer {
   font-size: 15px;
@@ -256,6 +549,12 @@
   padding: var(--spacing-sm) var(--spacing-md);
   border-radius: var(--border-radius);
   background-color: rgba(255, 255, 255, 0.5);
+  transition: all 0.3s ease;
+}
+
+.dark-mode .user-answer,
+.dark-mode .correct-answer {
+  background-color: rgba(255, 255, 255, 0.05);
 }
 
 .user-answer strong,
@@ -263,6 +562,11 @@
   font-weight: 600;
   color: var(--secondary-color);
   margin-right: var(--spacing-sm);
+}
+
+.dark-mode .user-answer strong,
+.dark-mode .correct-answer strong {
+  color: #a2b6d3;
 }
 
 .text-success {
@@ -275,7 +579,15 @@
   font-weight: 600;
 }
 
-/* États vides et erreurs */
+.dark-mode .text-success {
+  color: #51cf66 !important;
+}
+
+.dark-mode .text-danger {
+  color: #ff6b6b !important;
+}
+
+/* États vides et erreurs améliorés */
 .empty-state {
   text-align: center;
   padding: var(--spacing-xl);
@@ -283,17 +595,44 @@
   border-radius: var(--border-radius);
   box-shadow: var(--shadow-sm);
   margin: var(--spacing-xl) 0;
+  border: 1px dashed var(--border-color);
+  transition: all 0.3s ease;
+}
+
+.empty-state:hover {
+  box-shadow: var(--shadow-md);
+  border-color: var(--primary-color);
+}
+
+.dark-mode .empty-state {
+  background-color: var(--dark-card-bg);
+  border-color: var(--dark-border-color);
+  box-shadow: var(--dark-shadow);
+}
+
+.dark-mode .empty-state:hover {
+  border-color: var(--primary-color);
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
 }
 
 .empty-state h2 {
   font-size: 24px;
   color: var(--secondary-color);
   margin-bottom: var(--spacing-md);
+  font-family: var(--heading-font, 'Playfair Display', serif);
+}
+
+.dark-mode .empty-state h2 {
+  color: #edf2f9;
 }
 
 .empty-state p {
   color: var(--text-light);
   margin-bottom: var(--spacing-lg);
+}
+
+.dark-mode .empty-state p {
+  color: var(--dark-text-muted);
 }
 
 .error-state {
@@ -304,44 +643,60 @@
   box-shadow: var(--shadow-sm);
   margin: var(--spacing-xl) 0;
   border: 1px solid rgba(230, 55, 87, 0.2);
+  transition: all 0.3s ease;
+}
+
+.dark-mode .error-state {
+  background-color: rgba(230, 55, 87, 0.1);
+  border-color: rgba(230, 55, 87, 0.3);
+  box-shadow: var(--dark-shadow);
 }
 
 .error-state h2 {
   font-size: 24px;
   color: var(--error-color);
   margin-bottom: var(--spacing-md);
+  font-family: var(--heading-font, 'Playfair Display', serif);
+}
+
+.dark-mode .error-state h2 {
+  color: #ff6b6b;
 }
 
 /* Adaptations pour médecine et droit */
-body.medicine .question-item.correct {
+body.medicine-theme .question-item.correct {
   border-color: var(--medicine-color);
   background-color: rgba(52, 152, 219, 0.05);
 }
 
-body.medicine .score-card.excellent,
-body.medicine .score-card.good {
-  background: linear-gradient(135deg, var(--medicine-color), #2574a9);
+body.medicine-theme .score-card.excellent,
+body.medicine-theme .score-card.good {
+  background: linear-gradient(-45deg, #3498db, #2574a9, #3498db, #2574a9);
+  background-size: 400% 400%;
+  animation: gradientBG 10s ease infinite, scoreReveal 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
 }
 
-body.medicine .score-details {
+body.medicine-theme .score-details {
   border-left-color: var(--medicine-color);
 }
 
-body.law .question-item.correct {
+body.law-theme .question-item.correct {
   border-color: var(--law-color);
   background-color: rgba(142, 68, 173, 0.05);
 }
 
-body.law .score-card.excellent,
-body.law .score-card.good {
-  background: linear-gradient(135deg, var(--law-color), #6c3483);
+body.law-theme .score-card.excellent,
+body.law-theme .score-card.good {
+  background: linear-gradient(-45deg, #8e44ad, #6c3483, #8e44ad, #6c3483);
+  background-size: 400% 400%;
+  animation: gradientBG 10s ease infinite, scoreReveal 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
 }
 
-body.law .score-details {
+body.law-theme .score-details {
   border-left-color: var(--law-color);
 }
 
-/* Loading spinner */
+/* Loading spinner amélioré */
 .loading-spinner {
   display: flex;
   justify-content: center;
@@ -353,16 +708,120 @@ body.law .score-details {
 
 .loading-spinner::before {
   content: '';
-  width: 24px;
-  height: 24px;
+  width: 28px;
+  height: 28px;
   border: 3px solid rgba(0, 0, 0, 0.1);
   border-radius: 50%;
   border-top-color: var(--primary-color);
   animation: spin 0.8s linear infinite;
-  margin-right: 10px;
+  margin-right: 12px;
 }
 
-/* Responsive design */
+.dark-mode .loading-spinner {
+  color: var(--dark-text-muted);
+}
+
+.dark-mode .loading-spinner::before {
+  border-color: rgba(255, 255, 255, 0.1);
+  border-top-color: var(--primary-color);
+}
+
+/* Animation pour la félicitation des scores élevés */
+.high-score-celebration {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 9999;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  opacity: 0;
+  animation: celebrate 4s ease-in-out forwards;
+}
+
+@keyframes celebrate {
+  0%, 100% { opacity: 0; }
+  10%, 90% { opacity: 1; }
+}
+
+.celebration-badge {
+  background: linear-gradient(-45deg, #2ecc71, #27ae60, #2ecc71, #27ae60);
+  background-size: 400% 400%;
+  animation: gradientBG 10s ease infinite, pulse 2s infinite;
+  color: white;
+  font-size: 32px;
+  font-weight: 800;
+  padding: 30px 60px;
+  border-radius: 50px;
+  box-shadow: 0 15px 40px rgba(0, 0, 0, 0.2);
+  text-transform: uppercase;
+  letter-spacing: 2px;
+}
+
+@keyframes pulse {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.05); }
+  100% { transform: scale(1); }
+}
+
+.medicine-theme .celebration-badge {
+  background: linear-gradient(-45deg, #3498db, #2574a9, #3498db, #2574a9);
+}
+
+.law-theme .celebration-badge {
+  background: linear-gradient(-45deg, #8e44ad, #6c3483, #8e44ad, #6c3483);
+}
+
+/* Confettis pour les scores élevés */
+.confetti {
+  position: absolute;
+  width: 10px;
+  height: 10px;
+  opacity: 0.7;
+  animation: confetti-fall 4s linear forwards;
+}
+
+@keyframes confetti-fall {
+  0% {
+    transform: translateY(-100vh) rotate(0deg);
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(100vh) rotate(720deg);
+    opacity: 0;
+  }
+}
+
+/* Thème médical */
+.medicine-theme .confetti {
+  background-color: #3498db;
+}
+
+.medicine-theme .confetti:nth-child(2n) {
+  background-color: #2574a9;
+}
+
+.medicine-theme .confetti:nth-child(3n) {
+  background-color: #16a085;
+}
+
+/* Thème juridique */
+.law-theme .confetti {
+  background-color: #8e44ad;
+}
+
+.law-theme .confetti:nth-child(2n) {
+  background-color: #6c3483;
+}
+
+.law-theme .confetti:nth-child(3n) {
+  background-color: #c0392b;
+}
+
+/* Responsive design amélioré */
 @media (max-width: 768px) {
   .score-summary {
     flex-direction: column;
@@ -388,28 +847,25 @@ body.law .score-details {
   .question-status {
     align-self: flex-start;
   }
-}
-
-/* Animation pour la section de questions qui apparaissent progressivement */
-.question-item {
-  opacity: 0;
-  transform: translateY(20px);
-  animation: fadeInUp 0.4s forwards;
-}
-
-@keyframes fadeInUp {
-  to {
-    opacity: 1;
-    transform: translateY(0);
+  
+  .score-card {
+    width: 150px;
+    height: 150px;
+  }
+  
+  .score {
+    font-size: 38px;
   }
 }
 
-.question-item:nth-child(2) { animation-delay: 0.1s; }
-.question-item:nth-child(3) { animation-delay: 0.2s; }
-.question-item:nth-child(4) { animation-delay: 0.3s; }
-.question-item:nth-child(5) { animation-delay: 0.4s; }
-.question-item:nth-child(6) { animation-delay: 0.5s; }
-.question-item:nth-child(7) { animation-delay: 0.6s; }
-.question-item:nth-child(8) { animation-delay: 0.7s; }
-.question-item:nth-child(9) { animation-delay: 0.8s; }
-.question-item:nth-child(10) { animation-delay: 0.9s; }
+/* Animation pour les questions qui apparaissent progressivement */
+.question-item:nth-child(1) { --i: 1; }
+.question-item:nth-child(2) { --i: 2; }
+.question-item:nth-child(3) { --i: 3; }
+.question-item:nth-child(4) { --i: 4; }
+.question-item:nth-child(5) { --i: 5; }
+.question-item:nth-child(6) { --i: 6; }
+.question-item:nth-child(7) { --i: 7; }
+.question-item:nth-child(8) { --i: 8; }
+.question-item:nth-child(9) { --i: 9; }
+.question-item:nth-child(10) { --i: 10; }

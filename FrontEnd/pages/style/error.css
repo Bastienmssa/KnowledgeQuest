@@ -1,41 +1,217 @@
 /* style/error.css */
 
-/* Affichage d’erreur classique dans un bloc */
+/* Affichage d'erreur classique dans un bloc */
 .error-message {
-    color: #e74c3c;
-    background-color: #fdecea;
-    border-left: 4px solid #e74c3c;
-    padding: 12px 16px;
-    margin: 10px 0;
-    border-radius: 6px;
-    font-size: 0.95rem;
-    display: block;
-  }
-  
-  /* Toast flottant d’erreur */
-  .toast {
-    position: fixed;
-    bottom: 20px;
-    right: 20px;
-    z-index: 9999;
-    padding: 14px 20px;
-    border-radius: 8px;
-    color: #fff;
-    font-weight: 500;
-    font-size: 0.95rem;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
-    opacity: 1;
-    transition: opacity 0.6s ease-out, transform 0.6s ease-out;
-  }
-  
-  /* Spécifique pour les erreurs */
-  .error-toast {
-    background-color: #e74c3c;
-  }
-  
-  /* Animation de disparition */
-  .fade-out {
-    opacity: 0;
-    transform: translateY(20px);
-  }
-  
+  color: #e74c3c;
+  background-color: #fdecea;
+  border-left: 4px solid #e74c3c;
+  padding: 12px 16px;
+  margin: 10px 0;
+  border-radius: 6px;
+  font-size: 0.95rem;
+  display: block;
+  transition: all 0.3s ease;
+}
+
+.dark-mode .error-message {
+  color: #ff6b6b;
+  background-color: rgba(231, 76, 60, 0.15);
+  border-left-color: #ff6b6b;
+}
+
+/* Toast flottant d'erreur */
+.toast {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  z-index: 9999;
+  padding: 14px 20px;
+  border-radius: 8px;
+  color: #fff;
+  font-weight: 500;
+  font-size: 0.95rem;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+  opacity: 1;
+  transition: opacity 0.6s ease-out, transform 0.6s ease-out, background-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.dark-mode .toast {
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+}
+
+/* Spécifique pour les erreurs */
+.error-toast {
+  background-color: #e74c3c;
+}
+
+.dark-mode .error-toast {
+  background-color: #d63022;
+}
+
+/* Toast de succès */
+.success-toast {
+  background-color: #27ae60;
+}
+
+.dark-mode .success-toast {
+  background-color: #2b9553;
+}
+
+/* Toast d'information */
+.info-toast {
+  background-color: #3498db;
+}
+
+.dark-mode .info-toast {
+  background-color: #2980b9;
+}
+
+/* Toast d'avertissement */
+.warning-toast {
+  background-color: #f39c12;
+}
+
+.dark-mode .warning-toast {
+  background-color: #e67e22;
+}
+
+/* Animation de disparition */
+.fade-out {
+  opacity: 0;
+  transform: translateY(20px);
+}
+
+/* Conteneur d'erreur avec icône */
+.error-container {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 16px;
+  background-color: #fff3f3;
+  border: 1px solid #ffcdd2;
+  border-radius: 8px;
+  margin: 16px 0;
+  transition: all 0.3s ease;
+}
+
+.dark-mode .error-container {
+  background-color: rgba(231, 76, 60, 0.1);
+  border-color: rgba(231, 76, 60, 0.3);
+}
+
+.error-icon {
+  font-size: 24px;
+  color: #e74c3c;
+}
+
+.dark-mode .error-icon {
+  color: #ff6b6b;
+}
+
+.error-content {
+  flex: 1;
+}
+
+.error-content h4 {
+  margin: 0 0 4px;
+  color: #d32f2f;
+  font-weight: 600;
+  font-size: 1rem;
+  transition: color 0.3s ease;
+}
+
+.dark-mode .error-content h4 {
+  color: #ff6b6b;
+}
+
+.error-content p {
+  margin: 0;
+  color: #555;
+  font-size: 0.9rem;
+  transition: color 0.3s ease;
+}
+
+.dark-mode .error-content p {
+  color: #e1e5ea;
+}
+
+/* Erreur inline pour les formulaires */
+.field-error {
+  display: block;
+  color: #e74c3c;
+  font-size: 0.85rem;
+  margin-top: 4px;
+  animation: fadeInError 0.3s ease;
+  transition: color 0.3s ease;
+}
+
+.dark-mode .field-error {
+  color: #ff6b6b;
+}
+
+@keyframes fadeInError {
+  from { opacity: 0; transform: translateY(-5px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* État d'erreur pour les champs de formulaire */
+input.has-error,
+select.has-error,
+textarea.has-error {
+  border-color: #e74c3c !important;
+  background-color: rgba(231, 76, 60, 0.05);
+  transition: all 0.3s ease;
+}
+
+.dark-mode input.has-error,
+.dark-mode select.has-error,
+.dark-mode textarea.has-error {
+  border-color: #ff6b6b !important;
+  background-color: rgba(231, 76, 60, 0.1);
+}
+
+/* Message d'erreur générique pour une page entière */
+.page-error {
+  text-align: center;
+  padding: 40px 20px;
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+.page-error-icon {
+  font-size: 72px;
+  color: #e74c3c;
+  margin-bottom: 20px;
+  transition: color 0.3s ease;
+}
+
+.dark-mode .page-error-icon {
+  color: #ff6b6b;
+}
+
+.page-error-title {
+  font-size: 24px;
+  font-weight: 600;
+  color: #333;
+  margin-bottom: 10px;
+  transition: color 0.3s ease;
+}
+
+.dark-mode .page-error-title {
+  color: #edf2f9;
+}
+
+.page-error-message {
+  font-size: 16px;
+  color: #666;
+  margin-bottom: 30px;
+  transition: color 0.3s ease;
+}
+
+.dark-mode .page-error-message {
+  color: #a2b6d3;
+}
+
+.page-error-action {
+  margin-top: 20px;
+}
