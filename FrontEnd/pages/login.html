@@ -8,8 +8,9 @@
   <link rel="stylesheet" href="style/auth.css" />
   <link rel="stylesheet" href="style/error.css" />
 
-  <!-- Authentifications tierces -->
+  <!-- Authentification tierce -->
   <script src="https://apis.google.com/js/platform.js" async defer></script>
+<<<<<<< HEAD
   <script src="https://alcdn.msftauth.net/lib/1.4.4/js/msal.js"></script>
   <script src="https://appleid.cdn-apple.com/appleauth/static/jsapi/appleid/1/en_US/appleid.auth.js"></script>
 <<<<<<< HEAD
@@ -22,6 +23,8 @@
   <meta name="apple-signin-use-popup" content="true" />
 =======
 >>>>>>> 19c9ccf42f44476623e3bd8a1861d1bf148c026d
+=======
+>>>>>>> AuthGoogle
 </head>
 <body>
   <div class="auth-container">
@@ -36,59 +39,29 @@
     <div class="auth-content">
       <div class="auth-header">
 <<<<<<< HEAD
+<<<<<<< HEAD
         <a href="index.html" class="back-link"><span class="icon">←</span> Retour à l'accueil</a>
+=======
+        <a href="index.html" class="back-link">
+          <span class="icon">←</span> Retour à l'accueil
+        </a>
+>>>>>>> AuthGoogle
       </div>
 
       <div class="auth-form-container">
-        <div class="auth-tabs">
-          <button class="tab-btn active" data-tab="login">Connexion</button>
-        </div>
-
+        <h2>Connexion</h2>
         <div class="auth-messages"></div>
-
-        <div id="login-tab" class="tab-content">
-          <h2>Connectez-vous à votre compte</h2>
-          <form id="login-form" class="auth-form" onsubmit="return false;">
-            <div class="form-group">
-              <label for="login-email">Email</label>
-              <input type="email" id="login-email" name="email" required />
-            </div>
-            <div class="form-group">
-              <label for="login-password">Mot de passe</label>
-              <input type="password" id="login-password" name="password" required />
-            </div>
-            <div class="form-actions">
-              <div class="remember-me">
-                <input type="checkbox" id="remember-me" />
-                <label for="remember-me">Se souvenir de moi</label>
-              </div>
-              <a href="#" class="forgot-password">Mot de passe oublié ?</a>
-            </div>
-            <button type="submit" id="login-btn" class="btn-primary btn-block">
-              <span class="spinner"></span>
-              Se connecter
-            </button>
-          </form>
-
-          <div class="social-login">
-            <p class="separator"><span>ou</span></p>
-            <button type="button" id="google-login" class="btn-social google">
-              <img src="images/icons/google.svg" alt="Google" />
-              <span>Continuer avec Google</span>
-            </button>
-            <button type="button" id="microsoft-login" class="btn-social microsoft">
-              <img src="images/icons/microsoft.png" alt="Microsoft" />
-              <span>Continuer avec Microsoft</span>
-            </button>
-            <button type="button" id="apple-login" class="btn-social apple">
-              <img src="images/icons/apple.svg" alt="Apple" />
-              <span>Continuer avec Apple</span>
-            </button>
+        
+        <form id="login-form" class="auth-form" onsubmit="return false;">
+          <div class="form-group">
+            <label for="login-email">Email</label>
+            <input type="email" id="login-email" required />
           </div>
-
-          <div class="form-actions mt-4">
-            <a href="register.html" class="back-link">Créer un compte</a>
+          <div class="form-group">
+            <label for="login-password">Mot de passe</label>
+            <input type="password" id="login-password" required />
           </div>
+<<<<<<< HEAD
 =======
         <a href="index.html" class="back-link">
           <span class="icon">←</span> Retour à l'accueil
@@ -115,16 +88,24 @@
             </div>
             <a href="#" class="forgot-password">Mot de passe oublié ?</a>
           </div>
+=======
+          
+>>>>>>> AuthGoogle
           <button type="submit" id="login-btn" class="btn-primary btn-block">
             <span class="spinner"></span> Se connecter
           </button>
         </form>
+<<<<<<< HEAD
 
+=======
+        
+>>>>>>> AuthGoogle
         <div class="social-login">
           <p class="separator"><span>ou</span></p>
           <button type="button" id="google-login" class="btn-social google">
             <img src="images/icons/google.svg" alt="Google" /> Continuer avec Google
           </button>
+<<<<<<< HEAD
           <button type="button" id="microsoft-login" class="btn-social microsoft">
             <img src="images/icons/microsoft.png" alt="Microsoft" /> Continuer avec Microsoft
           </button>
@@ -136,11 +117,18 @@
         <div class="form-actions mt-4">
           <a href="register.html" class="back-link">Créer un compte</a>
 >>>>>>> 19c9ccf42f44476623e3bd8a1861d1bf148c026d
+=======
+        </div>
+        
+        <div class="form-actions mt-4">
+          <a href="register.html" class="create-account-link">Créer un compte</a>
+>>>>>>> AuthGoogle
         </div>
       </div>
     </div>
   </div>
 
+<<<<<<< HEAD
 <<<<<<< HEAD
   <!-- Scripts -->
   <script type="module" src="js/index.js"></script>
@@ -149,16 +137,24 @@
 =======
   <script>
     document.addEventListener("DOMContentLoaded", () => {
+=======
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+>>>>>>> AuthGoogle
       // 1️⃣ Si on vient de logout, on ignore ce test initial
       if (location.search.includes("redirect=true")) return;
 
       // 2️⃣ Si déjà authentifié, aller directement au dashboard
+<<<<<<< HEAD
 >>>>>>> 19c9ccf42f44476623e3bd8a1861d1bf148c026d
+=======
+>>>>>>> AuthGoogle
       if (localStorage.getItem("token")) {
         window.location.href = "dashboard.html";
         return;
       }
 
+<<<<<<< HEAD
 <<<<<<< HEAD
       const loginBtn = document.getElementById("login-btn");
       const loginForm = document.getElementById("login-form");
@@ -168,32 +164,43 @@
       const btn = document.getElementById("login-btn");
       btn.addEventListener("click", async () => {
 >>>>>>> 19c9ccf42f44476623e3bd8a1861d1bf148c026d
+=======
+      const btn = document.getElementById("login-btn");
+      btn.addEventListener("click", async () => {
+>>>>>>> AuthGoogle
         const email = document.getElementById("login-email").value.trim();
         const password = document.getElementById("login-password").value;
-
+        
         if (!email || !password) {
+<<<<<<< HEAD
 <<<<<<< HEAD
           showNotification("Veuillez remplir tous les champs", "error");
           return;
+=======
+          return showNotification("Veuillez remplir tous les champs", "error");
+>>>>>>> AuthGoogle
         }
 
-        try {
-          loginBtn.disabled = true;
-          const spinner = loginBtn.querySelector(".spinner");
-          if (spinner) spinner.classList.add("active");
+        btn.disabled = true;
+        btn.querySelector(".spinner")?.classList.add("active");
 
+        try {
           const response = await fetch("http://localhost:5000/api/auth/login", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ email, password }),
+            body: JSON.stringify({ email, password })
           });
-
           const data = await response.json();
 
-          if (response.ok) {
+          if (response.ok && data.token) {
+            // Stockage du token et de l'utilisateur
             localStorage.setItem("token", data.token);
             localStorage.setItem("user", JSON.stringify(data.user));
+            // Suppression de redirectAfterLogin pour éviter le rebouclage
+            localStorage.removeItem("redirectAfterLogin");
+
             showNotification("Connexion réussie !", "success");
+<<<<<<< HEAD
             setTimeout(() => window.location.href = "dashboard.html", 1500);
 =======
           return showNotification("Veuillez remplir tous les champs", "error");
@@ -220,14 +227,22 @@
             showNotification("Connexion réussie !", "success");
             setTimeout(() => window.location.href = "dashboard.html", 1200);
 >>>>>>> 19c9ccf42f44476623e3bd8a1861d1bf148c026d
+=======
+            setTimeout(() => window.location.href = "dashboard.html", 1200);
+>>>>>>> AuthGoogle
           } else {
             showNotification(data.message || "Échec de la connexion", "error");
           }
         } catch (error) {
 <<<<<<< HEAD
+<<<<<<< HEAD
           showNotification("Erreur de connexion au serveur", "error");
+=======
+>>>>>>> AuthGoogle
           console.error("Erreur:", error);
+          showNotification("Erreur de connexion au serveur", "error");
         } finally {
+<<<<<<< HEAD
           loginBtn.disabled = false;
           const spinner = loginBtn.querySelector(".spinner");
           if (spinner) spinner.classList.remove("active");
@@ -238,8 +253,21 @@
           btn.disabled = false;
           btn.querySelector(".spinner")?.classList.remove("active");
 >>>>>>> 19c9ccf42f44476623e3bd8a1861d1bf148c026d
+=======
+          btn.disabled = false;
+          btn.querySelector(".spinner")?.classList.remove("active");
+>>>>>>> AuthGoogle
         }
       });
+
+      // Configuration du bouton Google (à implémenter)
+      const googleBtn = document.getElementById("google-login");
+      if (googleBtn) {
+        googleBtn.addEventListener("click", () => {
+          // Implémentation future de l'authentification Google
+          showNotification("Connexion Google à venir", "info");
+        });
+      }
     });
 
     function showNotification(message, type) {
@@ -247,10 +275,14 @@
       if (container) {
         container.innerHTML = `<div class="notification ${type}">${message}</div>`;
 <<<<<<< HEAD
+<<<<<<< HEAD
         setTimeout(() => container.innerHTML = "", 5000);
 =======
         setTimeout(() => (container.innerHTML = ""), 5000);
 >>>>>>> 19c9ccf42f44476623e3bd8a1861d1bf148c026d
+=======
+        setTimeout(() => (container.innerHTML = ""), 5000);
+>>>>>>> AuthGoogle
       } else {
         alert(message);
       }

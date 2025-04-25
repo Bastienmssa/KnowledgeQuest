@@ -1,10 +1,9 @@
 const User = require('../models/User');
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcryptjs');
-const { OAuth2Client } = require('google-auth-library');
 const axios = require('axios');
-
-const googleClient = new OAuth2Client(process.env.GOOGLE_CLIENT_ID);
+const admin = require('../utils/firebaseAdmin');
+const querystring = require('querystring');
 
 // Générer un token JWT
 const generateToken = (id) => {
@@ -24,7 +23,7 @@ exports.register = async (req, res) => {
     const user = new User({
       name,
       email,
-      passwordHash: password, // laisser le hash au middleware Mongoose
+      passwordHash: password,
       domain
     });
 
@@ -55,13 +54,7 @@ exports.login = async (req, res) => {
     const { email, password } = req.body;
 
     const user = await User.findOne({ email }).select('+passwordHash');
-
-    if (!user) {
-      return res.status(401).json({ success: false, message: 'Email ou mot de passe incorrect' });
-    }
-
-    const isMatch = await user.matchPassword(password);
-    if (!isMatch) {
+    if (!user || !(await user.matchPassword(password))) {
       return res.status(401).json({ success: false, message: 'Email ou mot de passe incorrect' });
     }
 
@@ -87,24 +80,21 @@ exports.login = async (req, res) => {
 // ========== GOOGLE AUTH ==========
 exports.googleAuth = async (req, res) => {
   try {
-    const { token } = req.body;
+    const { token, domain } = req.body;
+    const decoded = await admin.auth().verifyIdToken(token);
+    const { name, email, picture } = decoded;
 
-    const ticket = await googleClient.verifyIdToken({
-      idToken: token,
-      audience: process.env.GOOGLE_CLIENT_ID
-    });
-
-    const payload = ticket.getPayload();
-    const { name, email, picture } = payload;
+    if (!email) {
+      return res.status(400).json({ success: false, message: 'Email non trouvé dans le token' });
+    }
 
     let user = await User.findOne({ email });
-
     if (!user) {
       user = new User({
-        name,
+        name: name || 'Utilisateur Google',
         email,
         passwordHash: Math.random().toString(36).slice(-8),
-        domain: 'Médecine',
+        domain: domain || 'Médecine',
         picture
       });
       await user.save();
@@ -131,93 +121,83 @@ exports.googleAuth = async (req, res) => {
 };
 
 // ========== MICROSOFT AUTH ==========
-exports.microsoftAuth = async (req, res) => {
-  try {
-    const { accessToken } = req.body;
+exports.microsoftRedirect = (req, res) => {
+  const rawState = req.query.state || 'Médecine';
 
-    const graphResponse = await axios.get('https://graph.microsoft.com/v1.0/me', {
+  if (!process.env.MICROSOFT_CLIENT_ID || !process.env.MICROSOFT_REDIRECT_URI) {
+    return res.status(500).send('Client ID ou Redirect URI manquant.');
+  }
+
+  const params = querystring.stringify({
+    client_id: process.env.MICROSOFT_CLIENT_ID,
+    response_type: 'code',
+    redirect_uri: process.env.MICROSOFT_REDIRECT_URI,
+    response_mode: 'query',
+    scope: 'openid profile email',
+    state: encodeURIComponent(rawState)
+  });
+
+  res.redirect(`https://login.microsoftonline.com/common/oauth2/v2.0/authorize?${params}`);
+};
+
+exports.microsoftCallback = async (req, res) => {
+  try {
+    console.log("🟡 Callback Microsoft reçu");
+    const code = req.query.code;
+    const rawState = req.query.state || 'Médecine';
+
+    console.log("🔍 Code reçu:", code);
+    console.log("🔍 State brut reçu:", rawState);
+
+    if (!code) return res.redirect('/register.html?error=missing_code');
+
+    let domain;
+    try {
+      domain = decodeURIComponent(decodeURIComponent(rawState));
+    } catch (e) {
+      console.warn("⚠️ Erreur de décodage de state, fallback sur 'Médecine'");
+      domain = 'Médecine';
+    }
+
+    console.log("🎓 Domaine utilisé:", domain);
+
+    const tokenRes = await axios.post(
+      'https://login.microsoftonline.com/common/oauth2/v2.0/token',
+      querystring.stringify({
+        client_id: process.env.MICROSOFT_CLIENT_ID,
+        scope: 'openid profile email',
+        code,
+        redirect_uri: process.env.MICROSOFT_REDIRECT_URI,
+        grant_type: 'authorization_code',
+        client_secret: process.env.MICROSOFT_CLIENT_SECRET
+      }),
+      { headers: { 'Content-Type': 'application/x-www-form-urlencoded' } }
+    );
+
+    const accessToken = tokenRes.data.access_token;
+
+    const userRes = await axios.get('https://graph.microsoft.com/v1.0/me', {
       headers: { Authorization: `Bearer ${accessToken}` }
     });
 
-    const { displayName, mail, userPrincipalName } = graphResponse.data;
+    const { displayName, mail, userPrincipalName } = userRes.data;
     const email = mail || userPrincipalName;
 
-    if (!email) {
-      return res.status(400).json({ success: false, message: 'Email introuvable via Microsoft' });
-    }
-
     let user = await User.findOne({ email });
-
     if (!user) {
       user = new User({
         name: displayName,
         email,
         passwordHash: Math.random().toString(36).slice(-8),
-        domain: 'Médecine'
+        domain
       });
       await user.save();
     }
 
     const jwtToken = generateToken(user._id);
-
-    res.status(200).json({
-      success: true,
-      user: {
-        id: user._id,
-        name: user.name,
-        email: user.email,
-        domain: user.domain
-      },
-      token: jwtToken,
-      needsProfileCompletion: !user.domain
-    });
+    res.redirect(`http://localhost:5500/dashboard.html?token=${jwtToken}`);
   } catch (error) {
-    console.error('Erreur Microsoft Auth:', error);
-    res.status(500).json({ success: false, message: 'Erreur Microsoft Auth', error: error.message });
-  }
-};
-
-// ========== APPLE AUTH ==========
-exports.appleAuth = async (req, res) => {
-  try {
-    const { id_token, user: appleUser } = req.body;
-
-    const decodedToken = jwt.decode(id_token);
-    const email = decodedToken?.email;
-
-    if (!email) {
-      return res.status(400).json({ success: false, message: 'Email introuvable via Apple' });
-    }
-
-    const name = appleUser?.name || `Utilisateur ${Math.floor(Math.random() * 10000)}`;
-
-    let user = await User.findOne({ email });
-
-    if (!user) {
-      user = new User({
-        name,
-        email,
-        passwordHash: Math.random().toString(36).slice(-8),
-        domain: 'Médecine'
-      });
-      await user.save();
-    }
-
-    const jwtToken = generateToken(user._id);
-
-    res.status(200).json({
-      success: true,
-      user: {
-        id: user._id,
-        name: user.name,
-        email: user.email,
-        domain: user.domain
-      },
-      token: jwtToken,
-      needsProfileCompletion: !user.domain
-    });
-  } catch (error) {
-    console.error('Erreur Apple Auth:', error);
-    res.status(500).json({ success: false, message: 'Erreur Apple Auth', error: error.message });
+    console.error("❌ Erreur OAuth Microsoft :", error);
+    res.redirect(`http://localhost:5500/register.html?error=oauth`);
   }
 };

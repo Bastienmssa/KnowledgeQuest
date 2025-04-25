@@ -51,6 +51,20 @@ export const qcmService = {
     }
   },
 
+  async generateQcm(documentId, subject) {
+    try {
+      const response = await api.qcm.generateQcm({ 
+        documentId, 
+        subject,
+        model: 'gpt-3.5-turbo' // Utiliser un modèle moins coûteux
+      });
+      return response.success ? response.data : null;
+    } catch (error) {
+      console.error('❌ Erreur génération de QCM :', error);
+      throw error;
+    }
+  },
+  
   async generateQcmFromDocument(documentId, subject) {
     try {
       const response = await api.qcm.generateQcm({ documentId, subject });

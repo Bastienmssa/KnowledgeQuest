@@ -2,526 +2,783 @@
 
 .home-container {
 <<<<<<< HEAD
+<<<<<<< HEAD
     max-width: 1200px;
     margin: 0 auto;
     padding: var(--spacing-lg);
     animation: fadeIn 0.5s ease-out;
+=======
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: var(--spacing-lg);
+  animation: fadeIn 0.5s ease-out;
+}
+
+/* Section bienvenue */
+.welcome-message {
+  font-size: 2rem;
+  font-weight: 600;
+  color: var(--secondary-color);
+  margin-bottom: var(--spacing-xl);
+  position: relative;
+  padding-left: 1.5rem;
+  border-left: 4px solid var(--primary-color);
+  transition: color 0.3s ease, border-left-color 0.3s ease;
+}
+
+.dark-mode .welcome-message {
+  color: #edf2f9;
+  border-left-color: #4dabf7;
+}
+
+.welcome-message span {
+  color: var(--primary-color);
+  font-weight: 700;
+  transition: color 0.3s ease;
+}
+
+.dark-mode .welcome-message span {
+  color: #4dabf7;
+}
+
+/* Médecine et Droit - variations */
+.medicine-themed .welcome-message {
+  border-left-color: var(--medicine-color);
+}
+
+.medicine-themed .welcome-message span {
+  color: var(--medicine-color);
+}
+
+.dark-mode.medicine-themed .welcome-message {
+  border-left-color: #4dabf7;
+}
+
+.dark-mode.medicine-themed .welcome-message span {
+  color: #74c0fc;
+}
+
+.law-themed .welcome-message {
+  border-left-color: var(--law-color);
+}
+
+.law-themed .welcome-message span {
+  color: var(--law-color);
+}
+
+.dark-mode.law-themed .welcome-message {
+  border-left-color: #cc5de8;
+}
+
+.dark-mode.law-themed .welcome-message span {
+  color: #da77f2;
+}
+
+/* Section status rapide */
+.quick-status {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: var(--spacing-lg);
+  margin-bottom: var(--spacing-xl);
+}
+
+.status-card {
+  background-color: var(--card-bg);
+  border-radius: var(--border-radius);
+  padding: var(--spacing-lg);
+  box-shadow: var(--shadow-sm);
+  border: 1px solid var(--border-color);
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.dark-mode .status-card {
+  background-color: var(--dark-card-bg);
+  border-color: var(--dark-border-color);
+  box-shadow: var(--dark-shadow);
+}
+
+.status-card:hover {
+  transform: translateY(-5px);
+  box-shadow: var(--shadow-md);
+}
+
+.dark-mode .status-card:hover {
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.25);
+  background-color: var(--dark-card-hover);
+}
+
+.status-card h3 {
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: var(--secondary-color);
+  margin-bottom: var(--spacing-md);
+  position: relative;
+  padding-left: 28px;
+  transition: color 0.3s ease;
+}
+
+.dark-mode .status-card h3 {
+  color: #edf2f9;
+}
+
+.status-card:nth-child(1) h3:before {
+  content: "📊";
+  position: absolute;
+  left: 0;
+  top: -2px;
+  font-size: 1.2rem;
+}
+
+.status-card:nth-child(2) h3:before {
+  content: "🚀";
+  position: absolute;
+  left: 0;
+  top: -2px;
+  font-size: 1.2rem;
+}
+
+/* Cercle de progression */
+.progress-visual {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: var(--spacing-lg) 0;
+}
+
+.progress-circle {
+  width: 150px;
+  height: 150px;
+  border-radius: 50%;
+  background: conic-gradient(var(--primary-color) 0% var(--progress), #e9ecef var(--progress) 100%);
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 0 15px rgba(0, 0, 0, 0.05);
+  transition: background 0.3s ease, box-shadow 0.3s ease;
+}
+
+.dark-mode .progress-circle {
+  background: conic-gradient(#4dabf7 0% var(--progress), #2c3e50 var(--progress) 100%);
+  box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
+}
+
+.medicine-themed .progress-circle {
+  background: conic-gradient(var(--medicine-color) 0% var(--progress), #e9ecef var(--progress) 100%);
+}
+
+.dark-mode.medicine-themed .progress-circle {
+  background: conic-gradient(#4dabf7 0% var(--progress), #2c3e50 var(--progress) 100%);
+}
+
+.law-themed .progress-circle {
+  background: conic-gradient(var(--law-color) 0% var(--progress), #e9ecef var(--progress) 100%);
+}
+
+.dark-mode.law-themed .progress-circle {
+  background: conic-gradient(#cc5de8 0% var(--progress), #2c3e50 var(--progress) 100%);
+}
+
+.progress-circle::before {
+  content: "";
+  position: absolute;
+  width: 120px;
+  height: 120px;
+  background-color: var(--card-bg);
+  border-radius: 50%;
+  z-index: 1;
+  transition: background-color 0.3s ease;
+}
+
+.dark-mode .progress-circle::before {
+  background-color: var(--dark-card-bg);
+}
+
+.progress-circle span {
+  position: relative;
+  z-index: 2;
+  font-size: 1.8rem;
+  font-weight: 700;
+  color: var(--secondary-color);
+  transition: color 0.3s ease;
+}
+
+.dark-mode .progress-circle span {
+  color: #edf2f9;
+}
+
+.status-card p {
+  text-align: center;
+  color: var(--text-light);
+  font-size: 0.95rem;
+  margin-top: var(--spacing-md);
+  transition: color 0.3s ease;
+}
+
+.dark-mode .status-card p {
+  color: var(--dark-text-muted);
+}
+
+/* Section recommandation */
+.recommendation {
+  display: flex;
+  align-items: center;
+  margin-bottom: var(--spacing-md);
+  padding: var(--spacing-md);
+  border-radius: var(--border-radius);
+  background-color: rgba(44, 123, 229, 0.05);
+  border-left: 3px solid var(--primary-color);
+  transition: all 0.3s ease;
+}
+
+.dark-mode .recommendation {
+  background-color: rgba(44, 123, 229, 0.1);
+  border-left-color: #4dabf7;
+}
+
+.medicine-themed .recommendation {
+  background-color: rgba(52, 152, 219, 0.05);
+  border-left-color: var(--medicine-color);
+}
+
+.dark-mode.medicine-themed .recommendation {
+  background-color: rgba(52, 152, 219, 0.1);
+  border-left-color: #4dabf7;
+}
+
+.law-themed .recommendation {
+  background-color: rgba(142, 68, 173, 0.05);
+  border-left-color: var(--law-color);
+}
+
+.dark-mode.law-themed .recommendation {
+  background-color: rgba(142, 68, 173, 0.1);
+  border-left-color: #cc5de8;
+}
+
+.recommendation-icon {
+  font-size: 2rem;
+  margin-right: var(--spacing-md);
+  color: var(--primary-color);
+  transition: color 0.3s ease;
+}
+
+.dark-mode .recommendation-icon {
+  color: #4dabf7;
+}
+
+.medicine-themed .recommendation-icon {
+  color: var(--medicine-color);
+}
+
+.dark-mode.medicine-themed .recommendation-icon {
+  color: #74c0fc;
+}
+
+.law-themed .recommendation-icon {
+  color: var(--law-color);
+}
+
+.dark-mode.law-themed .recommendation-icon {
+  color: #da77f2;
+}
+
+.recommendation p {
+  margin: 0;
+  font-weight: 500;
+  color: var(--text-color);
+  transition: color 0.3s ease;
+}
+
+.dark-mode .recommendation p {
+  color: var(--dark-text-color);
+}
+
+.status-card .btn-primary {
+  display: block;
+  width: 100%;
+  margin-top: var(--spacing-md);
+  padding: 0.7rem 1rem;
+  text-align: center;
+}
+
+/* Section des actions principales */
+.main-actions {
+  margin-bottom: var(--spacing-xl);
+}
+
+.main-actions h2 {
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: var(--secondary-color);
+  margin-bottom: var(--spacing-lg);
+  position: relative;
+  padding-left: 35px;
+  transition: color 0.3s ease;
+}
+
+.dark-mode .main-actions h2 {
+  color: #edf2f9;
+}
+
+.main-actions h2:before {
+  content: "🎯";
+  position: absolute;
+  left: 0;
+  top: -5px;
+  font-size: 1.5rem;
+}
+
+.action-cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: var(--spacing-lg);
+}
+
+.action-card {
+  background-color: var(--card-bg);
+  border-radius: var(--border-radius);
+  padding: var(--spacing-lg);
+  box-shadow: var(--shadow-sm);
+  border: 1px solid var(--border-color);
+  transition: all 0.3s ease;
+  text-decoration: none;
+  color: var(--text-color);
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.dark-mode .action-card {
+  background-color: var(--dark-card-bg);
+  border-color: var(--dark-border-color);
+  box-shadow: var(--dark-shadow);
+  color: var(--dark-text-color);
+}
+
+.action-card:hover {
+  transform: translateY(-7px);
+  box-shadow: var(--shadow-md);
+}
+
+.dark-mode .action-card:hover {
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.25);
+  background-color: var(--dark-card-hover);
+}
+
+.action-icon {
+  font-size: 1.5rem;
+  margin-bottom: var(--spacing-md);
+  width: 60px;
+  height: 60px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 12px;
+  flex-shrink: 0;
+  transition: all 0.3s ease;
+}
+
+.action-icon.create {
+  background-color: rgba(142, 68, 173, 0.1);
+  color: var(--law-color);
+}
+
+.dark-mode .action-icon.create {
+  background-color: rgba(142, 68, 173, 0.2);
+  color: #da77f2;
+}
+
+.action-icon.upload {
+  background-color: rgba(52, 152, 219, 0.1);
+  color: var(--primary-color);
+}
+
+.dark-mode .action-icon.upload {
+  background-color: rgba(52, 152, 219, 0.2);
+  color: #74c0fc;
+}
+
+.action-icon.test {
+  background-color: rgba(46, 204, 113, 0.1);
+  color: var(--success-color);
+}
+
+.dark-mode .action-icon.test {
+  background-color: rgba(46, 204, 113, 0.2);
+  color: #63e6be;
+}
+
+.action-card h3 {
+  font-size: 1.2rem;
+  font-weight: 600;
+  margin-bottom: var(--spacing-sm);
+  color: var(--secondary-color);
+  transition: color 0.3s ease;
+}
+
+.dark-mode .action-card h3 {
+  color: #edf2f9;
+}
+
+.action-card p {
+  font-size: 0.95rem;
+  color: var(--text-color);
+  opacity: 0.8;
+  margin-bottom: var(--spacing-md);
+  flex-grow: 1;
+  transition: color 0.3s ease;
+}
+
+.dark-mode .action-card p {
+  color: var(--dark-text-muted);
+  opacity: 1;
+}
+
+.action-card .btn-primary {
+  align-self: flex-start;
+  padding: 0.6rem 1.2rem;
+}
+
+/* Section activité récente */
+.recent-activity {
+  margin-bottom: var(--spacing-xl);
+}
+
+.section-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: var(--spacing-lg);
+}
+
+.section-header h2 {
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: var(--secondary-color);
+  position: relative;
+  padding-left: 35px;
+  transition: color 0.3s ease;
+}
+
+.dark-mode .section-header h2 {
+  color: #edf2f9;
+}
+
+.section-header h2:before {
+  content: "🕒";
+  position: absolute;
+  left: 0;
+  top: -5px;
+  font-size: 1.5rem;
+}
+
+.view-all {
+  font-size: 0.95rem;
+  color: var(--primary-color);
+  text-decoration: none;
+  transition: all 0.2s ease;
+  display: inline-flex;
+  align-items: center;
+}
+
+.dark-mode .view-all {
+  color: #74c0fc;
+}
+
+.view-all:after {
+  content: "→";
+  margin-left: 0.5rem;
+  transition: transform 0.2s ease;
+}
+
+.view-all:hover:after {
+  transform: translateX(3px);
+}
+
+.view-all:hover {
+  color: #1a68d1;
+}
+
+.dark-mode .view-all:hover {
+  color: #4dabf7;
+}
+
+.activity-timeline {
+  background-color: var(--card-bg);
+  border-radius: var(--border-radius);
+  box-shadow: var(--shadow-sm);
+  border: 1px solid var(--border-color);
+  overflow: hidden;
+  transition: all 0.3s ease;
+}
+
+.dark-mode .activity-timeline {
+  background-color: var(--dark-card-bg);
+  border-color: var(--dark-border-color);
+  box-shadow: var(--dark-shadow);
+}
+
+.timeline-item {
+  display: flex;
+  align-items: center;
+  padding: var(--spacing-md) var(--spacing-lg);
+  border-bottom: 1px solid var(--border-color);
+  transition: background-color 0.2s ease, border-color 0.3s ease;
+}
+
+.dark-mode .timeline-item {
+  border-bottom-color: var(--dark-border-color);
+}
+
+.timeline-item:hover {
+  background-color: rgba(52, 152, 219, 0.03);
+}
+
+.dark-mode .timeline-item:hover {
+  background-color: rgba(255, 255, 255, 0.05);
+}
+
+.timeline-item:last-child {
+  border-bottom: none;
+}
+
+.timeline-icon {
+  font-size: 1.25rem;
+  margin-right: var(--spacing-md);
+  width: 45px;
+  height: 45px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  flex-shrink: 0;
+  transition: all 0.3s ease;
+}
+
+.timeline-icon.test {
+  background-color: rgba(46, 204, 113, 0.1);
+  color: var(--success-color);
+}
+
+.dark-mode .timeline-icon.test {
+  background-color: rgba(46, 204, 113, 0.2);
+  color: #63e6be;
+}
+
+.timeline-icon.upload {
+  background-color: rgba(52, 152, 219, 0.1);
+  color: var(--primary-color);
+}
+
+.dark-mode .timeline-icon.upload {
+  background-color: rgba(52, 152, 219, 0.2);
+  color: #74c0fc;
+}
+
+.timeline-content {
+  flex: 1;
+}
+
+.timeline-content h3 {
+  font-size: 1rem;
+  font-weight: 600;
+  margin-bottom: 0.25rem;
+  color: var(--secondary-color);
+  transition: color 0.3s ease;
+}
+
+.dark-mode .timeline-content h3 {
+  color: #edf2f9;
+}
+
+.timeline-content p {
+  font-size: 0.9rem;
+  color: var(--text-light);
+  margin: 0;
+  transition: color 0.3s ease;
+}
+
+.dark-mode .timeline-content p {
+  color: var(--dark-text-muted);
+}
+
+/* Score stylings */
+.timeline-score {
+  font-weight: 600;
+  padding: 0.25rem 0.75rem;
+  border-radius: 20px;
+  font-size: 0.9rem;
+  transition: all 0.3s ease;
+}
+
+.score-100 {
+  background-color: rgba(46, 204, 113, 0.1);
+  color: #27ae60;
+}
+
+.dark-mode .score-100 {
+  background-color: rgba(46, 204, 113, 0.2);
+  color: #63e6be;
+}
+
+.score-80 {
+  background-color: rgba(52, 152, 219, 0.1);
+  color: #3498db;
+}
+
+.dark-mode .score-80 {
+  background-color: rgba(52, 152, 219, 0.2);
+  color: #74c0fc;
+}
+
+.score-60 {
+  background-color: rgba(241, 196, 15, 0.1);
+  color: #f39c12;
+}
+
+.dark-mode .score-60 {
+  background-color: rgba(241, 196, 15, 0.2);
+  color: #fcc419;
+}
+
+.score-40 {
+  background-color: rgba(230, 126, 34, 0.1);
+  color: #e67e22;
+}
+
+.dark-mode .score-40 {
+  background-color: rgba(230, 126, 34, 0.2);
+  color: #ffa94d;
+}
+
+.score-20 {
+  background-color: rgba(231, 76, 60, 0.1);
+  color: #e74c3c;
+}
+
+.dark-mode .score-20 {
+  background-color: rgba(231, 76, 60, 0.2);
+  color: #ff6b6b;
+}
+
+.btn-link {
+  font-size: 0.9rem;
+  color: var(--primary-color);
+  text-decoration: none;
+  transition: all 0.2s ease;
+  display: inline-block;
+  margin-top: 0.5rem;
+}
+
+.dark-mode .btn-link {
+  color: #74c0fc;
+}
+
+.btn-link:hover {
+  color: #1a68d1;
+  text-decoration: underline;
+}
+
+.dark-mode .btn-link:hover {
+  color: #4dabf7;
+}
+
+/* Adaptations pour médecine et droit */
+.medicine-themed .btn-primary {
+  background-color: var(--medicine-color);
+}
+
+.dark-mode.medicine-themed .btn-primary {
+  background-color: #3788c7;
+}
+
+.law-themed .btn-primary {
+  background-color: var(--law-color);
+}
+
+.dark-mode.law-themed .btn-primary {
+  background-color: #9c44c0;
+}
+
+.medicine-themed .view-all {
+  color: var(--medicine-color);
+}
+
+.dark-mode.medicine-themed .view-all {
+  color: #74c0fc;
+}
+
+.law-themed .view-all {
+  color: var(--law-color);
+}
+
+.dark-mode.law-themed .view-all {
+  color: #da77f2;
+}
+
+/* Animations */
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes slideInRight {
+  from { opacity: 0; transform: translateX(20px); }
+  to { opacity: 1; transform: translateX(0); }
+}
+
+@keyframes slideInUp {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.quick-status {
+  animation: slideInUp 0.6s ease-out;
+}
+
+.main-actions {
+  animation: slideInUp 0.8s ease-out;
+}
+
+.recent-activity {
+  animation: slideInUp 1s ease-out;
+}
+
+/* Media queries pour responsive */
+@media (max-width: 992px) {
+  .quick-status, .action-cards {
+      grid-template-columns: 1fr;
+>>>>>>> AuthGoogle
   }
-  
-  /* Section bienvenue */
+}
+
+@media (max-width: 576px) {
   .welcome-message {
-    font-size: 2rem;
-    font-weight: 600;
-    color: var(--secondary-color);
-    margin-bottom: var(--spacing-xl);
-    position: relative;
-    padding-left: 1.5rem;
-    border-left: 4px solid var(--primary-color);
-  }
-  
-  .welcome-message span {
-    color: var(--primary-color);
-    font-weight: 700;
-  }
-  
-  /* Médecine et Droit - variations */
-  .medicine-themed .welcome-message {
-    border-left-color: var(--medicine-color);
-  }
-  
-  .medicine-themed .welcome-message span {
-    color: var(--medicine-color);
-  }
-  
-  .law-themed .welcome-message {
-    border-left-color: var(--law-color);
-  }
-  
-  .law-themed .welcome-message span {
-    color: var(--law-color);
-  }
-  
-  /* Section status rapide */
-  .quick-status {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-    gap: var(--spacing-lg);
-    margin-bottom: var(--spacing-xl);
-  }
-  
-  .status-card {
-    background-color: var(--card-bg);
-    border-radius: var(--border-radius);
-    padding: var(--spacing-lg);
-    box-shadow: var(--shadow-sm);
-    border: 1px solid var(--border-color);
-    transition: all 0.3s ease;
-    position: relative;
-    overflow: hidden;
-  }
-  
-  .status-card:hover {
-    transform: translateY(-5px);
-    box-shadow: var(--shadow-md);
-  }
-  
-  .status-card h3 {
-    font-size: 1.25rem;
-    font-weight: 600;
-    color: var(--secondary-color);
-    margin-bottom: var(--spacing-md);
-    position: relative;
-    padding-left: 28px;
-  }
-  
-  .status-card:nth-child(1) h3:before {
-    content: "📊";
-    position: absolute;
-    left: 0;
-    top: -2px;
-    font-size: 1.2rem;
-  }
-  
-  .status-card:nth-child(2) h3:before {
-    content: "🚀";
-    position: absolute;
-    left: 0;
-    top: -2px;
-    font-size: 1.2rem;
-  }
-  
-  /* Cercle de progression */
-  .progress-visual {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    margin: var(--spacing-lg) 0;
-  }
-  
-  .progress-circle {
-    width: 150px;
-    height: 150px;
-    border-radius: 50%;
-    background: conic-gradient(var(--primary-color) 0% var(--progress), #e9ecef var(--progress) 100%);
-    position: relative;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    box-shadow: 0 0 15px rgba(0, 0, 0, 0.05);
-  }
-  
-  .medicine-themed .progress-circle {
-    background: conic-gradient(var(--medicine-color) 0% var(--progress), #e9ecef var(--progress) 100%);
-  }
-  
-  .law-themed .progress-circle {
-    background: conic-gradient(var(--law-color) 0% var(--progress), #e9ecef var(--progress) 100%);
-  }
-  
-  .progress-circle::before {
-    content: "";
-    position: absolute;
-    width: 120px;
-    height: 120px;
-    background-color: var(--card-bg);
-    border-radius: 50%;
-    z-index: 1;
-  }
-  
-  .progress-circle span {
-    position: relative;
-    z-index: 2;
-    font-size: 1.8rem;
-    font-weight: 700;
-    color: var(--secondary-color);
-  }
-  
-  .status-card p {
-    text-align: center;
-    color: var(--text-light);
-    font-size: 0.95rem;
-    margin-top: var(--spacing-md);
-  }
-  
-  /* Section recommandation */
-  .recommendation {
-    display: flex;
-    align-items: center;
-    margin-bottom: var(--spacing-md);
-    padding: var(--spacing-md);
-    border-radius: var(--border-radius);
-    background-color: rgba(44, 123, 229, 0.05);
-    border-left: 3px solid var(--primary-color);
-  }
-  
-  .medicine-themed .recommendation {
-    background-color: rgba(52, 152, 219, 0.05);
-    border-left-color: var(--medicine-color);
-  }
-  
-  .law-themed .recommendation {
-    background-color: rgba(142, 68, 173, 0.05);
-    border-left-color: var(--law-color);
-  }
-  
-  .recommendation-icon {
-    font-size: 2rem;
-    margin-right: var(--spacing-md);
-    color: var(--primary-color);
-  }
-  
-  .medicine-themed .recommendation-icon {
-    color: var(--medicine-color);
-  }
-  
-  .law-themed .recommendation-icon {
-    color: var(--law-color);
-  }
-  
-  .recommendation p {
-    margin: 0;
-    font-weight: 500;
-    color: var(--text-color);
-  }
-  
-  .status-card .btn-primary {
-    display: block;
-    width: 100%;
-    margin-top: var(--spacing-md);
-    padding: 0.7rem 1rem;
-    text-align: center;
-  }
-  
-  /* Section des actions principales */
-  .main-actions {
-    margin-bottom: var(--spacing-xl);
-  }
-  
-  .main-actions h2 {
-    font-size: 1.5rem;
-    font-weight: 600;
-    color: var(--secondary-color);
-    margin-bottom: var(--spacing-lg);
-    position: relative;
-    padding-left: 35px;
-  }
-  
-  .main-actions h2:before {
-    content: "🎯";
-    position: absolute;
-    left: 0;
-    top: -5px;
-    font-size: 1.5rem;
-  }
-  
-  .action-cards {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-    gap: var(--spacing-lg);
-  }
-  
-  .action-card {
-    background-color: var(--card-bg);
-    border-radius: var(--border-radius);
-    padding: var(--spacing-lg);
-    box-shadow: var(--shadow-sm);
-    border: 1px solid var(--border-color);
-    transition: all 0.3s ease;
-    text-decoration: none;
-    color: var(--text-color);
-    display: flex;
-    flex-direction: column;
-    height: 100%;
-  }
-  
-  .action-card:hover {
-    transform: translateY(-7px);
-    box-shadow: var(--shadow-md);
-  }
-  
-  .action-icon {
-    font-size: 1.5rem;
-    margin-bottom: var(--spacing-md);
-    width: 60px;
-    height: 60px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    border-radius: 12px;
-    flex-shrink: 0;
-  }
-  
-  .action-icon.create {
-    background-color: rgba(142, 68, 173, 0.1);
-    color: var(--law-color);
-  }
-  
-  .action-icon.upload {
-    background-color: rgba(52, 152, 219, 0.1);
-    color: var(--primary-color);
-  }
-  
-  .action-icon.test {
-    background-color: rgba(46, 204, 113, 0.1);
-    color: var(--success-color);
-  }
-  
-  .action-card h3 {
-    font-size: 1.2rem;
-    font-weight: 600;
-    margin-bottom: var(--spacing-sm);
-    color: var(--secondary-color);
-  }
-  
-  .action-card p {
-    font-size: 0.95rem;
-    color: var(--text-color);
-    opacity: 0.8;
-    margin-bottom: var(--spacing-md);
-    flex-grow: 1;
-  }
-  
-  .action-card .btn-primary {
-    align-self: flex-start;
-    padding: 0.6rem 1.2rem;
-  }
-  
-  /* Section activité récente */
-  .recent-activity {
-    margin-bottom: var(--spacing-xl);
+      font-size: 1.5rem;
   }
   
   .section-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: var(--spacing-lg);
-  }
-  
-  .section-header h2 {
-    font-size: 1.5rem;
-    font-weight: 600;
-    color: var(--secondary-color);
-    position: relative;
-    padding-left: 35px;
-  }
-  
-  .section-header h2:before {
-    content: "🕒";
-    position: absolute;
-    left: 0;
-    top: -5px;
-    font-size: 1.5rem;
-  }
-  
-  .view-all {
-    font-size: 0.95rem;
-    color: var(--primary-color);
-    text-decoration: none;
-    transition: all 0.2s ease;
-    display: inline-flex;
-    align-items: center;
-  }
-  
-  .view-all:after {
-    content: "→";
-    margin-left: 0.5rem;
-    transition: transform 0.2s ease;
-  }
-  
-  .view-all:hover:after {
-    transform: translateX(3px);
-  }
-  
-  .view-all:hover {
-    color: #1a68d1;
-  }
-  
-  .activity-timeline {
-    background-color: var(--card-bg);
-    border-radius: var(--border-radius);
-    box-shadow: var(--shadow-sm);
-    border: 1px solid var(--border-color);
-    overflow: hidden;
-  }
-  
-  .timeline-item {
-    display: flex;
-    align-items: center;
-    padding: var(--spacing-md) var(--spacing-lg);
-    border-bottom: 1px solid var(--border-color);
-    transition: background-color 0.2s ease;
-  }
-  
-  .timeline-item:hover {
-    background-color: rgba(52, 152, 219, 0.03);
-  }
-  
-  .timeline-item:last-child {
-    border-bottom: none;
-  }
-  
-  .timeline-icon {
-    font-size: 1.25rem;
-    margin-right: var(--spacing-md);
-    width: 45px;
-    height: 45px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    border-radius: 50%;
-    flex-shrink: 0;
-  }
-  
-  .timeline-icon.test {
-    background-color: rgba(46, 204, 113, 0.1);
-    color: var(--success-color);
-  }
-  
-  .timeline-icon.upload {
-    background-color: rgba(52, 152, 219, 0.1);
-    color: var(--primary-color);
-  }
-  
-  .timeline-content {
-    flex: 1;
-  }
-  
-  .timeline-content h3 {
-    font-size: 1rem;
-    font-weight: 600;
-    margin-bottom: 0.25rem;
-    color: var(--secondary-color);
-  }
-  
-  .timeline-content p {
-    font-size: 0.9rem;
-    color: var(--text-light);
-    margin: 0;
-  }
-  
-  /* Score stylings */
-  .timeline-score {
-    font-weight: 600;
-    padding: 0.25rem 0.75rem;
-    border-radius: 20px;
-    font-size: 0.9rem;
-  }
-  
-  .score-100 {
-    background-color: rgba(46, 204, 113, 0.1);
-    color: #27ae60;
-  }
-  
-  .score-80 {
-    background-color: rgba(52, 152, 219, 0.1);
-    color: #3498db;
-  }
-  
-  .score-60 {
-    background-color: rgba(241, 196, 15, 0.1);
-    color: #f39c12;
-  }
-  
-  .score-40 {
-    background-color: rgba(230, 126, 34, 0.1);
-    color: #e67e22;
-  }
-  
-  .score-20 {
-    background-color: rgba(231, 76, 60, 0.1);
-    color: #e74c3c;
-  }
-  
-  .btn-link {
-    font-size: 0.9rem;
-    color: var(--primary-color);
-    text-decoration: none;
-    transition: all 0.2s ease;
-    display: inline-block;
-    margin-top: 0.5rem;
-  }
-  
-  .btn-link:hover {
-    color: #1a68d1;
-    text-decoration: underline;
-  }
-  
-  /* Adaptations pour médecine et droit */
-  .medicine-themed .btn-primary {
-    background-color: var(--medicine-color);
-  }
-  
-  .law-themed .btn-primary {
-    background-color: var(--law-color);
-  }
-  
-  .medicine-themed .view-all {
-    color: var(--medicine-color);
-  }
-  
-  .law-themed .view-all {
-    color: var(--law-color);
-  }
-  
-  /* Animations */
-  @keyframes fadeIn {
-    from { opacity: 0; }
-    to { opacity: 1; }
-  }
-  
-  @keyframes slideInRight {
-    from { opacity: 0; transform: translateX(20px); }
-    to { opacity: 1; transform: translateX(0); }
-  }
-  
-  @keyframes slideInUp {
-    from { opacity: 0; transform: translateY(20px); }
-    to { opacity: 1; transform: translateY(0); }
-  }
-  
-  .quick-status {
-    animation: slideInUp 0.6s ease-out;
-  }
-  
-  .main-actions {
-    animation: slideInUp 0.8s ease-out;
-  }
-  
-  .recent-activity {
-    animation: slideInUp 1s ease-out;
-  }
-  
-  /* Media queries pour responsive */
-  @media (max-width: 992px) {
-    .quick-status, .action-cards {
-      grid-template-columns: 1fr;
-    }
-  }
-  
-  @media (max-width: 576px) {
-    .welcome-message {
-      font-size: 1.5rem;
-    }
-    
-    .section-header {
       flex-direction: column;
       align-items: flex-start;
       gap: var(--spacing-sm);
-    }
-    
-    .progress-circle {
+  }
+  
+  .progress-circle {
       width: 120px;
       height: 120px;
-    }
-    
-    .progress-circle::before {
+  }
+  
+  .progress-circle::before {
       width: 90px;
       height: 90px;
-    }
-    
-    .progress-circle span {
+  }
+  
+  .progress-circle span {
       font-size: 1.5rem;
+<<<<<<< HEAD
     }
   }
 =======
@@ -1297,3 +1554,7 @@
   }
 }
 >>>>>>> 19c9ccf42f44476623e3bd8a1861d1bf148c026d
+=======
+  }
+}
+>>>>>>> AuthGoogle

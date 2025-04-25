@@ -49,3 +49,24 @@
 2025-04-21 17:30:27 error: Erreur updatePassword: Illegal arguments: string, undefined
 2025-04-21 17:45:52 error: ❌ Erreur getSessionById : Cast to ObjectId failed for value "user" (type string) at path "_id" for model "Session"
 2025-04-21 17:47:45 error: ❌ Erreur getSessionById : Cast to ObjectId failed for value "user" (type string) at path "_id" for model "Session"
+2025-04-24 21:58:41 error: Erreur updatePassword: Illegal arguments: string, undefined
+2025-04-24 21:58:41 error: Erreur updatePassword: Illegal arguments: string, undefined
+2025-04-24 22:58:29 error: Erreur lors de la récupération des statistiques: Class constructor ObjectId cannot be invoked without 'new'
+2025-04-24 22:58:29 error: Erreur lors de la récupération des statistiques: Class constructor ObjectId cannot be invoked without 'new'
+2025-04-24 22:58:29 error: Erreur lors de la récupération des statistiques: Class constructor ObjectId cannot be invoked without 'new'
+2025-04-24 22:58:34 error: Erreur lors de la récupération des statistiques: Class constructor ObjectId cannot be invoked without 'new'
+2025-04-24 22:58:34 error: Erreur lors de la récupération des statistiques: Class constructor ObjectId cannot be invoked without 'new'
+2025-04-24 22:58:35 error: Erreur lors de la récupération des statistiques: Class constructor ObjectId cannot be invoked without 'new'
+2025-04-24 22:58:35 error: Erreur lors de la récupération des statistiques: Class constructor ObjectId cannot be invoked without 'new'
+2025-04-24 22:58:37 error: Erreur lors de la récupération des statistiques: Class constructor ObjectId cannot be invoked without 'new'
+2025-04-24 22:58:37 error: Erreur lors de la récupération des statistiques: Class constructor ObjectId cannot be invoked without 'new'
+2025-04-24 22:58:37 error: Erreur lors de la récupération des statistiques: Class constructor ObjectId cannot be invoked without 'new'
+2025-04-24 23:47:45 error: Erreur lors du traitement du document: Document is not defined
+2025-04-24 23:50:51 error: Erreur lors du traitement du document: Document is not defined
+2025-04-24 23:56:09 error: Erreur lors du traitement du document: Document is not defined
+2025-04-24 23:59:08 error: Erreur lors du traitement du document: Document is not defined
+2025-04-24 23:59:44 error: Erreur lors du traitement du document: Document is not defined
+2025-04-25 00:01:38 error: Erreur lors du traitement du document: Document is not defined
+2025-04-25 00:07:53 error: Erreur lors du traitement du document: Document is not defined
+2025-04-25 00:13:38 error: Erreur lors du traitement du document: Document is not defined
+2025-04-25 00:15:10 error: Erreur lors du traitement du document: Document is not defined

@@ -1,6 +1,7 @@
 /* style/error.css */
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 /* Affichage d’erreur classique dans un bloc */
 .error-message {
     color: #e74c3c;
@@ -43,6 +44,10 @@
 =======
 /* Affichage d'erreur classique dans un bloc */
 .error-message {
+=======
+/* Affichage d'erreur classique dans un bloc */
+.error-message {
+>>>>>>> AuthGoogle
   color: #e74c3c;
   background-color: #fdecea;
   border-left: 4px solid #e74c3c;
@@ -255,5 +260,9 @@ textarea.has-error {
 
 .page-error-action {
   margin-top: 20px;
+<<<<<<< HEAD
 }
 >>>>>>> 19c9ccf42f44476623e3bd8a1861d1bf148c026d
+=======
+}
+>>>>>>> AuthGoogle

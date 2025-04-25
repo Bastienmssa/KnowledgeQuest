@@ -37,7 +37,10 @@
     --shadow-md: 0 2px 4px rgba(0, 0, 0, 0.08);
     --shadow-lg: 0 5px 15px rgba(0, 0, 0, 0.05);
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
+=======
+>>>>>>> AuthGoogle
     
     /* Variables pour le mode sombre */
     --dark-bg-color: #12263f;
@@ -59,24 +62,33 @@
     --light-bg: #f8fafc;
     --text-light: #64748b;
     --input-hover-bg: #edf2f9;
+<<<<<<< HEAD
 >>>>>>> 19c9ccf42f44476623e3bd8a1861d1bf148c026d
+=======
+>>>>>>> AuthGoogle
 }
 
 /* Thème sombre amélioré */
 body.dark-mode {
+<<<<<<< HEAD
 <<<<<<< HEAD
     --text-color: #edf2f9;
     --bg-color: #12263f;
     --card-bg: #1e3a5f;
     --border-color: #2c3e50;
 =======
+=======
+>>>>>>> AuthGoogle
     --text-color: var(--dark-text-color);
     --bg-color: var(--dark-bg-color);
     --card-bg: var(--dark-card-bg);
     --border-color: var(--dark-border-color);
     --text-light: var(--dark-text-muted);
     color-scheme: dark;
+<<<<<<< HEAD
 >>>>>>> 19c9ccf42f44476623e3bd8a1861d1bf148c026d
+=======
+>>>>>>> AuthGoogle
 }
 
 /* Styles de base */
@@ -93,9 +105,13 @@ body {
     background-color: var(--bg-color);
     font-size: 15px;
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
     transition: background-color 0.3s ease, color 0.3s ease;
 >>>>>>> 19c9ccf42f44476623e3bd8a1861d1bf148c026d
+=======
+    transition: background-color 0.3s ease, color 0.3s ease;
+>>>>>>> AuthGoogle
 }
 
 a {
@@ -113,13 +129,19 @@ ul {
 }
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
+=======
+>>>>>>> AuthGoogle
 h1, h2, h3, h4, h5, h6 {
     color: var(--text-color);
     transition: color 0.3s ease;
 }
 
+<<<<<<< HEAD
 >>>>>>> 19c9ccf42f44476623e3bd8a1861d1bf148c026d
+=======
+>>>>>>> AuthGoogle
 /* Structure de l'application - améliorée */
 .app-container {
     display: flex;
@@ -137,14 +159,20 @@ h1, h2, h3, h4, h5, h6 {
     box-shadow: 1px 0 5px rgba(0, 0, 0, 0.1);
     z-index: 999;
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
+=======
+>>>>>>> AuthGoogle
     transition: width 0.3s ease, background 0.3s ease;
 }
 
 .dark-mode .sidebar {
     background: var(--dark-sidebar-bg);
     box-shadow: 1px 0 5px rgba(0, 0, 0, 0.3);
+<<<<<<< HEAD
 >>>>>>> 19c9ccf42f44476623e3bd8a1861d1bf148c026d
+=======
+>>>>>>> AuthGoogle
 }
 
 .main-content {
@@ -153,9 +181,13 @@ h1, h2, h3, h4, h5, h6 {
     padding: var(--spacing-lg) var(--spacing-xl);
     min-height: 100vh;
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
     transition: margin-left 0.3s ease, background-color 0.3s ease;
 >>>>>>> 19c9ccf42f44476623e3bd8a1861d1bf148c026d
+=======
+    transition: margin-left 0.3s ease, background-color 0.3s ease;
+>>>>>>> AuthGoogle
 }
 
 /* Barre latérale - style plus professionnel */
@@ -245,14 +277,20 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
+=======
+>>>>>>> AuthGoogle
 .dark-mode .btn-secondary {
     background-color: var(--dark-secondary-bg);
     color: #a2b6d3;
     border-color: var(--dark-border-color);
 }
 
+<<<<<<< HEAD
 >>>>>>> 19c9ccf42f44476623e3bd8a1861d1bf148c026d
+=======
+>>>>>>> AuthGoogle
 .btn-danger {
     background-color: var(--error-color);
     color: white;
@@ -264,16 +302,23 @@ h1, h2, h3, h4, h5, h6 {
     background-color: #1a68d1;
     box-shadow: 0 4px 6px rgba(44, 123, 229, 0.3);
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
     transform: translateY(-2px);
 >>>>>>> 19c9ccf42f44476623e3bd8a1861d1bf148c026d
+=======
+    transform: translateY(-2px);
+>>>>>>> AuthGoogle
 }
 
 .btn-secondary:hover {
     background-color: #f9fbfd;
     border-color: #d2ddec;
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
+=======
+>>>>>>> AuthGoogle
     transform: translateY(-2px);
 }
 
@@ -281,7 +326,10 @@ h1, h2, h3, h4, h5, h6 {
     background-color: #233a5c;
     border-color: #3a546d;
     color: #edf2f9;
+<<<<<<< HEAD
 >>>>>>> 19c9ccf42f44476623e3bd8a1861d1bf148c026d
+=======
+>>>>>>> AuthGoogle
 }
 
 .btn-danger:hover {
@@ -298,8 +346,11 @@ h1, h2, h3, h4, h5, h6 {
     padding: var(--spacing-lg);
     border: 1px solid var(--border-color);
 <<<<<<< HEAD
+<<<<<<< HEAD
     transition: box-shadow 0.3s ease, transform 0.2s ease;
 =======
+=======
+>>>>>>> AuthGoogle
     transition: box-shadow 0.3s ease, transform 0.2s ease, background-color 0.3s ease, border-color 0.3s ease;
 }
 
@@ -307,7 +358,10 @@ h1, h2, h3, h4, h5, h6 {
     background-color: var(--dark-card-bg);
     box-shadow: var(--dark-shadow);
     border-color: var(--dark-border-color);
+<<<<<<< HEAD
 >>>>>>> 19c9ccf42f44476623e3bd8a1861d1bf148c026d
+=======
+>>>>>>> AuthGoogle
 }
 
 .card:hover {
@@ -316,13 +370,19 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
+=======
+>>>>>>> AuthGoogle
 .dark-mode .card:hover {
     box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
     background-color: var(--dark-card-hover);
 }
 
+<<<<<<< HEAD
 >>>>>>> 19c9ccf42f44476623e3bd8a1861d1bf148c026d
+=======
+>>>>>>> AuthGoogle
 /* Utilitaires - améliorés */
 .domain-badge {
     display: inline-block;
@@ -339,26 +399,38 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
+=======
+>>>>>>> AuthGoogle
 .dark-mode .domain-badge.medicine {
     background-color: rgba(52, 152, 219, 0.2);
     color: #74c0fc;
 }
 
+<<<<<<< HEAD
 >>>>>>> 19c9ccf42f44476623e3bd8a1861d1bf148c026d
+=======
+>>>>>>> AuthGoogle
 .domain-badge.law {
     background-color: var(--law-color);
     color: white;
 }
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
+=======
+>>>>>>> AuthGoogle
 .dark-mode .domain-badge.law {
     background-color: rgba(155, 89, 182, 0.2);
     color: #da77f2;
 }
 
+<<<<<<< HEAD
 >>>>>>> 19c9ccf42f44476623e3bd8a1861d1bf148c026d
+=======
+>>>>>>> AuthGoogle
 /* Animation de chargement - plus fluide */
 .spinner {
     display: inline-block;
@@ -465,10 +537,14 @@ h1, h2, h3, h4, h5, h6 {
     cursor: pointer;
     transition: background-color 0.3s ease, color 0.3s ease;
 <<<<<<< HEAD
+<<<<<<< HEAD
   }
 =======
 }
 >>>>>>> 19c9ccf42f44476623e3bd8a1861d1bf148c026d
+=======
+}
+>>>>>>> AuthGoogle
 
 .logout-btn:hover {
     background-color: rgba(255, 255, 255, 0.1);
@@ -496,12 +572,18 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
+=======
+>>>>>>> AuthGoogle
 .dark-mode .modal {
     background-color: rgba(7, 16, 27, 0.85);
 }
 
+<<<<<<< HEAD
 >>>>>>> 19c9ccf42f44476623e3bd8a1861d1bf148c026d
+=======
+>>>>>>> AuthGoogle
 .modal.active {
     display: block;
     opacity: 1;
@@ -517,15 +599,21 @@ h1, h2, h3, h4, h5, h6 {
     position: relative;
     transform: scale(0.9);
 <<<<<<< HEAD
+<<<<<<< HEAD
     transition: transform 0.3s ease;
 =======
+=======
+>>>>>>> AuthGoogle
     transition: transform 0.3s ease, background-color 0.3s ease;
 }
 
 .dark-mode .modal-content {
     background-color: var(--dark-card-bg);
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+<<<<<<< HEAD
 >>>>>>> 19c9ccf42f44476623e3bd8a1861d1bf148c026d
+=======
+>>>>>>> AuthGoogle
 }
 
 .modal.active .modal-content {
@@ -543,14 +631,20 @@ h1, h2, h3, h4, h5, h6 {
     color: var(--text-color);
     opacity: 0.7;
 <<<<<<< HEAD
+<<<<<<< HEAD
     transition: opacity 0.2s ease;
 =======
+=======
+>>>>>>> AuthGoogle
     transition: opacity 0.2s ease, color 0.3s ease;
 }
 
 .dark-mode .modal-close {
     color: var(--dark-text-color);
+<<<<<<< HEAD
 >>>>>>> 19c9ccf42f44476623e3bd8a1861d1bf148c026d
+=======
+>>>>>>> AuthGoogle
 }
 
 .modal-close:hover {
@@ -561,22 +655,32 @@ h1, h2, h3, h4, h5, h6 {
     margin-bottom: var(--spacing-md);
     color: var(--secondary-color);
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
+=======
+>>>>>>> AuthGoogle
     transition: color 0.3s ease;
 }
 
 .dark-mode .modal-content h2 {
     color: #edf2f9;
+<<<<<<< HEAD
 >>>>>>> 19c9ccf42f44476623e3bd8a1861d1bf148c026d
+=======
+>>>>>>> AuthGoogle
 }
 
 .modal-content p {
     margin-bottom: var(--spacing-md);
     line-height: 1.5;
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
     transition: color 0.3s ease;
 >>>>>>> 19c9ccf42f44476623e3bd8a1861d1bf148c026d
+=======
+    transition: color 0.3s ease;
+>>>>>>> AuthGoogle
 }
 
 .modal-content ul {
@@ -594,12 +698,15 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 .sidebar-bottom {
     padding: var(--spacing-md);
     border-top: 1px solid rgba(255, 255, 255, 0.1);
     margin-top: auto;
   }
 =======
+=======
+>>>>>>> AuthGoogle
 /* Formulaires améliorés */
 input, select, textarea {
     background-color: #fff;
@@ -680,7 +787,10 @@ textarea::placeholder {
 .dark-mode textarea::placeholder {
     color: #64748b;
 }
+<<<<<<< HEAD
 >>>>>>> 19c9ccf42f44476623e3bd8a1861d1bf148c026d
+=======
+>>>>>>> AuthGoogle
 
 /* --- Correction cohérence sidebar --- */
 .sidebar,
@@ -736,6 +846,7 @@ textarea::placeholder {
 }
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 /* Ajouts pour style ANKI dans main.css */
 
 /* Variables supplémentaires pour le style ANKI */
@@ -747,40 +858,45 @@ textarea::placeholder {
   
   /* Amélioration des boutons pour style ANKI */
   .btn-primary {
+=======
+/* Ajouts pour style ANKI */
+/* Amélioration des boutons pour style ANKI */
+.btn-primary {
+>>>>>>> AuthGoogle
     border-radius: 8px;
     font-weight: 600;
     transition: transform 0.3s ease, box-shadow 0.3s ease;
-  }
-  
-  .btn-primary:hover {
+}
+
+.btn-primary:hover {
     transform: translateY(-2px);
     box-shadow: 0 6px 12px rgba(44, 123, 229, 0.2);
-  }
-  
-  .btn-secondary:hover {
+}
+
+.dark-mode .btn-primary:hover {
+    box-shadow: 0 6px 12px rgba(44, 123, 229, 0.3);
+}
+
+.btn-secondary:hover {
     transform: translateY(-2px);
-  }
-  
-  /* Animations ANKI */
-  @keyframes flip {
+}
+
+/* Animations ANKI */
+@keyframes flip {
     0% { transform: rotateY(0deg); }
     100% { transform: rotateY(180deg); }
-  }
-  
-  @keyframes spin {
-    0% { transform: rotate(0deg); }
-    100% { transform: rotate(360deg); }
-  }
-  
-  /* Correct support for custom radio buttons */
-  input[type="radio"] {
+}
+
+/* Correct support for custom radio buttons */
+input[type="radio"] {
     accent-color: var(--primary-color);
-  }
-  
-  /* Meilleur support pour les éléments non natifs */
-  .choice input[type="radio"]:focus {
+}
+
+/* Meilleur support pour les éléments non natifs */
+.choice input[type="radio"]:focus {
     outline: none;
     box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.25);
+<<<<<<< HEAD
   }
   
   /* État d'erreur amélioré */
@@ -822,11 +938,16 @@ input[type="radio"] {
 .choice input[type="radio"]:focus {
     outline: none;
     box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.25);
+=======
+>>>>>>> AuthGoogle
 }
 
 /* État d'erreur amélioré */
 .error-state {
+<<<<<<< HEAD
 >>>>>>> 19c9ccf42f44476623e3bd8a1861d1bf148c026d
+=======
+>>>>>>> AuthGoogle
     padding: 20px;
     text-align: center;
     color: var(--error-color);
@@ -835,6 +956,7 @@ input[type="radio"] {
     border: 1px solid rgba(230, 55, 87, 0.2);
     margin: 20px 0;
 <<<<<<< HEAD
+<<<<<<< HEAD
   }
 
   /* Ajouts pour améliorer les graphiques */
@@ -842,13 +964,21 @@ input[type="radio"] {
     transition: all 0.3s ease;
 }
 
+=======
+    transition: all 0.3s ease;
+}
+
+>>>>>>> AuthGoogle
 .dark-mode .error-state {
     background-color: rgba(230, 55, 87, 0.1);
     border-color: rgba(230, 55, 87, 0.3);
 }
 
 /* Ajouts pour améliorer les graphiques */
+<<<<<<< HEAD
 >>>>>>> 19c9ccf42f44476623e3bd8a1861d1bf148c026d
+=======
+>>>>>>> AuthGoogle
 :root {
     /* Couleurs supplémentaires pour les graphiques */
     --chart-blue: #3498db;
@@ -871,6 +1001,7 @@ input[type="radio"] {
     --constitutional-color: #2c3e50;
     --international-color: #27ae60;
 <<<<<<< HEAD
+<<<<<<< HEAD
   }
   
   /* Amélioration des graphiques */
@@ -886,6 +1017,13 @@ input[type="radio"] {
 /* Amélioration des graphiques */
 canvas {
     max-width: 100%;
+=======
+}
+
+/* Amélioration des graphiques */
+canvas {
+    max-width: 100%;
+>>>>>>> AuthGoogle
     transition: filter 0.3s ease;
 }
 
@@ -895,7 +1033,10 @@ canvas {
 
 /* Badges d'évaluation */
 .score-badge {
+<<<<<<< HEAD
 >>>>>>> 19c9ccf42f44476623e3bd8a1861d1bf148c026d
+=======
+>>>>>>> AuthGoogle
     padding: 5px 12px;
     border-radius: 20px;
     font-size: 13px;
@@ -903,21 +1044,39 @@ canvas {
     display: inline-flex;
     align-items: center;
 <<<<<<< HEAD
+<<<<<<< HEAD
   }
   
   .score-badge.high {
+=======
+    transition: all 0.3s ease;
+}
+
+.score-badge.high {
+>>>>>>> AuthGoogle
     background-color: rgba(46, 204, 113, 0.15);
     color: #27ae60;
-  }
-  
-  .score-badge.medium {
+}
+
+.dark-mode .score-badge.high {
+    background-color: rgba(46, 204, 113, 0.2);
+    color: #51cf66;
+}
+
+.score-badge.medium {
     background-color: rgba(241, 196, 15, 0.15);
     color: #d35400;
-  }
-  
-  .score-badge.low {
+}
+
+.dark-mode .score-badge.medium {
+    background-color: rgba(241, 196, 15, 0.2);
+    color: #fcc419;
+}
+
+.score-badge.low {
     background-color: rgba(231, 76, 60, 0.15);
     color: #c0392b;
+<<<<<<< HEAD
   }
   
   .score-badge:before {
@@ -948,6 +1107,8 @@ canvas {
 .score-badge.low {
     background-color: rgba(231, 76, 60, 0.15);
     color: #c0392b;
+=======
+>>>>>>> AuthGoogle
 }
 
 .dark-mode .score-badge.low {
@@ -956,7 +1117,10 @@ canvas {
 }
 
 .score-badge:before {
+<<<<<<< HEAD
 >>>>>>> 19c9ccf42f44476623e3bd8a1861d1bf148c026d
+=======
+>>>>>>> AuthGoogle
     content: '';
     display: inline-block;
     width: 8px;
@@ -964,38 +1128,57 @@ canvas {
     border-radius: 50%;
     margin-right: 8px;
 <<<<<<< HEAD
+<<<<<<< HEAD
   }
   
   .score-badge.high:before {
+=======
+}
+
+.score-badge.high:before {
+>>>>>>> AuthGoogle
     background-color: #27ae60;
-  }
-  
-  .score-badge.medium:before {
+}
+
+.dark-mode .score-badge.high:before {
+    background-color: #51cf66;
+}
+
+.score-badge.medium:before {
     background-color: #d35400;
-  }
-  
-  .score-badge.low:before {
+}
+
+.dark-mode .score-badge.medium:before {
+    background-color: #fcc419;
+}
+
+.score-badge.low:before {
     background-color: #c0392b;
-  }
-  
-  /* Animation douce au chargement de la page */
-  @keyframes fadeIn {
+}
+
+.dark-mode .score-badge.low:before {
+    background-color: #ff6b6b;
+}
+
+/* Animation douce au chargement de la page */
+@keyframes fadeIn {
     from { opacity: 0; }
     to { opacity: 1; }
-  }
-  
-  .main-content {
+}
+
+.main-content {
     animation: fadeIn 0.5s ease-in-out;
-  }
-  
-  /* Hover pour les cartes et conteneurs */
-  .card:hover, 
-  .chart-container:hover, 
-  .stat-card:hover {
+}
+
+/* Hover pour les cartes et conteneurs */
+.card:hover, 
+.chart-container:hover, 
+.stat-card:hover {
     box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
     transform: translateY(-5px);
-  }
+}
 
+<<<<<<< HEAD
 /* Ajouts pour améliorer le tableau de bord */
 =======
 }
@@ -1042,12 +1225,17 @@ canvas {
     transform: translateY(-5px);
 }
 
+=======
+>>>>>>> AuthGoogle
 .dark-mode .card:hover, 
 .dark-mode .chart-container:hover, 
 .dark-mode .stat-card:hover {
     box-shadow: 0 10px 25px rgba(0, 0, 0, 0.25);
 }
+<<<<<<< HEAD
 >>>>>>> 19c9ccf42f44476623e3bd8a1861d1bf148c026d
+=======
+>>>>>>> AuthGoogle
 
 /* Variables spécifiques pour le tableau de bord */
 :root {
@@ -1068,32 +1256,60 @@ canvas {
     --medium-score-color: #f39c12;
     --low-score-color: #e74c3c;
 <<<<<<< HEAD
+<<<<<<< HEAD
   }
   
   /* Scores améliorés avec code couleur */
   .score-100 {
+=======
+}
+
+/* Scores améliorés avec code couleur */
+.score-100 {
+>>>>>>> AuthGoogle
     color: #27ae60 !important;
     background-color: rgba(39, 174, 96, 0.1) !important;
-  }
-  
-  .score-80 {
+}
+
+.dark-mode .score-100 {
+    color: #51cf66 !important;
+    background-color: rgba(39, 174, 96, 0.2) !important;
+}
+
+.score-80 {
     color: #3498db !important;
     background-color: rgba(52, 152, 219, 0.1) !important;
-  }
-  
-  .score-60 {
+}
+
+.dark-mode .score-80 {
+    color: #74c0fc !important;
+    background-color: rgba(52, 152, 219, 0.2) !important;
+}
+
+.score-60 {
     color: #f39c12 !important; 
     background-color: rgba(243, 156, 18, 0.1) !important;
-  }
-  
-  .score-40 {
+}
+
+.dark-mode .score-60 {
+    color: #fcc419 !important; 
+    background-color: rgba(243, 156, 18, 0.2) !important;
+}
+
+.score-40 {
     color: #e67e22 !important;
     background-color: rgba(230, 126, 34, 0.1) !important;
-  }
-  
-  .score-20 {
+}
+
+.dark-mode .score-40 {
+    color: #ffa94d !important;
+    background-color: rgba(230, 126, 34, 0.2) !important;
+}
+
+.score-20 {
     color: #e74c3c !important;
     background-color: rgba(231, 76, 60, 0.1) !important;
+<<<<<<< HEAD
   }
   
   /* Animation pour les charts */
@@ -1155,6 +1371,8 @@ canvas {
 .score-20 {
     color: #e74c3c !important;
     background-color: rgba(231, 76, 60, 0.1) !important;
+=======
+>>>>>>> AuthGoogle
 }
 
 .dark-mode .score-20 {
@@ -1164,7 +1382,10 @@ canvas {
 
 /* Indicateurs visuels */
 .trend-indicator {
+<<<<<<< HEAD
 >>>>>>> 19c9ccf42f44476623e3bd8a1861d1bf148c026d
+=======
+>>>>>>> AuthGoogle
     display: inline-flex;
     align-items: center;
     padding: 4px 8px;
@@ -1172,56 +1393,75 @@ canvas {
     font-size: 12px;
     font-weight: 600;
 <<<<<<< HEAD
+<<<<<<< HEAD
   }
   
   .trend-indicator.positive {
+=======
+    transition: all 0.3s ease;
+}
+
+.trend-indicator.positive {
+>>>>>>> AuthGoogle
     background-color: rgba(39, 174, 96, 0.1);
     color: #27ae60;
-  }
-  
-  .trend-indicator.positive::before {
+}
+
+.dark-mode .trend-indicator.positive {
+    background-color: rgba(39, 174, 96, 0.2);
+    color: #51cf66;
+}
+
+.trend-indicator.positive::before {
     content: '↑';
     margin-right: 4px;
-  }
-  
-  .trend-indicator.negative {
+}
+
+.trend-indicator.negative {
     background-color: rgba(231, 76, 60, 0.1);
     color: #e74c3c;
-  }
-  
-  .trend-indicator.negative::before {
+}
+
+.dark-mode .trend-indicator.negative {
+    background-color: rgba(231, 76, 60, 0.2);
+    color: #ff6b6b;
+}
+
+.trend-indicator.negative::before {
     content: '↓';
     margin-right: 4px;
-  }
-  
-  /* Amélioration des cartes pour les domaines spécifiques */
-  .medicine-themed .card, 
-  .medicine-themed .stat-card::before {
+}
+
+/* Amélioration des cartes pour les domaines spécifiques */
+.medicine-themed .card, 
+.medicine-themed .stat-card::before {
     border-color: rgba(52, 152, 219, 0.3);
-  }
-  
-  .law-themed .card, 
-  .law-themed .stat-card::before {
+}
+
+.dark-mode.medicine-themed .card, 
+.dark-mode.medicine-themed .stat-card::before {
+    border-color: rgba(52, 152, 219, 0.5);
+}
+
+.law-themed .card, 
+.law-themed .stat-card::before {
     border-color: rgba(155, 89, 182, 0.3);
-  }
-  
-  /* Style de date plus lisible */
-  .date-display {
+}
+
+.dark-mode.law-themed .card, 
+.dark-mode.law-themed .stat-card::before {
+    border-color: rgba(155, 89, 182, 0.5);
+}
+
+/* Style de date plus lisible */
+.date-display {
     font-family: 'Roboto Mono', monospace;
     font-size: 13px;
     color: #64748b;
-  }
-  
-  /* Effets de survol améliorés */
-  .interactive-item {
-    transition: all 0.3s cubic-bezier(0.165, 0.84, 0.44, 1);
-  }
-  
-  .interactive-item:hover {
-    transform: translateY(-3px);
-    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
-  }
+    transition: color 0.3s ease;
+}
 
+<<<<<<< HEAD
   /* Notifications */
 =======
     transition: all 0.3s ease;
@@ -1286,12 +1526,17 @@ canvas {
     transition: color 0.3s ease;
 }
 
+=======
+>>>>>>> AuthGoogle
 .dark-mode .date-display {
     color: #a2b6d3;
 }
 
 /* Notifications */
+<<<<<<< HEAD
 >>>>>>> 19c9ccf42f44476623e3bd8a1861d1bf148c026d
+=======
+>>>>>>> AuthGoogle
 .notification {
     position: fixed;
     top: 20px;
@@ -1309,20 +1554,32 @@ canvas {
     opacity: 0;
     transition: all 0.3s ease;
 <<<<<<< HEAD
+<<<<<<< HEAD
   }
   
   .notification.visible {
+=======
+}
+
+.dark-mode .notification {
+    background-color: var(--dark-card-bg);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+}
+
+.notification.visible {
+>>>>>>> AuthGoogle
     transform: translateY(0);
     opacity: 1;
-  }
-  
-  .notification-icon {
+}
+
+.notification-icon {
     font-size: 20px;
-  }
-  
-  .notification-message {
+}
+
+.notification-message {
     flex: 1;
     margin: 0;
+<<<<<<< HEAD
   }
   
   .notification-close {
@@ -1346,6 +1603,8 @@ canvas {
 .notification-message {
     flex: 1;
     margin: 0;
+=======
+>>>>>>> AuthGoogle
     transition: color 0.3s ease;
 }
 
@@ -1354,7 +1613,10 @@ canvas {
 }
 
 .notification-close {
+<<<<<<< HEAD
 >>>>>>> 19c9ccf42f44476623e3bd8a1861d1bf148c026d
+=======
+>>>>>>> AuthGoogle
     background: none;
     border: none;
     font-size: 20px;
@@ -1362,27 +1624,35 @@ canvas {
     color: var(--text-light);
     opacity: 0.7;
 <<<<<<< HEAD
+<<<<<<< HEAD
     transition: opacity 0.2s ease;
   }
   
   .notification-close:hover {
+=======
+    transition: opacity 0.2s ease, color 0.3s ease;
+}
+
+.notification-close:hover {
+>>>>>>> AuthGoogle
     opacity: 1;
-  }
-  
-  .notification-success {
+}
+
+.notification-success {
     border-left: 4px solid var(--success-color);
-  }
-  
-  .notification-error {
+}
+
+.notification-error {
     border-left: 4px solid var(--error-color);
-  }
-  
-  .notification-warning {
+}
+
+.notification-warning {
     border-left: 4px solid var(--warning-color);
-  }
-  
-  .notification-info {
+}
+
+.notification-info {
     border-left: 4px solid var(--primary-color);
+<<<<<<< HEAD
   }
 =======
     transition: opacity 0.2s ease, color 0.3s ease;
@@ -1406,6 +1676,8 @@ canvas {
 
 .notification-info {
     border-left: 4px solid var(--primary-color);
+=======
+>>>>>>> AuthGoogle
 }
 
 /* ======================= */
@@ -1575,5 +1847,9 @@ th {
 .dark-mode .drop-zone:hover,
 .dark-mode .drop-zone.active {
     background-color: rgba(44, 123, 229, 0.1);
+<<<<<<< HEAD
 }
 >>>>>>> 19c9ccf42f44476623e3bd8a1861d1bf148c026d
+=======
+}
+>>>>>>> AuthGoogle

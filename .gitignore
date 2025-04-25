@@ -1,0 +1,18 @@
+# --- DÉPENDANCES ---
+node_modules/
+
+# --- FICHIERS SYSTÈME ---
+.DS_Store
+Thumbs.db
+.vscode/
+
+# --- LOGS ---
+*.log
+logs/
+
+# --- OUTPUTS (optionnel) ---
+dist/
+build/
+
+# Secrets sensibles
+BackEnd/config/firebaseServiceAccount.json

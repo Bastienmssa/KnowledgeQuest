@@ -1,130 +1,200 @@
 <<<<<<< HEAD
+<<<<<<< HEAD
 /**
  * Gestionnaire pour la page de paramètres
  */
 import { auth } from '../utils/auth.js';
 import { showMessage } from '../components/component.js';
+=======
+// pages/settings-page.js
+>>>>>>> AuthGoogle
 import { settingsService } from '../services/settings-service.js';
-import api from '../api/api.js';
+import { showNotification } from '../components/notification.js';
+import { applyStylePreferences } from '../utils/style.js';
 
 export async function initSettingsPage() {
   console.log("Initialisation de la page de paramètres...");
 
-  if (!auth.isLoggedIn) {
-    window.location.href = 'login.html';
-    return;
+  const messagesContainer = document.querySelector('.settings-messages');
+
+  function showMessage(container, message, type = 'info') {
+    if (!container) return;
+    const messageEl = document.createElement('div');
+    messageEl.className = `message message-${type}`;
+    messageEl.textContent = message;
+    container.innerHTML = '';
+    container.appendChild(messageEl);
+    showNotification(message, type);
+    setTimeout(() => {
+      if (container.contains(messageEl)) {
+        container.removeChild(messageEl);
+      }
+    }, 5000);
   }
 
-  await loadUserSettings();
   setupTabs();
+  await loadUserSettings();
   setupSaveButton();
   setupLogoutButton();
   setupDeleteAccountButton();
-}
 
-async function loadUserSettings() {
-  try {
-    const settings = await settingsService.getSettings();
-
-    document.getElementById('theme-toggle').checked = settings.darkMode || false;
-    document.getElementById('font-size').value = settings.fontSize || 'medium';
-    document.querySelector(`input[name="theme"][value="${settings.colorTheme || 'medicine'}"]`).checked = true;
-
-    document.getElementById('email-notifications').checked = settings.emailNotifications !== false;
-    document.getElementById('quiz-reminders').checked = settings.quizReminders !== false;
-    document.getElementById('reminder-frequency').value = settings.reminderFrequency || 'weekly';
-
-    document.getElementById('data-sharing').checked = settings.dataSharing !== false;
-    document.getElementById('document-retention').value = settings.documentRetention || '7';
-
-    document.getElementById('learning-mode').value = settings.learningMode || 'random';
-    document.getElementById('question-time').value = settings.questionTime || '30';
-    document.getElementById('daily-goal').value = settings.dailyGoal || 20;
-
-    if (settings.darkMode) document.body.classList.add('dark-mode');
-    document.documentElement.setAttribute('data-font-size', settings.fontSize || 'medium');
-  } catch (error) {
-    console.error("Erreur de chargement des paramètres :", error);
-    showMessage(document.querySelector('.settings-messages'), "Impossible de charger les paramètres.", 'error');
-  }
-}
-
-function setupTabs() {
-  const buttons = document.querySelectorAll('.tab-btn');
-  const contents = document.querySelectorAll('.settings-tab-content');
-
-  buttons.forEach(button => {
-    button.addEventListener('click', () => {
-      buttons.forEach(btn => btn.classList.remove('active'));
-      contents.forEach(content => content.style.display = 'none');
-
-      button.classList.add('active');
-      const target = document.getElementById(`${button.dataset.tab}-tab`);
-      if (target) target.style.display = 'block';
-    });
-  });
-}
-
-function setupSaveButton() {
-  document.getElementById('save-settings-btn').addEventListener('click', async () => {
-    const settings = {
-      darkMode: document.getElementById('theme-toggle').checked,
-      fontSize: document.getElementById('font-size').value,
-      colorTheme: document.querySelector('input[name="theme"]:checked')?.value,
-
-      emailNotifications: document.getElementById('email-notifications').checked,
-      quizReminders: document.getElementById('quiz-reminders').checked,
-      reminderFrequency: document.getElementById('reminder-frequency').value,
-
-      dataSharing: document.getElementById('data-sharing').checked,
-      documentRetention: document.getElementById('document-retention').value,
-
-      learningMode: document.getElementById('learning-mode').value,
-      questionTime: document.getElementById('question-time').value,
-      dailyGoal: parseInt(document.getElementById('daily-goal').value),
-    };
-
-    try {
-      await settingsService.updateSettings(settings);
-
-      document.body.classList.toggle('dark-mode', settings.darkMode);
-      document.documentElement.setAttribute('data-font-size', settings.fontSize);
-
-      showMessage(document.querySelector('.settings-messages'), 'Paramètres enregistrés', 'success');
-    } catch (error) {
-      console.error('Erreur lors de la mise à jour :', error);
-      showMessage(document.querySelector('.settings-messages'), 'Impossible d’enregistrer les paramètres.', 'error');
+  window.addEventListener('settings-updated', (e) => {
+    console.log("Mise à jour des paramètres reçue :", e.detail);
+    if (!e.detail._fromSettingsPage) {
+      loadSettingsIntoForm(e.detail);
     }
   });
-}
 
-function setupLogoutButton() {
-  const logoutButton = document.getElementById('logout-button');
-  if (logoutButton) {
-    logoutButton.addEventListener('click', () => {
-      auth.logout();
-    });
+  async function loadUserSettings() {
+    try {
+      const response = await settingsService.getSettings();
+      if (!response || !response.success) {
+        showMessage(messagesContainer, "Aucun paramètre trouvé, valeurs par défaut utilisées.", 'info');
+        return;
+      }
+
+      loadSettingsIntoForm(response.settings);
+      applyStylePreferences(response.settings);
+    } catch (err) {
+      console.error("Erreur chargement settings :", err);
+      showMessage(messagesContainer, "Erreur chargement paramètres", 'error');
+    }
   }
-}
 
-function setupDeleteAccountButton() {
-  const deleteButton = document.getElementById('delete-account-btn');
-  if (deleteButton) {
-    deleteButton.addEventListener('click', async () => {
-      if (confirm('Êtes-vous sûr de vouloir supprimer votre compte ? Cette action est irréversible.')) {
-        try {
-          await api.user.deleteAccount();
-          auth.logout();
-          window.location.href = 'index.html?deleted=true';
-        } catch (error) {
-          console.error('Erreur:', error);
-          showMessage(document.querySelector('.settings-messages'), error.message || 'Erreur lors de la suppression du compte', 'error');
+  function loadSettingsIntoForm(settings) {
+    // Interface
+    const themeToggle = document.getElementById('theme-toggle');
+    if (themeToggle) themeToggle.checked = settings.darkMode || false;
+
+    const fontSize = document.getElementById('font-size');
+    if (fontSize) fontSize.value = settings.fontSize || 'medium';
+
+    const themeRadio = document.querySelector(`input[name="theme"][value="${settings.theme || 'medicine'}"]`);
+    if (themeRadio) themeRadio.checked = true;
+
+    // Notifications
+    if (settings.notifications) {
+      const emailNotif = document.getElementById('email-notifications');
+      if (emailNotif) emailNotif.checked = settings.notifications.email !== false;
+
+      const quizReminders = document.getElementById('quiz-reminders');
+      if (quizReminders) quizReminders.checked = settings.notifications.reminders !== false;
+
+      const freq = document.getElementById('reminder-frequency');
+      if (freq) freq.value = settings.notifications.frequency || 'weekly';
+    }
+
+    // Confidentialité
+    if (settings.privacy) {
+      const dataSharing = document.getElementById('data-sharing');
+      if (dataSharing) dataSharing.checked = settings.privacy.dataSharing !== false;
+
+      const docRetention = document.getElementById('document-retention');
+      if (docRetention) docRetention.value = settings.privacy.documentRetention || '7';
+    }
+
+    // Étude
+    if (settings.study) {
+      const mode = document.getElementById('learning-mode');
+      if (mode) mode.value = settings.study.mode || 'random';
+
+      const time = document.getElementById('question-time');
+      if (time) time.value = settings.study.timePerQuestion || '30';
+
+      const goal = document.getElementById('daily-goal');
+      if (goal) goal.value = settings.study.dailyGoal || 20;
+    }
+  }
+
+  function setupTabs() {
+    const buttons = document.querySelectorAll('.tab-btn');
+    const contents = document.querySelectorAll('.settings-tab-content');
+
+    buttons.forEach(button => {
+      button.addEventListener('click', () => {
+        buttons.forEach(b => b.classList.remove('active'));
+        button.classList.add('active');
+
+        const targetId = `${button.dataset.tab}-tab`;
+        contents.forEach(content => {
+          content.style.display = content.id === targetId ? 'block' : 'none';
+        });
+      });
+    });
+
+    if (buttons[0]) buttons[0].click();
+  }
+
+  function setupSaveButton() {
+    const saveBtn = document.getElementById('save-settings-btn');
+    if (!saveBtn) return;
+
+    saveBtn.addEventListener('click', async () => {
+      try {
+        const settings = {
+          darkMode: document.getElementById('theme-toggle')?.checked || false,
+          fontSize: document.getElementById('font-size')?.value || 'medium',
+          theme: document.querySelector('input[name="theme"]:checked')?.value || 'medicine',
+
+          notifications: {
+            email: document.getElementById('email-notifications')?.checked || false,
+            reminders: document.getElementById('quiz-reminders')?.checked || false,
+            frequency: document.getElementById('reminder-frequency')?.value || 'weekly'
+          },
+
+          privacy: {
+            dataSharing: document.getElementById('data-sharing')?.checked || false,
+            documentRetention: parseInt(document.getElementById('document-retention')?.value || '7')
+          },
+
+          study: {
+            mode: document.getElementById('learning-mode')?.value || 'random',
+            timePerQuestion: parseInt(document.getElementById('question-time')?.value || '30'),
+            dailyGoal: parseInt(document.getElementById('daily-goal')?.value || '20')
+          },
+
+          _fromSettingsPage: true
+        };
+
+        const res = await settingsService.updateSettings(settings);
+        if (res.success) {
+          showMessage(messagesContainer, "✅ Paramètres enregistrés", 'success');
+        } else {
+          showMessage(messagesContainer, "❌ Sauvegarde échouée", 'error');
         }
+      } catch (error) {
+        console.error("Erreur save settings:", error);
+        showMessage(messagesContainer, "Erreur serveur lors de l'enregistrement", 'error');
       }
     });
   }
+
+  function setupLogoutButton() {
+    const btn = document.getElementById('logout-button');
+    if (btn) {
+      btn.addEventListener('click', () => {
+        localStorage.clear();
+        window.location.href = 'login.html';
+      });
+    }
+  }
+
+  function setupDeleteAccountButton() {
+    const deleteBtn = document.getElementById('delete-account-btn');
+    if (deleteBtn) {
+      deleteBtn.addEventListener('click', async () => {
+        if (confirm("Voulez-vous vraiment supprimer votre compte ?")) {
+          // TODO: Suppression serveur si dispo
+          localStorage.clear();
+          showNotification("Compte supprimé", "success");
+          setTimeout(() => window.location.href = 'index.html', 1500);
+        }
+      });
+    }
+  }
 }
 
+<<<<<<< HEAD
 document.addEventListener('DOMContentLoaded', initSettingsPage);
 =======
 // pages/settings-page.js
@@ -333,3 +403,9 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 });
 >>>>>>> 19c9ccf42f44476623e3bd8a1861d1bf148c026d
+=======
+document.addEventListener('DOMContentLoaded', () => {
+  console.log("DOM prêt - initSettingsPage");
+  initSettingsPage().catch(console.error);
+});
+>>>>>>> AuthGoogle
