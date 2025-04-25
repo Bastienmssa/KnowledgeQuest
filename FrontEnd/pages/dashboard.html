@@ -7,6 +7,20 @@
   <link rel="stylesheet" href="style/main.css" />
   <link rel="stylesheet" href="style/dashboard.css" />
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<<<<<<< HEAD
+=======
+  <!-- Pré-application des préférences dès le chargement -->
+  <script>
+    try {
+      const prefs = JSON.parse(localStorage.getItem('userSettings'));
+      if (prefs?.darkMode) document.documentElement.classList.add('dark-mode');
+      if (prefs?.fontSize) document.documentElement.setAttribute('data-font-size', prefs.fontSize);
+      if (prefs?.theme) document.body.classList.add(`${prefs.theme}-theme`);
+    } catch(e) {
+      console.warn("Impossible de pré-appliquer les préférences", e);
+    }
+  </script>
+>>>>>>> 19c9ccf42f44476623e3bd8a1861d1bf148c026d
 </head>
 <body>
   <div class="app-container">

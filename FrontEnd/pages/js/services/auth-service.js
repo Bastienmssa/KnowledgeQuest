@@ -1,6 +1,7 @@
 import api from '../api/api.js';
 
 export const authService = {
+<<<<<<< HEAD
   async register(userData) {
     try {
       console.log("AuthService - Register - Données envoyées:", userData);
@@ -66,16 +67,46 @@ export const authService = {
     console.log("AuthService - Déconnexion de l'utilisateur");
     localStorage.removeItem('token');
     localStorage.removeItem('user');
+=======
+  async register(data) {
+    const res = await api.auth.register(data);
+    if (res.token) {
+      localStorage.setItem('token', res.token);
+      localStorage.setItem('user', JSON.stringify(res.user));
+      window.dispatchEvent(new CustomEvent('auth:login', { detail: res.user }));
+    }
+    return res;
+  },
+
+  async login(creds) {
+    const res = await api.auth.login(creds);
+    if (res.token && res.user) {
+      localStorage.setItem('token', res.token);
+      localStorage.setItem('user', JSON.stringify(res.user));
+      window.dispatchEvent(new CustomEvent('auth:login', { detail: res.user }));
+    }
+    return res;
+  },
+
+  logout() {
+    window.dispatchEvent(new CustomEvent('auth:logout'));
+    localStorage.clear();
+>>>>>>> 19c9ccf42f44476623e3bd8a1861d1bf148c026d
     window.location.href = 'login.html';
   },
 
   getCurrentUser() {
+<<<<<<< HEAD
     const userStr = localStorage.getItem('user');
     return userStr ? JSON.parse(userStr) : null;
+=======
+    return JSON.parse(localStorage.getItem('user') || 'null');
+>>>>>>> 19c9ccf42f44476623e3bd8a1861d1bf148c026d
   },
 
   isAuthenticated() {
     return !!localStorage.getItem('token');
+<<<<<<< HEAD
   },
 
   async getProfile() {
@@ -101,4 +132,8 @@ export const authService = {
   }
 };
 
+=======
+  }
+};
+>>>>>>> 19c9ccf42f44476623e3bd8a1861d1bf148c026d
 export default authService;

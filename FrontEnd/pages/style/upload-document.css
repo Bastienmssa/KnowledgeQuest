@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 /* upload-document.css - Styles améliorés pour la page de chargement de document */
 
 .upload-container {
@@ -347,3 +348,677 @@
       font-size: 36px;
     }
   }
+=======
+/* upload-document.css - Style optimisé pour la page de téléchargement de document */
+
+/* Conteneur principal */
+.upload-container {
+  max-width: 960px;
+  margin: 0 auto;
+  padding: 2rem 1.5rem;
+  animation: fadeIn 0.4s ease-in-out;
+}
+
+/* Titre principal */
+.page-title {
+  font-size: 2rem;
+  font-weight: 700;
+  color: #1e3a5f;
+  margin-bottom: 2rem;
+  position: relative;
+  padding-bottom: 10px;
+  border-bottom: 3px solid #2c7be5;
+}
+
+.dark-mode .page-title {
+  color: #e9ecef;
+  border-bottom-color: #4dabf7;
+}
+
+.medicine-themed .page-title {
+  border-bottom-color: #3498db;
+}
+
+.law-themed .page-title {
+  border-bottom-color: #9c44c0;
+}
+
+/* Texte d'information */
+.upload-info {
+  font-size: 1.05rem;
+  color: #4e5d78;
+  margin-bottom: 2.5rem;
+  line-height: 1.6;
+  max-width: 800px;
+}
+
+.dark-mode .upload-info {
+  color: #adb5bd;
+}
+
+/* Formulaire de téléchargement */
+.upload-form {
+  margin-bottom: 2.5rem;
+}
+
+/* Zone de dépôt de fichier */
+.drop-area {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  border: 2px dashed #d1d9e6;
+  border-radius: 8px;
+  padding: 3rem 2rem;
+  text-align: center;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  background-color: rgba(248, 249, 250, 0.6);
+  position: relative;
+  overflow: hidden;
+  min-height: 250px;
+}
+
+.dark-mode .drop-area {
+  background-color: rgba(30, 40, 60, 0.3);
+  border-color: #364a63;
+}
+
+.drop-area:hover {
+  border-color: #2c7be5;
+  background-color: rgba(44, 123, 229, 0.03);
+  transform: translateY(-3px);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.05);
+}
+
+.dark-mode .drop-area:hover {
+  border-color: #4dabf7;
+  background-color: rgba(77, 171, 247, 0.05);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+}
+
+.medicine-themed .drop-area:hover {
+  border-color: #3498db;
+  background-color: rgba(52, 152, 219, 0.03);
+}
+
+.law-themed .drop-area:hover {
+  border-color: #9c44c0;
+  background-color: rgba(156, 68, 192, 0.03);
+}
+
+.drop-area.drag-over {
+  border-color: #2c7be5;
+  background-color: rgba(44, 123, 229, 0.05);
+  transform: scale(1.01);
+}
+
+.dark-mode .drop-area.drag-over {
+  border-color: #4dabf7;
+  background-color: rgba(77, 171, 247, 0.1);
+}
+
+/* Icône de document */
+.drop-icon {
+  font-size: 3.5rem;
+  margin-bottom: 1.5rem;
+  color: #2c7be5;
+  transition: transform 0.3s ease;
+}
+
+.dark-mode .drop-icon {
+  color: #4dabf7;
+}
+
+.medicine-themed .drop-icon {
+  color: #3498db;
+}
+
+.law-themed .drop-icon {
+  color: #9c44c0;
+}
+
+.drop-area:hover .drop-icon {
+  transform: scale(1.1);
+}
+
+/* Texte dans la zone de dépôt */
+.drop-area p {
+  margin-bottom: 0.75rem;
+  font-size: 1rem;
+  color: #4e5d78;
+  font-weight: 500;
+}
+
+.dark-mode .drop-area p {
+  color: #adb5bd;
+}
+
+/* Formats de fichiers acceptés */
+.file-types {
+  font-size: 0.9rem;
+  color: #6c757d;
+  margin-top: 1.5rem;
+  font-weight: 500;
+}
+
+.dark-mode .file-types {
+  color: #8b95a5;
+}
+
+/* Bouton sélection de fichier */
+#file-select-btn {
+  background-color: #f1f3f9;
+  color: #1e3a5f;
+  border: none;
+  padding: 0.75rem 1.5rem;
+  border-radius: 6px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  margin: 1rem 0;
+}
+
+.dark-mode #file-select-btn {
+  background-color: #364a63;
+  color: #e9ecef;
+}
+
+#file-select-btn:hover {
+  background-color: #e3e6f0;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+}
+
+.dark-mode #file-select-btn:hover {
+  background-color: #455a79;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+/* Liste des fichiers sélectionnés */
+.selected-files {
+  margin-top: 1.5rem;
+}
+
+.file-item {
+  display: flex;
+  align-items: center;
+  background-color: #fff;
+  border-radius: 8px;
+  padding: 1rem;
+  margin-bottom: 0.75rem;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.03);
+  border-left: 4px solid #2c7be5;
+  animation: slideIn 0.3s ease-out;
+}
+
+.dark-mode .file-item {
+  background-color: #2c3e50;
+  border-left-color: #4dabf7;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.medicine-themed .file-item {
+  border-left-color: #3498db;
+}
+
+.law-themed .file-item {
+  border-left-color: #9c44c0;
+}
+
+/* Icônes de fichier */
+.file-icon {
+  font-size: 1.5rem;
+  margin-right: 1rem;
+}
+
+.file-icon.pdf { color: #e74c3c; }
+.file-icon.docx { color: #3498db; }
+.file-icon.txt { color: #7f8c8d; }
+
+.dark-mode .file-icon.pdf { color: #ff6b6b; }
+.dark-mode .file-icon.docx { color: #74c0fc; }
+.dark-mode .file-icon.txt { color: #ced4da; }
+
+/* Informations sur le fichier */
+.file-info {
+  flex: 1;
+}
+
+.file-name {
+  font-weight: 600;
+  font-size: 0.95rem;
+  margin-bottom: 2px;
+  color: #1e3a5f;
+}
+
+.dark-mode .file-name {
+  color: #e9ecef;
+}
+
+.file-size {
+  font-size: 0.85rem;
+  color: #6c757d;
+}
+
+.dark-mode .file-size {
+  color: #adb5bd;
+}
+
+/* Bouton suppression de fichier */
+.file-remove {
+  background: none;
+  border: none;
+  color: #6c757d;
+  cursor: pointer;
+  padding: 0.5rem;
+  border-radius: 50%;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+}
+
+.dark-mode .file-remove {
+  color: #adb5bd;
+}
+
+.file-remove:hover {
+  color: #e74c3c;
+  background-color: rgba(231, 76, 60, 0.1);
+}
+
+.dark-mode .file-remove:hover {
+  color: #ff6b6b;
+  background-color: rgba(231, 76, 60, 0.15);
+}
+
+/* Barre de progression */
+.progress-container {
+  margin: 1.5rem 0;
+  background-color: #f1f5f9;
+  border-radius: 8px;
+  overflow: hidden;
+  height: 8px;
+}
+
+.dark-mode .progress-container {
+  background-color: #364a63;
+}
+
+#upload-progress {
+  width: 100%;
+  height: 8px;
+  appearance: none;
+  border: none;
+  border-radius: 8px;
+  transition: all 0.3s ease;
+}
+
+#upload-progress::-webkit-progress-bar {
+  background-color: #f1f5f9;
+  border-radius: 8px;
+}
+
+.dark-mode #upload-progress::-webkit-progress-bar {
+  background-color: #364a63;
+}
+
+#upload-progress::-webkit-progress-value {
+  background: linear-gradient(to right, #2c7be5, #4a8eff);
+  border-radius: 8px;
+  transition: width 0.3s ease;
+}
+
+.medicine-themed #upload-progress::-webkit-progress-value {
+  background: linear-gradient(to right, #3498db, #60a5fa);
+}
+
+.law-themed #upload-progress::-webkit-progress-value {
+  background: linear-gradient(to right, #9c44c0, #b455dd);
+}
+
+#upload-progress::-moz-progress-bar {
+  background: linear-gradient(to right, #2c7be5, #4a8eff);
+  border-radius: 8px;
+}
+
+/* Boutons d'action */
+.form-actions {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 1.5rem;
+}
+
+#upload-button {
+  background-color: #2c7be5;
+  color: white;
+  border: none;
+  padding: 0.75rem 1.75rem;
+  border-radius: 6px;
+  font-weight: 600;
+  font-size: 0.95rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.dark-mode #upload-button {
+  background-color: #4dabf7;
+}
+
+.medicine-themed #upload-button {
+  background-color: #3498db;
+}
+
+.law-themed #upload-button {
+  background-color: #9c44c0;
+}
+
+#upload-button:disabled {
+  background-color: #cbd5e1;
+  cursor: not-allowed;
+  box-shadow: none;
+}
+
+.dark-mode #upload-button:disabled {
+  background-color: #495057;
+  color: #adb5bd;
+}
+
+#upload-button:not(:disabled):hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(44, 123, 229, 0.3);
+}
+
+.dark-mode #upload-button:not(:disabled):hover {
+  box-shadow: 0 4px 12px rgba(77, 171, 247, 0.3);
+}
+
+.medicine-themed #upload-button:not(:disabled):hover {
+  box-shadow: 0 4px 12px rgba(52, 152, 219, 0.3);
+}
+
+.law-themed #upload-button:not(:disabled):hover {
+  box-shadow: 0 4px 12px rgba(156, 68, 192, 0.3);
+}
+
+/* Options de génération */
+.generate-options {
+  background-color: #fff;
+  border-radius: 8px;
+  padding: 1.5rem;
+  margin-top: 2rem;
+  border: 1px solid #e3e6f0;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.03);
+  transition: all 0.3s ease;
+}
+
+.dark-mode .generate-options {
+  background-color: #2c3e50;
+  border-color: #364a63;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.generate-options.medicine {
+  border-left: 4px solid #3498db;
+}
+
+.generate-options.law {
+  border-left: 4px solid #9c44c0;
+}
+
+.option-group {
+  margin-bottom: 1rem;
+}
+
+.option-label {
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+  display: block;
+  color: #1e3a5f;
+}
+
+.dark-mode .option-label {
+  color: #e9ecef;
+}
+
+/* Conseils pour de meilleurs résultats */
+.upload-tips {
+  margin-top: 2.5rem;
+  padding: 1.5rem;
+  background-color: rgba(44, 123, 229, 0.05);
+  border-radius: 8px;
+  border-left: 4px solid #2c7be5;
+  animation: fadeIn 0.6s ease-in-out;
+}
+
+.dark-mode .upload-tips {
+  background-color: rgba(77, 171, 247, 0.08);
+  border-left-color: #4dabf7;
+}
+
+.medicine-themed .upload-tips {
+  background-color: rgba(52, 152, 219, 0.05);
+  border-left-color: #3498db;
+}
+
+.dark-mode.medicine-themed .upload-tips {
+  background-color: rgba(77, 171, 247, 0.08);
+  border-left-color: #74c0fc;
+}
+
+.law-themed .upload-tips {
+  background-color: rgba(156, 68, 192, 0.05);
+  border-left-color: #9c44c0;
+}
+
+.dark-mode.law-themed .upload-tips {
+  background-color: rgba(204, 93, 232, 0.08);
+  border-left-color: #da77f2;
+}
+
+.upload-tips h3 {
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: #1e3a5f;
+  margin-bottom: 1rem;
+  display: flex;
+  align-items: center;
+}
+
+.dark-mode .upload-tips h3 {
+  color: #e9ecef;
+}
+
+.upload-tips ul {
+  padding-left: 1.5rem;
+  margin: 0;
+}
+
+.upload-tips li {
+  font-size: 0.95rem;
+  color: #4e5d78;
+  margin-bottom: 0.75rem;
+  position: relative;
+  line-height: 1.5;
+}
+
+.dark-mode .upload-tips li {
+  color: #adb5bd;
+}
+
+.upload-tips li::before {
+  content: '•';
+  color: #2c7be5;
+  position: absolute;
+  left: -1rem;
+  font-weight: bold;
+}
+
+.dark-mode .upload-tips li::before {
+  color: #4dabf7;
+}
+
+.medicine-themed .upload-tips li::before {
+  color: #3498db;
+}
+
+.law-themed .upload-tips li::before {
+  color: #9c44c0;
+}
+
+/* Badges pour les formats de fichier */
+.format-badge {
+  display: inline-block;
+  padding: 0.25rem 0.5rem;
+  border-radius: 4px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  margin-right: 0.5rem;
+  background-color: #f1f5f9;
+}
+
+.dark-mode .format-badge {
+  background-color: #364a63;
+}
+
+.format-badge.pdf { 
+  color: #e74c3c; 
+  background-color: rgba(231, 76, 60, 0.1); 
+}
+
+.format-badge.doc, .format-badge.docx { 
+  color: #3498db; 
+  background-color: rgba(52, 152, 219, 0.1); 
+}
+
+.format-badge.txt { 
+  color: #7f8c8d; 
+  background-color: rgba(127, 140, 141, 0.1); 
+}
+
+.dark-mode .format-badge.pdf { 
+  color: #ff6b6b; 
+  background-color: rgba(231, 76, 60, 0.2); 
+}
+
+.dark-mode .format-badge.doc, .dark-mode .format-badge.docx { 
+  color: #74c0fc; 
+  background-color: rgba(52, 152, 219, 0.2); 
+}
+
+.dark-mode .format-badge.txt { 
+  color: #ced4da; 
+  background-color: rgba(127, 140, 141, 0.2); 
+}
+
+/* Animations */
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes slideIn {
+  from { opacity: 0; transform: translateY(-15px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* Entête spécial avec icône */
+.section-header-special {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin-bottom: 1rem;
+  padding-bottom: 0.5rem;
+  border-bottom: 1px solid #e3e6f0;
+}
+
+.dark-mode .section-header-special {
+  border-bottom-color: #364a63;
+}
+
+.section-header-special .icon {
+  font-size: 1.5rem;
+  color: #2c7be5;
+}
+
+.dark-mode .section-header-special .icon {
+  color: #4dabf7;
+}
+
+.medicine-themed .section-header-special .icon {
+  color: #3498db;
+}
+
+.law-themed .section-header-special .icon {
+  color: #9c44c0;
+}
+
+.section-header-special h3 {
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: #1e3a5f;
+  margin: 0;
+}
+
+.dark-mode .section-header-special h3 {
+  color: #e9ecef;
+}
+
+/* Style pour le mode sombre, états spécifiques */
+.dark-mode .drop-area::before {
+  background-color: rgba(0, 0, 0, 0.2);
+}
+
+/* Media queries */
+@media (max-width: 768px) {
+  .upload-container {
+    padding: 1.5rem 1rem;
+  }
+  
+  .page-title {
+    font-size: 1.75rem;
+  }
+  
+  .drop-area {
+    padding: 2rem 1rem;
+    min-height: 200px;
+  }
+  
+  .drop-icon {
+    font-size: 2.5rem;
+    margin-bottom: 1rem;
+  }
+  
+  .form-actions {
+    justify-content: center;
+  }
+  
+  #upload-button {
+    width: 100%;
+  }
+}
+
+@media (max-width: 480px) {
+  .upload-info {
+    font-size: 0.95rem;
+  }
+  
+  .file-item {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  
+  .file-icon {
+    margin-bottom: 0.5rem;
+  }
+  
+  .file-remove {
+    position: absolute;
+    top: 0.5rem;
+    right: 0.5rem;
+  }
+}
+>>>>>>> 19c9ccf42f44476623e3bd8a1861d1bf148c026d

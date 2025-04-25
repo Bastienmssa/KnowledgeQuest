@@ -35,6 +35,7 @@
 }
 
 .auth-sidebar::before {
+<<<<<<< HEAD
     content: '';
     position: absolute;
     top: 0;
@@ -46,6 +47,9 @@
     opacity: 0.05;
     z-index: 0;
     animation: pulse 8s infinite alternate;
+=======
+    content: none;
+>>>>>>> 19c9ccf42f44476623e3bd8a1861d1bf148c026d
 }
 
 @keyframes pulse {
