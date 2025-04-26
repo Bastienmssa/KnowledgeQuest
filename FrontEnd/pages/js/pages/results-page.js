@@ -1,12 +1,8 @@
-// js/pages/results-page.js
-
 import { auth } from '../utils/auth.js';
 import { sessionService } from '../services/session-service.js';
 import { showNotification } from '../components/notification.js';
 
 export async function initResultsPage() {
-  console.log('🧪 Initialisation de la page des résultats...');
-  
   if (!auth.isLoggedIn) {
     window.location.href = 'login.html';
     return;
@@ -15,20 +11,17 @@ export async function initResultsPage() {
   const urlParams = new URLSearchParams(window.location.search);
   const sessionId = urlParams.get('sessionId');
 
-  const container = document.getElementById('results-container');
-  if (!container) {
-    console.warn("❌ Élément #results-container introuvable.");
-    return;
-  }
-
   if (sessionId) {
-    await loadSessionResults(sessionId, container);
+    await loadSessionResults(sessionId);
   } else {
-    displayEmptyState(container);
+    displayEmptyState();
   }
 }
 
-async function loadSessionResults(sessionId, container) {
+async function loadSessionResults(sessionId) {
+  const container = document.getElementById('results-container');
+  if (!container) return;
+
   container.innerHTML = `<div class="loading-spinner">Chargement des résultats...</div>`;
 
   try {
@@ -95,7 +88,7 @@ async function loadSessionResults(sessionId, container) {
       </div>
     `;
 
-    // Boutons
+    // Boutons d'action
     document.getElementById('btn-export-pdf')?.addEventListener('click', () => window.print());
 
     document.getElementById('btn-share')?.addEventListener('click', () => {
@@ -115,7 +108,8 @@ async function loadSessionResults(sessionId, container) {
   }
 }
 
-function displayEmptyState(container) {
+function displayEmptyState() {
+  const container = document.getElementById('results-container');
   container.innerHTML = `
     <div class="empty-state">
       <h2>Aucun test sélectionné</h2>

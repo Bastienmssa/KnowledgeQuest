@@ -6,7 +6,8 @@ const pdf = require('pdf-parse');
 const multer = require('multer');
 const logger = require('../utils/logger');
 const OpenAI = require('openai');
-//const openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
+
+const openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
 
 
 // Configuration de multer pour le stockage des fichiers
