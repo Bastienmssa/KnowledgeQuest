@@ -16,3 +16,7 @@ build/
 
 # Secrets sensibles
 BackEnd/config/firebaseServiceAccount.json
+
+.env
+*.env
+BackEnd/config/firebaseServiceAccount.json
